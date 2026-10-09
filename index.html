@@ -208,7 +208,7 @@ button.active { background: var(--navy); }
       <button class="secondary" data-months="1">1 เดือน</button>
       <button class="secondary" data-months="2">2 เดือน</button>
       <button class="secondary" data-months="3">3 เดือน</button>
-      <button id="clearDates" class="secondary">ทุกช่วงวันที่</button>
+      <button id="resetFilters" class="secondary">ล้างตัวกรองทั้งหมด</button>
     </div>
   </section>
 
@@ -558,6 +558,14 @@ document.querySelectorAll("[data-months]").forEach(button => {
   button.addEventListener("click", () => applyQuickRange(Number(button.dataset.months)));
 });
 $("clearDates").addEventListener("click", clearDateRange);
+  $("resetFilters").addEventListener("click", () => {
+  keyword.value = "";
+  career.value = "";
+  locationFilter.value = "";
+  faculty.value = "";
+  clearDateRange();
+  detail.classList.add("hidden");
+});
 
 renderJobs();
 </script>
