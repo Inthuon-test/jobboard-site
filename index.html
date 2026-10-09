@@ -400,6 +400,7 @@ function renderJobs() {
 
     const details = document.createElement("div");
     details.className = "details";
+    details.hidden = true;
     const description = document.createElement("p");
     description.textContent = "รายละเอียดงาน: "+job.description;
     const qualification = document.createElement("p");
@@ -420,15 +421,17 @@ function renderJobs() {
       event.preventDefault();
       alert("นี่คือลิงก์ตัวอย่างเท่านั้น ไม่ใช่ระบบสมัครงานจริง");
     });
-
+    
     const showDetails = document.createElement("button");
     showDetails.className = "secondary";
-    showDetails.textContent = "ซ่อนรายละเอียด";
+    showDetails.textContent = "ดูรายละเอียดเพิ่มเติม";
     showDetails.addEventListener("click",() => {
-      const hidden = details.hidden;
-      details.hidden = !hidden;
-      showDetails.textContent = hidden ? "ซ่อนรายละเอียด" : "ดูรายละเอียด";
-    });
+    const isHidden = details.hidden;
+    details.hidden = !isHidden;
+    showDetails.textContent = isHidden
+    ? "ย่อรายละเอียด"
+    : "ดูรายละเอียดเพิ่มเติม";
+});
 
     actions.append(apply,showDetails);
     card.append(companyRow,title,tags,salary,dates,details,actions);
