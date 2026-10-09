@@ -307,19 +307,38 @@
     }
 
     function setRecentPeriod(months) {
-      selectedMonths = months;
-      const today = new Date();
-      startDate.value = dateToISO(shiftMonths(today, -months));
-      endDate.value = dateToISO(today);
+  selectedMonths = months;
 
-      document.querySelectorAll("[data-months]").forEach(button => {
-        button.classList.toggle(
-          "active", Number(button.dataset.months) === months
-        );
-      });
-      renderJobs();
-    }
+  // แสดงเดือนที่สิ้นสุดแล้ว โดยไม่รวมเดือนปัจจุบัน
+  const today = new Date();
+  const firstDayThisMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+  );
 
+  const start = new Date(
+    today.getFullYear(),
+    today.getMonth() - months,
+    1
+  );
+
+  const end = new Date(
+    firstDayThisMonth.getTime() - 86400000
+  );
+
+  startDate.value = dateToISO(start);
+  endDate.value = dateToISO(end);
+
+  document.querySelectorAll("[data-months]").forEach(button => {
+    button.classList.toggle(
+      "active",
+      Number(button.dataset.months) === months
+    );
+  });
+
+  renderJobs();
+}
     function getFilteredJobs() {
       const q = keyword.value.trim().toLocaleLowerCase();
       const from = startDate.value;
