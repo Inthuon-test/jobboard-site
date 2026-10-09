@@ -4,126 +4,205 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jobboard | ค้นหางานประจำ</title>
+
 <style>
 :root {
-  --navy:#193b65;
-  --blue:#2864ad;
-  --pale:#edf4ff;
-  --bg:#f5f7fb;
-  --line:#e1e7f0;
-  --muted:#667085;
+  --navy: #193b65;
+  --blue: #2864ad;
+  --pale: #edf4ff;
+  --bg: #f5f7fb;
+  --line: #e1e7f0;
+  --muted: #667085;
 }
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 body {
-  margin:0;
-  font-family:Arial,Tahoma,sans-serif;
-  background:var(--bg);
-  color:#263449;
-  line-height:1.55;
+  margin: 0;
+  font-family: Arial, Tahoma, sans-serif;
+  background: var(--bg);
+  color: #263449;
+  line-height: 1.6;
 }
-header { background:var(--navy); color:white; padding:24px 5%; }
-.header-inner, main, footer { max-width:1180px; margin:auto; }
-.brand { display:flex; align-items:center; gap:12px; }
+header {
+  background: var(--navy);
+  color: white;
+  padding: 24px 5%;
+}
+.header-inner, main, footer {
+  max-width: 1180px;
+  margin: auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .brand-mark {
-  display:grid; place-items:center;
-  width:45px; height:45px; border-radius:12px;
-  background:white; color:var(--navy); font-weight:bold;
-  font-size:21px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: white;
+  color: var(--navy);
+  font-size: 24px;
+  font-weight: bold;
 }
-header h1 { margin:0; font-size:27px; }
-header p { margin:4px 0 0; color:#dbe7f7; }
-main { padding:28px 18px 45px; }
-h2 { margin-top:0; }
-.panel {
-  background:white; border:1px solid var(--line);
-  border-radius:14px; padding:19px; margin-bottom:22px;
+header h1 { margin: 0; font-size: 27px; }
+header p { margin: 4px 0 0; color: #dbe7f7; }
+main { padding: 28px 18px 45px; }
+h2 { margin-top: 0; }
+.panel, .job-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
+.panel { padding: 20px; margin-bottom: 22px; }
 .filters {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
-.field { display:flex; flex-direction:column; gap:6px; }
-.field label { font-size:13px; font-weight:bold; color:#475467; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #475467;
+}
 input, select {
-  width:100%; min-width:0; padding:11px;
-  border:1px solid #ccd5e2; border-radius:8px;
-  background:white; color:#263449; font:inherit;
-}
-.date-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.quick-search {
-  display:flex; flex-wrap:wrap; align-items:center;
-  gap:9px; margin-top:17px;
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #ccd5e2;
+  border-radius: 8px;
+  background: white;
+  color: #263449;
+  font: inherit;
 }
 button, .apply-link {
-  display:inline-flex; align-items:center; justify-content:center;
-  border:0; border-radius:8px; padding:10px 14px;
-  font:inherit; font-size:14px; font-weight:bold;
-  text-decoration:none; cursor:pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
 }
-.primary { background:var(--blue); color:white; }
-.secondary { background:#edf1f7; color:#344054; }
-.quick { background:var(--pale); color:#214f86; }
-button:hover, .apply-link:hover { opacity:.86; }
+button:hover, .apply-link:hover { opacity: .86; }
+.primary { background: var(--blue); color: white; }
+.secondary { background: #edf1f7; color: #344054; }
+.quick { background: var(--pale); color: #214f86; }
+.quick-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 17px;
+}
 .result-line {
-  display:flex; justify-content:space-between; gap:10px;
-  align-items:center; margin:22px 0 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin: 22px 0 14px;
 }
-.result-line h2 { margin:0; font-size:21px; }
-.muted { color:var(--muted); font-size:13px; }
+.result-line h2 { margin: 0; font-size: 21px; }
+.muted { color: var(--muted); font-size: 13px; }
 .jobs {
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
-.job-card {
-  background:white; border:1px solid var(--line);
-  border-radius:14px; padding:19px; min-width:0;
+.job-card { padding: 19px; min-width: 0; }
+.company-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
 }
-.company-row { display:flex; align-items:center; gap:12px; margin-bottom:15px; }
 .logo {
-  flex:0 0 54px; height:54px; width:54px; border-radius:12px;
-  display:grid; place-items:center; font-size:18px;
-  font-weight:bold; color:white; background:#436c9f;
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
 }
-.company-name { font-size:14px; color:#596579; overflow-wrap:anywhere; }
-.job-card h3 { margin:0 0 7px; color:var(--navy); font-size:19px; }
-.tags { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; }
+.company-name {
+  font-size: 14px;
+  color: #596579;
+  overflow-wrap: anywhere;
+}
+.job-card h3 {
+  margin: 0 0 7px;
+  color: var(--navy);
+  font-size: 19px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .tag {
-  display:inline-block; background:var(--pale); color:#28568c;
-  padding:4px 9px; border-radius:20px; font-size:12px;
+  background: var(--pale);
+  color: #28568c;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 12px;
 }
-.salary { font-weight:bold; color:#236343; margin:12px 0; }
+.salary { font-weight: bold; color: #236343; margin: 12px 0; }
 .dates {
-  background:#f8fafc; padding:11px; border-radius:9px;
-  font-size:13px; margin:12px 0;
+  background: #f8fafc;
+  padding: 11px;
+  border-radius: 9px;
+  font-size: 13px;
+  margin: 12px 0;
 }
-.dates p { margin:3px 0; }
-.job-card .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.dates p { margin: 3px 0; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .details {
-  border-top:1px solid var(--line); margin-top:15px; padding-top:12px;
-  font-size:14px;
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+  padding-top: 14px;
+  font-size: 14px;
 }
-.details p { margin:7px 0; }
+.details h4 { color: var(--navy); margin: 0 0 10px; font-size: 17px; }
+.details p { margin: 8px 0; overflow-wrap: anywhere; }
+.details[hidden] { display: none !important; }
 .empty {
-  background:white; border:1px dashed #cbd5e1; border-radius:12px;
-  padding:35px 16px; text-align:center; color:var(--muted);
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 35px 16px;
+  text-align: center;
+  color: var(--muted);
+  grid-column: 1 / -1;
 }
 .notice {
-  background:#fff8e8; border:1px solid #f2dfad;
-  color:#75551a; border-radius:10px; padding:12px 14px;
-  font-size:13px; margin-bottom:20px;
+  background: #fff8e8;
+  border: 1px solid #f2dfad;
+  color: #75551a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  margin-bottom: 20px;
 }
-footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
-@media(max-width:760px) {
-  .filters { grid-template-columns:1fr 1fr; }
-  .jobs { grid-template-columns:1fr; }
+footer { padding: 0 18px 28px; color: var(--muted); font-size: 12px; }
+
+@media (max-width: 760px) {
+  .filters { grid-template-columns: 1fr 1fr; }
+  .jobs { grid-template-columns: 1fr; }
 }
-@media(max-width:500px) {
-  .filters, .date-row { grid-template-columns:1fr; }
-  header h1 { font-size:23px; }
-  .result-line { align-items:flex-start; flex-direction:column; }
+@media (max-width: 500px) {
+  .filters { grid-template-columns: 1fr; }
+  header h1 { font-size: 23px; }
+  .result-line { align-items: flex-start; flex-direction: column; }
 }
 </style>
 </head>
+
 <body>
 <header>
   <div class="header-inner">
@@ -145,11 +224,13 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
 
   <section class="panel">
     <h2>ค้นหางานประจำ</h2>
+
     <div class="filters">
       <div class="field">
         <label for="keyword">ค้นหาตำแหน่งหรือบริษัท</label>
         <input id="keyword" placeholder="เช่น การตลาด, เจ้าหน้าที่">
       </div>
+
       <div class="field">
         <label for="category">สายงาน</label>
         <select id="category">
@@ -162,6 +243,7 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
           <option>ขายและบริการลูกค้า</option>
         </select>
       </div>
+
       <div class="field">
         <label for="location">พื้นที่ทำงาน</label>
         <select id="location">
@@ -172,6 +254,7 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
           <option>สมุทรปราการ</option>
         </select>
       </div>
+
       <div class="field">
         <label for="faculty">คณะวิชาที่บริษัทต้องการ</label>
         <select id="faculty">
@@ -185,10 +268,12 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
           <option>ทุกคณะ</option>
         </select>
       </div>
+
       <div class="field">
         <label for="dateFrom">ประกาศตั้งแต่วันที่</label>
         <input id="dateFrom" type="date">
       </div>
+
       <div class="field">
         <label for="dateTo">ถึงวันที่</label>
         <input id="dateTo" type="date">
@@ -208,6 +293,7 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
     <h2>ตำแหน่งงานที่เปิดรับ</h2>
     <span id="resultCount" class="muted"></span>
   </div>
+
   <div id="jobs" class="jobs"></div>
 </main>
 
@@ -216,84 +302,151 @@ footer { padding:0 18px 28px; color:var(--muted); font-size:12px; }
 </footer>
 
 <script>
+// ข้อมูลสมมติเท่านั้น ไม่มีประกาศงานจริง
 const jobs = [
   {
-    id:1, initials:"EX", color:"#426b9c",
-    company:"บริษัท ตัวอย่าง เอ จำกัด",
-    title:"เจ้าหน้าที่ประสานงาน",
-    category:"ธุรการและประสานงาน",
-    location:"กรุงเทพมหานคร",
-    salary:"15,000–18,000 บาท/เดือน",
-    announced:"2026-10-05", start:"2026-10-05", end:"2026-11-05",
-    faculties:["บริหารธุรกิจ","ศิลปศาสตร์"],
-    description:"ประสานงานภายในองค์กร จัดเตรียมเอกสาร และติดต่อหน่วยงานที่เกี่ยวข้อง",
-    qualification:"ใช้โปรแกรมสำนักงานพื้นฐานได้และสื่อสารได้ดี",
-    applyUrl:"https://example.com/apply/job-001"
+    id: 1,
+    initials: "EX",
+    color: "#426b9c",
+    company: "บริษัท ตัวอย่าง เอ จำกัด",
+    title: "เจ้าหน้าที่ประสานงาน",
+    category: "ธุรการและประสานงาน",
+    location: "กรุงเทพมหานคร",
+    salary: "15,000–18,000 บาท/เดือน",
+    announced: "2026-10-05",
+    start: "2026-10-05",
+    end: "2026-11-05",
+    faculties: ["บริหารธุรกิจ", "ศิลปศาสตร์"],
+    description: "ประสานงานภายในองค์กร จัดเตรียมเอกสาร และติดต่อหน่วยงานที่เกี่ยวข้อง",
+    qualification: "ใช้โปรแกรมสำนักงานพื้นฐานได้และสื่อสารได้ดี",
+    duties: [
+      "ประสานงานระหว่างหน่วยงานที่เกี่ยวข้อง",
+      "จัดเตรียมเอกสารและดูแลข้อมูล",
+      "ติดตามงานและสรุปความคืบหน้า"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-001"
   },
   {
-    id:2, initials:"MK", color:"#6b4e9b",
-    company:"บริษัท ตัวอย่าง บี จำกัด",
-    title:"เจ้าหน้าที่การตลาด",
-    category:"การตลาดและประชาสัมพันธ์",
-    location:"นนทบุรี",
-    salary:"18,000–22,000 บาท/เดือน",
-    announced:"2026-09-24", start:"2026-09-24", end:"2026-10-31",
-    faculties:["บริหารธุรกิจ","นิเทศศาสตร์","ศิลปศาสตร์"],
-    description:"ช่วยวางแผนกิจกรรมการตลาด จัดทำเนื้อหาประชาสัมพันธ์ และประสานงานกับทีม",
-    qualification:"มีทักษะการสื่อสารและทำงานเป็นทีม",
-    applyUrl:"https://example.com/apply/job-002"
+    id: 2,
+    initials: "MK",
+    color: "#6b4e9b",
+    company: "บริษัท ตัวอย่าง บี จำกัด",
+    title: "เจ้าหน้าที่การตลาด",
+    category: "การตลาดและประชาสัมพันธ์",
+    location: "นนทบุรี",
+    salary: "18,000–22,000 บาท/เดือน",
+    announced: "2026-09-24",
+    start: "2026-09-24",
+    end: "2026-10-31",
+    faculties: ["บริหารธุรกิจ", "นิเทศศาสตร์", "ศิลปศาสตร์"],
+    description: "ช่วยวางแผนกิจกรรมการตลาด จัดทำเนื้อหาประชาสัมพันธ์ และประสานงานกับทีม",
+    qualification: "มีทักษะการสื่อสารและทำงานเป็นทีม",
+    duties: [
+      "สนับสนุนกิจกรรมและแคมเปญการตลาด",
+      "จัดทำเนื้อหาประชาสัมพันธ์",
+      "ประสานงานกับทีมภายใน"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-002"
   },
   {
-    id:3, initials:"IT", color:"#287e83",
-    company:"บริษัท ตัวอย่าง ซี จำกัด",
-    title:"เจ้าหน้าที่ IT Support",
-    category:"เทคโนโลยีสารสนเทศ",
-    location:"ปทุมธานี",
-    salary:"17,000–22,000 บาท/เดือน",
-    announced:"2026-09-12", start:"2026-09-15", end:"2026-10-25",
-    faculties:["เทคโนโลยีสารสนเทศ","วิศวกรรมศาสตร์"],
-    description:"ช่วยแก้ไขปัญหาคอมพิวเตอร์ โปรแกรม และอุปกรณ์สำนักงานเบื้องต้น",
-    qualification:"มีความรู้คอมพิวเตอร์พื้นฐานและพร้อมเรียนรู้",
-    applyUrl:"https://example.com/apply/job-003"
+    id: 3,
+    initials: "IT",
+    color: "#287e83",
+    company: "บริษัท ตัวอย่าง ซี จำกัด",
+    title: "เจ้าหน้าที่ IT Support",
+    category: "เทคโนโลยีสารสนเทศ",
+    location: "ปทุมธานี",
+    salary: "17,000–22,000 บาท/เดือน",
+    announced: "2026-09-12",
+    start: "2026-09-15",
+    end: "2026-10-25",
+    faculties: ["เทคโนโลยีสารสนเทศ", "วิศวกรรมศาสตร์"],
+    description: "ช่วยแก้ไขปัญหาคอมพิวเตอร์ โปรแกรม และอุปกรณ์สำนักงานเบื้องต้น",
+    qualification: "มีความรู้คอมพิวเตอร์พื้นฐานและพร้อมเรียนรู้",
+    duties: [
+      "แก้ไขปัญหาคอมพิวเตอร์และโปรแกรมเบื้องต้น",
+      "ช่วยจัดเตรียมอุปกรณ์สำนักงาน",
+      "ประสานงานเมื่อพบปัญหาที่ต้องส่งต่อ"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-003"
   },
   {
-    id:4, initials:"HR", color:"#a55b44",
-    company:"บริษัท ตัวอย่าง ดี จำกัด",
-    title:"ผู้ช่วยฝ่ายทรัพยากรบุคคล",
-    category:"ทรัพยากรบุคคล",
-    location:"กรุงเทพมหานคร",
-    salary:"16,000–20,000 บาท/เดือน",
-    announced:"2026-08-20", start:"2026-08-20", end:"2026-10-20",
-    faculties:["บริหารธุรกิจ","ศิลปศาสตร์","ทุกคณะ"],
-    description:"ประสานงานการรับสมัคร ดูแลเอกสารพนักงาน และจัดเตรียมข้อมูลที่เกี่ยวข้อง",
-    qualification:"ละเอียดรอบคอบและใช้โปรแกรมสำนักงานได้",
-    applyUrl:"https://example.com/apply/job-004"
+    id: 4,
+    initials: "HR",
+    color: "#a55b44",
+    company: "บริษัท ตัวอย่าง ดี จำกัด",
+    title: "ผู้ช่วยฝ่ายทรัพยากรบุคคล",
+    category: "ทรัพยากรบุคคล",
+    location: "กรุงเทพมหานคร",
+    salary: "16,000–20,000 บาท/เดือน",
+    announced: "2026-08-20",
+    start: "2026-08-20",
+    end: "2026-10-20",
+    faculties: ["บริหารธุรกิจ", "ศิลปศาสตร์", "ทุกคณะ"],
+    description: "ประสานงานการรับสมัคร ดูแลเอกสารพนักงาน และจัดเตรียมข้อมูลที่เกี่ยวข้อง",
+    qualification: "ละเอียดรอบคอบและใช้โปรแกรมสำนักงานได้",
+    duties: [
+      "สนับสนุนงานเอกสารที่เกี่ยวข้องกับบุคลากร",
+      "ประสานงานการรับสมัคร",
+      "จัดเตรียมข้อมูลและนัดหมาย"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-004"
   },
   {
-    id:5, initials:"FN", color:"#99752e",
-    company:"บริษัท ตัวอย่าง อี จำกัด",
-    title:"เจ้าหน้าที่บัญชี",
-    category:"บัญชีและการเงิน",
-    location:"สมุทรปราการ",
-    salary:"18,000–23,000 บาท/เดือน",
-    announced:"2026-07-18", start:"2026-07-20", end:"2026-10-15",
-    faculties:["บัญชี","บริหารธุรกิจ"],
-    description:"ช่วยจัดเตรียมเอกสารบัญชี บันทึกรายการ และจัดเก็บเอกสารทางการเงิน",
-    qualification:"มีพื้นฐานด้านบัญชีและทำงานอย่างเป็นระบบ",
-    applyUrl:"https://example.com/apply/job-005"
+    id: 5,
+    initials: "FN",
+    color: "#99752e",
+    company: "บริษัท ตัวอย่าง อี จำกัด",
+    title: "เจ้าหน้าที่บัญชี",
+    category: "บัญชีและการเงิน",
+    location: "สมุทรปราการ",
+    salary: "18,000–23,000 บาท/เดือน",
+    announced: "2026-07-18",
+    start: "2026-07-20",
+    end: "2026-10-15",
+    faculties: ["บัญชี", "บริหารธุรกิจ"],
+    description: "ช่วยจัดเตรียมเอกสารบัญชี บันทึกรายการ และจัดเก็บเอกสารทางการเงิน",
+    qualification: "มีพื้นฐานด้านบัญชีและทำงานอย่างเป็นระบบ",
+    duties: [
+      "ช่วยจัดเตรียมและจัดเก็บเอกสารบัญชี",
+      "ตรวจสอบความครบถ้วนของเอกสาร",
+      "สนับสนุนงานของทีมบัญชี"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-005"
   },
   {
-    id:6, initials:"CS", color:"#39704e",
-    company:"บริษัท ตัวอย่าง เอฟ จำกัด",
-    title:"เจ้าหน้าที่บริการลูกค้า",
-    category:"ขายและบริการลูกค้า",
-    location:"กรุงเทพมหานคร",
-    salary:"15,000–19,000 บาท/เดือน",
-    announced:"2026-06-15", start:"2026-06-15", end:"2026-10-10",
-    faculties:["บริหารธุรกิจ","ศิลปศาสตร์","นิเทศศาสตร์"],
-    description:"ให้ข้อมูลสินค้าและบริการ รับเรื่องสอบถาม และประสานงานเพื่อแก้ไขปัญหาลูกค้า",
-    qualification:"มีมนุษยสัมพันธ์ดีและสื่อสารได้ชัดเจน",
-    applyUrl:"https://example.com/apply/job-006"
+    id: 6,
+    initials: "CS",
+    color: "#39704e",
+    company: "บริษัท ตัวอย่าง เอฟ จำกัด",
+    title: "เจ้าหน้าที่บริการลูกค้า",
+    category: "ขายและบริการลูกค้า",
+    location: "กรุงเทพมหานคร",
+    salary: "15,000–19,000 บาท/เดือน",
+    announced: "2026-06-15",
+    start: "2026-06-15",
+    end: "2026-10-10",
+    faculties: ["บริหารธุรกิจ", "ศิลปศาสตร์", "นิเทศศาสตร์"],
+    description: "ให้ข้อมูลสินค้าและบริการ รับเรื่องสอบถาม และประสานงานเพื่อแก้ไขปัญหาลูกค้า",
+    qualification: "มีมนุษยสัมพันธ์ดีและสื่อสารได้ชัดเจน",
+    duties: [
+      "ให้ข้อมูลเกี่ยวกับสินค้าและบริการ",
+      "รับเรื่องสอบถามและประสานงาน",
+      "ติดตามการแก้ไขปัญหา"
+    ],
+    benefits: "สิทธิประโยชน์ตามเงื่อนไขตัวอย่าง",
+    workStyle: "ปฏิบัติงานที่สำนักงาน (ข้อมูลสมมติ)",
+    applyUrl: "https://example.com/apply/job-006"
   }
 ];
 
@@ -309,38 +462,88 @@ const resultCount = $("resultCount");
 
 function dateText(value) {
   if (!value) return "ไม่ระบุ";
-  const [y,m,d] = value.split("-").map(Number);
-  return `${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}/${y}`;
+  const [year, month, day] = value.split("-").map(Number);
+  return `${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`;
 }
+
 function todayISO() {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
-function minusMonths(date, months) {
-  const d = new Date(date);
+
+function minusMonths(dateString, months) {
+  const d = new Date(dateString + "T12:00:00");
   const day = d.getDate();
   d.setDate(1);
-  d.setMonth(d.getMonth()-months);
-  const lastDay = new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-  d.setDate(Math.min(day,lastDay));
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  d.setMonth(d.getMonth() - months);
+  const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+  d.setDate(Math.min(day, lastDay));
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
+
+function addText(parent, tag, text, className = "") {
+  const el = document.createElement(tag);
+  el.textContent = text;
+  if (className) el.className = className;
+  parent.appendChild(el);
+  return el;
+}
+
+function addDetailList(parent, heading, items) {
+  addText(parent, "h4", heading);
+  const ul = document.createElement("ul");
+  items.forEach(item => addText(ul, "li", item));
+  parent.appendChild(ul);
+}
+
+function createDetails(job) {
+  const details = document.createElement("section");
+  details.className = "details";
+  details.hidden = true;
+
+  addText(details, "h4", "รายละเอียดตำแหน่งงาน");
+  addText(details, "p", "บริษัท: " + job.company);
+  addText(details, "p", "ตำแหน่ง: " + job.title);
+  addText(details, "p", "ประเภทการจ้าง: งานประจำ");
+  addText(details, "p", "สายงาน: " + job.category);
+  addText(details, "p", "พื้นที่ทำงาน: " + job.location);
+  addText(details, "p", "ค่าตอบแทน: " + job.salary);
+
+  addText(details, "p", "วันที่ประกาศ: " + dateText(job.announced));
+  addText(details, "p", "วันเริ่มรับสมัคร: " + dateText(job.start));
+  addText(details, "p", "วันสิ้นสุดรับสมัคร: " + dateText(job.end));
+
+  addText(details, "p", "รายละเอียดงาน: " + job.description);
+  addText(details, "p", "คุณสมบัติ: " + job.qualification);
+  addDetailList(details, "หน้าที่รับผิดชอบ", job.duties);
+  addText(details, "p", "คณะวิชาที่บริษัทต้องการ: " + job.faculties.join(", "));
+  addText(details, "p", "รูปแบบการทำงาน: " + job.workStyle);
+  addText(details, "p", "สวัสดิการ: " + job.benefits);
+  addText(details, "p", "ลิงก์สมัครงาน: " + job.applyUrl);
+  addText(details, "p", "หมายเหตุ: ข้อมูลสมมติสำหรับทดลองระบบเท่านั้น", "muted");
+
+  return details;
+}
+
 function renderJobs() {
   const q = keyword.value.trim().toLocaleLowerCase("th");
   const from = dateFrom.value;
   const to = dateTo.value;
 
   const filtered = jobs.filter(job => {
-    const matchesText = (job.title+" "+job.company).toLocaleLowerCase("th").includes(q);
+    const matchesText = (job.title + " " + job.company)
+      .toLocaleLowerCase("th").includes(q);
     const matchesCategory = !category.value || job.category === category.value;
     const matchesLocation = !locationFilter.value || job.location === locationFilter.value;
     const matchesFaculty = !faculty.value ||
-      job.faculties.includes(faculty.value) || job.faculties.includes("ทุกคณะ");
+      job.faculties.includes(faculty.value) ||
+      job.faculties.includes("ทุกคณะ");
     const matchesFrom = !from || job.announced >= from;
     const matchesTo = !to || job.announced <= to;
+
     return matchesText && matchesCategory && matchesLocation &&
       matchesFaculty && matchesFrom && matchesTo;
-  }).sort((a,b) => b.announced.localeCompare(a.announced));
+  }).sort((a, b) => b.announced.localeCompare(a.announced));
 
   resultCount.textContent = `พบ ${filtered.length} จาก ${jobs.length} ตำแหน่ง`;
   jobsContainer.replaceChildren();
@@ -359,97 +562,83 @@ function renderJobs() {
 
     const companyRow = document.createElement("div");
     companyRow.className = "company-row";
+
     const logo = document.createElement("div");
     logo.className = "logo";
-    logo.style.background = job.color;
+    logo.style.backgroundColor = job.color;
     logo.textContent = job.initials;
-    logo.setAttribute("aria-label","โลโก้สมมติของ "+job.company);
+    logo.setAttribute("aria-label", "โลโก้สมมติของ " + job.company);
 
-    const company = document.createElement("div");
-    company.className = "company-name";
-    company.textContent = job.company;
-    companyRow.append(logo,company);
+    const companyName = document.createElement("div");
+    companyName.className = "company-name";
+    companyName.textContent = job.company;
+    companyRow.append(logo, companyName);
 
-    const title = document.createElement("h3");
-    title.textContent = job.title;
+    addText(card, "h3", job.title);
 
     const tags = document.createElement("div");
     tags.className = "tags";
-    [job.category,job.location,"งานประจำ"].forEach(value => {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = value;
-      tags.appendChild(tag);
+    [job.category, job.location, "งานประจำ"].forEach(value => {
+      addText(tags, "span", value, "tag");
     });
 
-    const salary = document.createElement("div");
-    salary.className = "salary";
-    salary.textContent = job.salary;
+    const salary = addText(card, "div", job.salary, "salary");
 
     const dates = document.createElement("div");
     dates.className = "dates";
-    [
-      ["วันที่ประกาศ",job.announced],
-      ["เริ่มรับสมัคร",job.start],
-      ["สิ้นสุดรับสมัคร",job.end]
-    ].forEach(([label,value]) => {
-      const p = document.createElement("p");
-      p.textContent = `${label}: ${dateText(value)}`;
-      dates.appendChild(p);
-    });
+    addText(dates, "p", "วันที่ประกาศ: " + dateText(job.announced));
+    addText(dates, "p", "เริ่มรับสมัคร: " + dateText(job.start));
+    addText(dates, "p", "สิ้นสุดรับสมัคร: " + dateText(job.end));
 
-    const details = document.createElement("div");
-    details.className = "details";
-    details.hidden = true;
-    const description = document.createElement("p");
-    description.textContent = "รายละเอียดงาน: "+job.description;
-    const qualification = document.createElement("p");
-    qualification.textContent = "คุณสมบัติ: "+job.qualification;
-    const faculties = document.createElement("p");
-    faculties.textContent = "คณะวิชาที่ต้องการ: "+job.faculties.join(", ");
-    details.append(description,qualification,faculties);
+    const details = createDetails(job);
 
     const actions = document.createElement("div");
     actions.className = "actions";
-    const apply = document.createElement("a");
-    apply.className = "apply-link primary";
-    apply.href = job.applyUrl;
-    apply.target = "_blank";
-    apply.rel = "noopener noreferrer";
-    apply.textContent = "ลิงก์สมัครงานตัวอย่าง";
-    apply.addEventListener("click",event => {
-      event.preventDefault();
-      alert("นี่คือลิงก์ตัวอย่างเท่านั้น ไม่ใช่ระบบสมัครงานจริง");
-    });
-    
-    const showDetails = document.createElement("button");
-    showDetails.className = "secondary";
-    showDetails.textContent = "ดูรายละเอียดเพิ่มเติม";
-    showDetails.addEventListener("click",() => {
-    const isHidden = details.hidden;
-    details.hidden = !isHidden;
-    showDetails.textContent = isHidden
-    ? "ย่อรายละเอียด"
-    : "ดูรายละเอียดเพิ่มเติม";
-});
 
-    actions.append(apply,showDetails);
-    card.append(companyRow,title,tags,salary,dates,details,actions);
+    const detailButton = document.createElement("button");
+    detailButton.className = "secondary";
+    detailButton.textContent = "ดูรายละเอียด";
+    detailButton.setAttribute("aria-expanded", "false");
+
+    detailButton.addEventListener("click", () => {
+      const opening = details.hidden;
+      details.hidden = !opening;
+      detailButton.textContent = opening ? "ปิดรายละเอียด" : "ดูรายละเอียด";
+      detailButton.setAttribute("aria-expanded", String(opening));
+
+      if (opening) {
+        details.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    });
+
+    const applyButton = document.createElement("a");
+    applyButton.className = "apply-link primary";
+    applyButton.href = job.applyUrl;
+    applyButton.target = "_blank";
+    applyButton.rel = "noopener noreferrer";
+    applyButton.textContent = "สมัครงาน";
+    applyButton.addEventListener("click", event => {
+      event.preventDefault();
+      alert("นี่คือลิงก์สมัครงานตัวอย่าง ไม่ใช่ระบบสมัครงานจริง");
+    });
+
+    actions.append(detailButton, applyButton);
+    card.append(companyRow, tags, salary, dates, actions, details);
     jobsContainer.appendChild(card);
   });
 }
 
 document.querySelectorAll("[data-months]").forEach(button => {
-  button.addEventListener("click",() => {
+  button.addEventListener("click", () => {
     const months = Number(button.dataset.months);
     const today = todayISO();
-    dateFrom.value = minusMonths(today,months);
+    dateFrom.value = minusMonths(today, months);
     dateTo.value = today;
     renderJobs();
   });
 });
 
-$("clearFilters").addEventListener("click",() => {
+$("clearFilters").addEventListener("click", () => {
   keyword.value = "";
   category.value = "";
   locationFilter.value = "";
@@ -459,9 +648,9 @@ $("clearFilters").addEventListener("click",() => {
   renderJobs();
 });
 
-[keyword,category,locationFilter,faculty,dateFrom,dateTo].forEach(element => {
-  element.addEventListener("input",renderJobs);
-  element.addEventListener("change",renderJobs);
+[keyword, category, locationFilter, faculty, dateFrom, dateTo].forEach(element => {
+  element.addEventListener("input", renderJobs);
+  element.addEventListener("change", renderJobs);
 });
 
 renderJobs();
