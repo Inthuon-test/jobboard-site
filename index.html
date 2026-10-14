@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PIM Career Center | Job Board</title>
+  <title>CareerSpace | Job Board</title>
 
   <style>
     :root {
-      --primary: #173f8a;
+      --primary: #2457a7;
+      --primary-dark: #183e7b;
       --primary-light: #eaf1ff;
-      --accent: #f5a623;
       --bg: #f5f7fb;
       --card: #ffffff;
       --text: #202b3c;
@@ -50,7 +50,7 @@
     }
 
     .topbar {
-      background: var(--primary);
+      background: var(--primary-dark);
       color: #fff;
       padding: 20px 28px;
     }
@@ -71,7 +71,7 @@
       display: grid;
       place-items: center;
       background: #fff;
-      color: var(--primary);
+      color: var(--primary-dark);
       font-size: 21px;
       font-weight: 800;
     }
@@ -174,7 +174,7 @@
     }
 
     .btn-primary:hover {
-      background: #0e2e69;
+      background: var(--primary-dark);
     }
 
     .btn-secondary {
@@ -188,6 +188,11 @@
 
     .btn-block {
       width: 100%;
+    }
+
+    .filter-actions {
+      display: grid;
+      gap: 8px;
     }
 
     .main {
@@ -283,7 +288,7 @@
       margin-bottom: 14px;
     }
 
-    /* กราฟวงกลมจำนวนประกาศงานรายเดือน */
+    /* กราฟวงกลมแสดงสัดส่วนสายงาน */
     .pie-layout {
       display: flex;
       align-items: center;
@@ -299,21 +304,13 @@
       flex: 0 0 170px;
       border-radius: 50%;
       background: #e9edf5;
-      position: relative;
-    }
-
-    .pie-chart::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      pointer-events: none;
     }
 
     .pie-legend {
       display: grid;
       gap: 12px;
       min-width: 120px;
+      max-width: 100%;
     }
 
     .pie-legend-item {
@@ -344,7 +341,7 @@
       margin-top: 8px;
     }
 
-    /* กราฟแท่งอื่น ๆ */
+    /* กราฟแท่ง */
     .bar-chart {
       display: grid;
       gap: 13px;
@@ -382,7 +379,6 @@
 
     .bar-fill {
       height: 100%;
-      min-width: 0;
       background: #4779d6;
       border-radius: 20px;
       transition: width 0.25s ease;
@@ -843,16 +839,15 @@
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-mark">PIM</div>
+      <div class="brand-mark">CS</div>
       <div>
-        <p class="brand-title">PIM Career Center</p>
+        <p class="brand-title">CareerSpace</p>
         <p class="brand-subtitle">Job Board | พื้นที่ค้นหาโอกาสในการทำงาน</p>
       </div>
     </div>
   </header>
 
   <div class="page">
-    <!-- แถบค้นหาและตัวกรอง -->
     <aside class="sidebar">
       <h2>ค้นหาตำแหน่งงาน</h2>
 
@@ -907,7 +902,6 @@
       </div>
     </aside>
 
-    <!-- Dashboard และรายการงาน -->
     <main class="main">
       <section class="welcome">
         <div>
@@ -930,44 +924,52 @@
           </article>
 
           <article class="kpi-card">
-            <span class="kpi-label">จำนวนคณะที่เปิดรับ</span>
+            <span class="kpi-label">จำนวนคณะที่บริษัทต้องการ</span>
             <strong class="kpi-number" id="totalFaculties">0</strong>
           </article>
         </div>
 
         <div class="chart-grid">
           <article class="chart-card">
-            <h3>สัดส่วนประกาศงานรายเดือน</h3>
-            <div class="chart-description">เปรียบเทียบจำนวนประกาศในแต่ละเดือน</div>
+            <h3>สัดส่วนสายงานที่เปิดรับสมัคร</h3>
+            <div class="chart-description">
+              แสดงจำนวนประกาศแยกตามสายงาน
+            </div>
 
             <div class="pie-layout">
               <div
                 class="pie-chart"
-                id="monthChart"
+                id="familyPieChart"
                 role="img"
-                aria-label="สัดส่วนประกาศงานรายเดือน"
+                aria-label="สัดส่วนสายงานที่เปิดรับสมัคร"
               ></div>
-              <div class="pie-legend" id="monthLegend"></div>
+              <div class="pie-legend" id="familyPieLegend"></div>
             </div>
 
-            <div class="legend">นับตามวันที่ประกาศของแต่ละตำแหน่ง</div>
+            <div class="legend">นับตามจำนวนตำแหน่งงานในแต่ละสายงาน</div>
           </article>
 
           <article class="chart-card">
             <h3>ประกาศงานแยกตามสายงาน</h3>
-            <div class="chart-description">จำนวนตำแหน่งงานในแต่ละสายงาน</div>
+            <div class="chart-description">
+              เปรียบเทียบจำนวนตำแหน่งงานในแต่ละสายงาน
+            </div>
             <div class="bar-chart" id="familyChart"></div>
           </article>
 
           <article class="chart-card">
             <h3>คณะที่บริษัทต้องการ</h3>
-            <div class="chart-description">จำนวนตำแหน่งที่เปิดรับแยกตามคณะ</div>
+            <div class="chart-description">
+              จำนวนตำแหน่งที่เปิดรับแยกตามคณะ
+            </div>
             <div class="bar-chart" id="facultyChart"></div>
           </article>
 
           <article class="chart-card">
             <h3>พื้นที่ทำงาน</h3>
-            <div class="chart-description">จำนวนตำแหน่งงานในแต่ละพื้นที่</div>
+            <div class="chart-description">
+              จำนวนตำแหน่งงานในแต่ละพื้นที่
+            </div>
             <div class="bar-chart" id="locationChart"></div>
           </article>
         </div>
@@ -988,12 +990,11 @@
   </div>
 
   <footer class="footer">
-    PIM Career Center · Job Board
+    CareerSpace · Job Board
     <br>
-    เว็บไซต์ตัวอย่างสำหรับทดลองใช้งาน ข้อมูลบริษัทและตำแหน่งงานเป็นข้อมูลสมมติ
+    พื้นที่ค้นหาโอกาสในการทำงาน ข้อมูลบริษัทและตำแหน่งงานเป็นข้อมูลตัวอย่าง
   </footer>
 
-  <!-- หน้าต่างรายละเอียดงาน -->
   <div
     class="modal-backdrop"
     id="jobModal"
@@ -1028,8 +1029,7 @@
   <script>
     /*
       ข้อมูลตัวอย่างเท่านั้น
-      เมื่อต้องการใช้งานจริง ค่อยเชื่อมต่อข้อมูลที่ผ่านการอนุมัติ
-      จากระบบหลังบ้าน โดยไม่เปิดเผย Google Sheets ภายในแก่สาธารณะ
+      ยังไม่ได้เชื่อม Google Sheets หรือระบบสมัครงานจริง
     */
 
     const jobs = [
@@ -1047,14 +1047,13 @@
         published: "2026-10-05",
         startDate: "2026-10-05",
         endDate: "2026-11-30",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB001",
         description:
           "ให้ความช่วยเหลือและแก้ไขปัญหา IT เบื้องต้นแก่พนักงาน\nติดตั้งและดูแลคอมพิวเตอร์ โปรแกรม และอุปกรณ์สำนักงาน",
         qualifications:
           "จบการศึกษาด้านเทคโนโลยีสารสนเทศหรือสาขาที่เกี่ยวข้อง\nมีทักษะการแก้ไขปัญหาเบื้องต้นและพร้อมเรียนรู้",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       },
       {
         id: "JOB002",
@@ -1070,14 +1069,13 @@
         published: "2026-09-28",
         startDate: "2026-09-28",
         endDate: "2026-11-15",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB002",
         description:
           "ประสานงานการขนส่งและติดตามสถานะการจัดส่ง\nจัดเตรียมข้อมูลและเอกสารที่เกี่ยวข้องกับการขนส่ง",
         qualifications:
           "มีทักษะการประสานงานและการสื่อสาร\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       },
       {
         id: "JOB003",
@@ -1093,14 +1091,13 @@
         published: "2026-09-12",
         startDate: "2026-09-12",
         endDate: "2026-10-31",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB003",
         description:
           "ออกแบบสื่อประชาสัมพันธ์และสื่อดิจิทัลตามโจทย์ที่ได้รับ\nร่วมงานกับทีมเพื่อพัฒนาแนวคิดและผลงานสร้างสรรค์",
         qualifications:
           "มีพื้นฐานด้านการออกแบบและจัดองค์ประกอบ\nสามารถนำเสนอผลงานของตนเองได้",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       },
       {
         id: "JOB004",
@@ -1116,14 +1113,13 @@
         published: "2026-08-20",
         startDate: "2026-08-20",
         endDate: "2026-10-31",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB004",
         description:
           "ประสานงานระหว่างทีมงานชาวไทยและชาวญี่ปุ่น\nช่วยแปลเอกสารและสื่อสารข้อมูลที่เกี่ยวข้องกับงาน",
         qualifications:
           "มีพื้นฐานภาษาญี่ปุ่นและภาษาไทย\nมีทักษะการสื่อสารและการประสานงาน",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       },
       {
         id: "JOB005",
@@ -1139,14 +1135,13 @@
         published: "2026-08-12",
         startDate: "2026-08-12",
         endDate: "2026-10-30",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB005",
         description:
           "สนับสนุนการดำเนินงานด้านการตลาดและกิจกรรมส่งเสริมการขาย\nจัดเตรียมข้อมูลและประสานงานกับหน่วยงานที่เกี่ยวข้อง",
         qualifications:
           "มีทักษะการสื่อสารและการทำงานเป็นทีม\nสนใจงานด้านการตลาดและการสร้างสรรค์กิจกรรม",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       },
       {
         id: "JOB006",
@@ -1162,14 +1157,13 @@
         published: "2026-08-03",
         startDate: "2026-08-03",
         endDate: "2026-10-25",
-        jobType: "Full-time",
         applyUrl: "https://example.com/apply/JOB006",
         description:
           "สนับสนุนงานด้านทรัพยากรบุคคลและจัดเก็บเอกสาร\nประสานงานกับพนักงานและหน่วยงานที่เกี่ยวข้อง",
         qualifications:
           "มีทักษะการสื่อสารและการจัดการเอกสาร\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
         benefits:
-          "ตามนโยบายบริษัท\nรายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
+          "ตามนโยบายบริษัท รายละเอียดเพิ่มเติมโปรดตรวจสอบกับผู้ประกอบการ"
       }
     ];
 
@@ -1177,6 +1171,19 @@
 
     let selectedMonths = 0;
     let activeJob = null;
+
+    const chartColors = [
+      "#2457c5",
+      "#17a673",
+      "#f59e0b",
+      "#8b5cf6",
+      "#e65353",
+      "#0891b2",
+      "#db2777",
+      "#64748b",
+      "#84a21b",
+      "#ea580c"
+    ];
 
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, character => ({
@@ -1287,6 +1294,51 @@
       });
     }
 
+    function renderPieChart(data) {
+      const counts = countBy(data, job => job.family);
+      const total = counts.reduce((sum, item) => sum + item[1], 0);
+      const pie = $("familyPieChart");
+      const legend = $("familyPieLegend");
+
+      if (total === 0) {
+        pie.style.background = "#e9edf5";
+        pie.setAttribute("aria-label", "ไม่มีข้อมูลสายงาน");
+      } else {
+        let currentAngle = 0;
+
+        const segments = counts.map(([name, count], index) => {
+          const start = currentAngle;
+          currentAngle += (count / total) * 360;
+          const color = chartColors[index % chartColors.length];
+
+          return `${color} ${start}deg ${currentAngle}deg`;
+        });
+
+        pie.style.background =
+          `conic-gradient(${segments.join(", ")})`;
+
+        pie.setAttribute(
+          "aria-label",
+          counts.map(([name, count]) =>
+            `${name} ${count} ประกาศ`
+          ).join(", ")
+        );
+      }
+
+      legend.innerHTML = counts.length
+        ? counts.map(([name, count], index) => `
+            <div class="pie-legend-item">
+              <span
+                class="pie-dot"
+                style="background:${chartColors[index % chartColors.length]}"
+              ></span>
+              <span class="pie-month">${escapeHTML(name)}</span>
+              <span class="pie-value">${count}</span>
+            </div>
+          `).join("")
+        : '<div class="chart-empty">ไม่มีข้อมูล</div>';
+    }
+
     function renderBarChart(containerId, entries) {
       const container = $(containerId);
 
@@ -1325,63 +1377,7 @@
       $("totalFaculties").textContent =
         new Set(data.flatMap(job => job.faculty)).size;
 
-      const months = [
-        { label: "สิงหาคม", month: 8, color: "#2457c5" },
-        { label: "กันยายน", month: 9, color: "#17a673" },
-        { label: "ตุลาคม", month: 10, color: "#f59e0b" }
-      ];
-
-      const counts = months.map(monthInfo => ({
-        ...monthInfo,
-        count: data.filter(job =>
-          Number(job.published.slice(5, 7)) === monthInfo.month
-        ).length
-      }));
-
-      const total = counts.reduce((sum, monthInfo) =>
-        sum + monthInfo.count, 0
-      );
-
-      const pie = $("monthChart");
-      const legend = $("monthLegend");
-
-      if (total === 0) {
-        pie.style.background = "#e9edf5";
-        pie.setAttribute(
-          "aria-label",
-          "ไม่มีประกาศงานในช่วงเดือนที่แสดง"
-        );
-      } else {
-        let currentAngle = 0;
-
-        const segments = counts.map(monthInfo => {
-          const start = currentAngle;
-          currentAngle += (monthInfo.count / total) * 360;
-
-          return `${monthInfo.color} ${start}deg ${currentAngle}deg`;
-        });
-
-        pie.style.background =
-          `conic-gradient(${segments.join(", ")})`;
-
-        pie.setAttribute(
-          "aria-label",
-          counts.map(monthInfo =>
-            `${monthInfo.label} ${monthInfo.count} ประกาศ`
-          ).join(", ")
-        );
-      }
-
-      legend.innerHTML = counts.map(monthInfo => `
-        <div class="pie-legend-item">
-          <span
-            class="pie-dot"
-            style="background:${monthInfo.color}"
-          ></span>
-          <span class="pie-month">${escapeHTML(monthInfo.label)}</span>
-          <span class="pie-value">${monthInfo.count}</span>
-        </div>
-      `).join("");
+      renderPieChart(data);
 
       renderBarChart(
         "familyChart",
@@ -1432,14 +1428,13 @@
         const logo = job.logoUrl
           ? `<img src="${escapeHTML(job.logoUrl)}"
                alt="โลโก้ ${escapeHTML(job.company)}"
-               onerror="this.style.display='none';this.parentElement.textContent='${escapeHTML(job.logoText)}'">`
+               onerror="this.style.display='none'">`
           : escapeHTML(job.logoText || job.company.slice(0, 2).toUpperCase());
 
         return `
           <article class="job-card">
             <div class="job-top">
               <div class="company-logo">${logo}</div>
-
               <div class="job-heading">
                 <h3>${escapeHTML(job.title)}</h3>
                 <div class="company-name">${escapeHTML(job.company)}</div>
@@ -1456,17 +1451,14 @@
                 <span class="meta-label">พื้นที่ทำงาน</span>
                 <span class="meta-value">${escapeHTML(job.location)}</span>
               </div>
-
               <div class="meta-row">
                 <span class="meta-label">ค่าตอบแทน</span>
                 <span class="meta-value">${escapeHTML(job.salary || "ไม่ระบุ")}</span>
               </div>
-
               <div class="meta-row">
                 <span class="meta-label">จำนวนที่รับ</span>
                 <span class="meta-value">${escapeHTML(job.quantity)} อัตรา</span>
               </div>
-
               <div class="meta-row">
                 <span class="meta-label">วันที่ประกาศ</span>
                 <span class="meta-value">${formatDate(job.published)}</span>
@@ -1478,17 +1470,13 @@
                 class="btn btn-secondary"
                 type="button"
                 data-detail="${escapeHTML(job.id)}"
-              >
-                ดูรายละเอียด
-              </button>
+              >ดูรายละเอียด</button>
 
               <button
                 class="btn btn-primary"
                 type="button"
                 data-apply="${escapeHTML(job.id)}"
-              >
-                สมัครงาน
-              </button>
+              >สมัครงาน</button>
             </div>
           </article>
         `;
@@ -1615,9 +1603,7 @@
       renderAll();
     }
 
-    // กิจกรรมการค้นหาและตัวกรอง
     $("applyFilters").addEventListener("click", renderAll);
-
     $("clearFilters").addEventListener("click", clearFilters);
 
     $("searchInput").addEventListener("keydown", event => {
@@ -1631,7 +1617,6 @@
     document.querySelectorAll(".quick-btn").forEach(button => {
       button.addEventListener("click", () => {
         const months = Number(button.dataset.months);
-
         selectedMonths = selectedMonths === months ? 0 : months;
 
         document.querySelectorAll(".quick-btn").forEach(item => {
@@ -1645,7 +1630,6 @@
       });
     });
 
-    // ปุ่มดูรายละเอียดและสมัครงานในการ์ด
     $("jobsList").addEventListener("click", event => {
       const detailButton = event.target.closest("[data-detail]");
       const applyButton = event.target.closest("[data-apply]");
@@ -1659,30 +1643,26 @@
       }
     });
 
-    // ปิดหน้าต่างรายละเอียด
     $("closeModal").addEventListener("click", closeJobDetails);
     $("closeModalBottom").addEventListener("click", closeJobDetails);
 
     $("jobModal").addEventListener("click", event => {
-      if (event.target === $("jobModal")) {
-        closeJobDetails();
-      }
+      if (event.target === $("jobModal")) closeJobDetails();
     });
 
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && $("jobModal").classList.contains("show")) {
+      if (
+        event.key === "Escape" &&
+        $("jobModal").classList.contains("show")
+      ) {
         closeJobDetails();
       }
     });
 
-    // ปุ่มสมัครงานจากหน้าต่างรายละเอียด
     $("modalApply").addEventListener("click", () => {
-      if (activeJob) {
-        applyForJob(activeJob.id);
-      }
+      if (activeJob) applyForJob(activeJob.id);
     });
 
-    // เริ่มต้นแสดงเว็บไซต์
     populateFilters();
     renderAll();
   </script>
