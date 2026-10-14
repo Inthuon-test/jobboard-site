@@ -1,1263 +1,571 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jobboard | ค้นหางาน</title>
-
-  <style>
-    :root {
-      --primary: #2457c5;
-      --primary-dark: #19439b;
-      --text: #202938;
-      --muted: #667085;
-      --border: #e2e7ef;
-      --bg: #f5f7fb;
-      --white: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-
-    body.modal-open {
-      overflow: hidden;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .site-header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 22px 20px;
-    }
-
-    .header-inner,
-    .container {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .brand {
-      margin: 0;
-      color: var(--primary);
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .tagline {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    main {
-      padding: 28px 0 48px;
-    }
-
-    .page-title {
-      margin: 0 0 6px;
-      font-size: 25px;
-    }
-
-    .page-description {
-      color: var(--muted);
-      margin: 0 0 22px;
-      font-size: 14px;
-    }
-
-    .filter-panel {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-
-    .filter-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .field {
-      min-width: 0;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      min-width: 0;
-      padding: 11px 12px;
-      border: 1px solid #cfd6e2;
-      border-radius: 9px;
-      background: var(--white);
-      color: var(--text);
-      outline: none;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px #2457c51a;
-    }
-
-    .quick-filter {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .quick-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-right: 4px;
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 9px 14px;
-      background: var(--white);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 13px;
-      text-decoration: none;
-      transition: background 0.15s, border-color 0.15s;
-    }
-
-    .btn:hover {
-      background: #f0f4fb;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      color: white;
-    }
-
-    .btn.active {
-      background: #eaf0ff;
-      color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .btn-reset {
-      margin-left: auto;
-    }
-
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .results-header h2 {
-      font-size: 19px;
-      margin: 0;
-    }
-
-    .result-count {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* การ์ด 2 คอลัมน์ และแยกความสูงของแต่ละการ์ด */
-    .jobs {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-auto-rows: max-content;
-      align-items: start;
-      gap: 16px;
-    }
-
-    .job-card {
-      align-self: start;
-      min-width: 0;
-      padding: 18px;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 2px 7px #15294b08;
-    }
-
-    .company-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 13px;
-      min-width: 0;
-    }
-
-    .company-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 0 0 54px;
-      width: 54px;
-      height: 54px;
-      overflow: hidden;
-      border-radius: 12px;
-      background: #eaf0ff;
-      color: var(--primary);
-      font-weight: 800;
-      font-size: 17px;
-      text-align: center;
-    }
-
-    .company-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: white;
-    }
-
-    .company-info {
-      min-width: 0;
-    }
-
-    .company-name {
-      margin: 0;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .job-type {
-      display: inline-block;
-      color: #176a45;
-      background: #e8f7ef;
-      border-radius: 5px;
-      padding: 2px 7px;
-      margin-top: 3px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .job-title {
-      margin: 0 0 9px;
-      font-size: 19px;
-      line-height: 1.45;
-      overflow-wrap: anywhere;
-    }
-
-    .job-summary {
-      display: grid;
-      gap: 5px;
-      margin-bottom: 14px;
-      color: #475467;
-      font-size: 13px;
-    }
-
-    .job-summary div {
-      overflow-wrap: anywhere;
-    }
-
-    .job-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      border-top: 1px solid #edf0f5;
-      padding-top: 14px;
-    }
-
-    .job-actions .btn {
-      flex: 1 1 120px;
-    }
-
-    .empty-state {
-      grid-column: 1 / -1;
-      background: white;
-      border: 1px dashed #cfd6e2;
-      border-radius: 14px;
-      text-align: center;
-      padding: 36px 18px;
-      color: var(--muted);
-    }
-
-    /* Popup / Modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.65);
-      overscroll-behavior: contain;
-    }
-
-    .modal-backdrop[hidden] {
-      display: none !important;
-    }
-
-    .modal {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      width: min(720px, 100%);
-      max-height: 88vh;
-      max-height: 88dvh;
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 24px 80px #00000040;
-      animation: modal-in 0.18s ease-out;
-    }
-
-    @keyframes modal-in {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 20px 22px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .modal-heading {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .modal-heading h2 {
-      margin: 0;
-      font-size: 21px;
-      line-height: 1.45;
-      overflow-wrap: anywhere;
-    }
-
-    .modal-heading p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    .modal-close {
-      flex: 0 0 38px;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 0;
-      border-radius: 9px;
-      background: #f0f2f6;
-      color: #344054;
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    .modal-close:hover {
-      background: #e1e6ef;
-    }
-
-    .modal-body {
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
-      padding: 22px;
-    }
-
-    .detail-section {
-      margin-bottom: 22px;
-    }
-
-    .detail-section:last-child {
-      margin-bottom: 0;
-    }
-
-    .detail-section h3 {
-      margin: 0 0 9px;
-      font-size: 16px;
-    }
-
-    .detail-section p {
-      margin: 5px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .detail-list {
-      margin: 0;
-      padding-left: 22px;
-    }
-
-    .detail-list li {
-      margin-bottom: 6px;
-      overflow-wrap: anywhere;
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .detail-item {
-      padding: 12px;
-      border-radius: 10px;
-      background: #f6f8fc;
-      min-width: 0;
-    }
-
-    .detail-label {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 3px;
-    }
-
-    .detail-value {
-      font-size: 14px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-      white-space: pre-line;
-    }
-
-    .modal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 10px;
-      padding: 16px 22px;
-      border-top: 1px solid var(--border);
-      background: white;
-      flex-shrink: 0;
-    }
-
-    .demo-note {
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      background: #fff7e6;
-      color: #8a5700;
-      font-size: 12px;
-    }
-
-    footer {
-      padding: 20px 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 640px) {
-      .site-header {
-        padding: 18px 0;
-      }
-
-      .brand {
-        font-size: 24px;
-      }
-
-      main {
-        padding-top: 20px;
-      }
-
-      .page-title {
-        font-size: 22px;
-      }
-
-      .filter-panel {
-        padding: 14px;
-      }
-
-      .filter-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .btn-reset {
-        margin-left: 0;
-      }
-
-      .jobs {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .job-card {
-        padding: 15px;
-      }
-
-      .job-title {
-        font-size: 18px;
-      }
-
-      .modal-backdrop {
-        padding: 10px;
-      }
-
-      .modal {
-        max-height: 92vh;
-        max-height: 92dvh;
-        border-radius: 13px;
-      }
-
-      .modal-header {
-        padding: 15px;
-        gap: 10px;
-      }
-
-      .modal-heading h2 {
-        font-size: 18px;
-      }
-
-      .modal-body {
-        padding: 16px;
-      }
-
-      .detail-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .modal-footer {
-        padding: 12px 15px;
-      }
-
-      .modal-footer .btn {
-        flex: 1;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobboard | Dashboard งาน</title>
+<style>
+:root {
+  --blue:#2457c5;
+  --blue-light:#eaf0ff;
+  --ink:#202938;
+  --muted:#667085;
+  --border:#e2e7ef;
+  --bg:#f5f7fb;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+body.modal-open{overflow:hidden}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{background:white;border-bottom:1px solid var(--border);padding:18px 24px}
+.header-inner{max-width:1400px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-size:26px;font-weight:800;color:var(--blue)}
+.header-sub{font-size:13px;color:var(--muted)}
+.layout{max-width:1400px;margin:24px auto;padding:0 20px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:22px;align-items:start}
+.sidebar{background:white;border:1px solid var(--border);border-radius:15px;padding:18px;position:sticky;top:16px}
+.sidebar h2{font-size:18px;margin:0 0 15px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field input,.field select{width:100%;min-width:0;padding:10px;border:1px solid #cfd6e2;border-radius:9px;background:white;color:var(--ink)}
+.btn{border:1px solid var(--border);border-radius:9px;padding:9px 12px;background:white;color:var(--ink);font-size:13px;font-weight:700}
+.btn:hover{background:#f0f4fb}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:white}
+.btn-primary:hover{background:#19439b;color:white}
+.btn.active{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
+.reset{width:100%;margin-top:5px}
+.quick-filter{display:flex;gap:7px;flex-wrap:wrap}
+.quick-filter .btn{flex:1}
+.main{min-width:0}
+.page-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+.page-heading h1{font-size:26px;margin:0}
+.page-heading p{font-size:13px;color:var(--muted);margin:4px 0 0}
+.demo-badge{background:#fff3d9;color:#865900;border-radius:7px;padding:5px 9px;font-size:11px;white-space:nowrap}
+.dashboard-title{font-size:18px;margin:0 0 12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:20px}
+.kpi{background:white;border:1px solid var(--border);border-radius:13px;padding:16px;min-width:0}
+.kpi-label{font-size:12px;color:var(--muted)}
+.kpi-number{font-size:27px;font-weight:800;margin-top:4px;line-height:1.35}
+.kpi-note{font-size:11px;color:var(--muted);margin-top:4px}
+.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-bottom:24px}
+.chart-card{background:white;border:1px solid var(--border);border-radius:14px;padding:17px;min-width:0}
+.chart-card h3{font-size:15px;margin:0}
+.chart-subtitle{font-size:11px;color:var(--muted);margin:3px 0 15px}
+.chart{display:flex;flex-direction:column;gap:13px}
+.bar-row{display:grid;grid-template-columns:minmax(75px,105px) minmax(0,1fr) 25px;align-items:center;gap:8px}
+.bar-label{font-size:12px;overflow-wrap:anywhere}
+.bar-track{height:14px;background:#edf1f7;border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;background:var(--blue);border-radius:5px;min-width:0;transition:width .25s}
+.bar-count{font-size:12px;font-weight:700;text-align:right}
+.month-chart{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:end;height:185px;padding:0 5px}
+.month-column{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;min-width:0}
+.month-count{font-size:12px;font-weight:700}
+.month-bar-area{height:125px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.month-bar{width:min(52px,70%);min-height:3px;background:var(--blue);border-radius:7px 7px 2px 2px}
+.month-label{font-size:12px;color:var(--muted)}
+.legend{font-size:11px;color:var(--muted);margin-top:12px}
+.results-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+.results-header h2{font-size:19px;margin:0}
+.result-count{font-size:12px;color:var(--muted)}
+.jobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:max-content;align-items:start;gap:15px}
+.job-card{align-self:start;min-width:0;background:white;border:1px solid var(--border);border-radius:14px;padding:17px}
+.company-row{display:flex;align-items:center;gap:11px;margin-bottom:12px;min-width:0}
+.company-logo{width:48px;height:48px;flex:0 0 48px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--blue-light);color:var(--blue);font-weight:800;overflow:hidden}
+.company-logo img{width:100%;height:100%;object-fit:contain;background:white}
+.company-name{font-size:13px;margin:0;overflow-wrap:anywhere}
+.job-type{font-size:10px;color:#176a45;background:#e8f7ef;padding:2px 6px;border-radius:5px;display:inline-block;margin-top:3px}
+.job-title{font-size:17px;line-height:1.45;margin:0 0 10px;overflow-wrap:anywhere}
+.job-summary{font-size:12px;color:#475467;display:grid;gap:4px;margin-bottom:13px}
+.job-actions{display:flex;gap:8px;border-top:1px solid #edf0f5;padding-top:13px;flex-wrap:wrap}
+.job-actions .btn{flex:1}
+.empty-state{grid-column:1/-1;background:white;border:1px dashed #cfd6e2;border-radius:13px;padding:30px;text-align:center;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+/* Popup */
+.modal-backdrop{position:fixed;inset:0;z-index:1000;background:#0f172aab;display:flex;align-items:center;justify-content:center;padding:18px}
+.modal-backdrop[hidden]{display:none!important}
+.modal{width:min(720px,100%);max-height:90vh;max-height:90dvh;background:white;border-radius:15px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px #0004}
+.modal-header{display:flex;align-items:flex-start;gap:12px;padding:17px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-heading{flex:1;min-width:0}
+.modal-heading h2{font-size:20px;line-height:1.4;margin:0;overflow-wrap:anywhere}
+.modal-heading p{font-size:12px;color:var(--muted);margin:4px 0 0;overflow-wrap:anywhere}
+.modal-close{width:37px;height:37px;flex:0 0 37px;border:0;border-radius:9px;background:#f0f2f6;font-size:27px;line-height:1}
+.modal-body{padding:20px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.detail-section{margin-bottom:22px}
+.detail-section:last-child{margin-bottom:0}
+.detail-section h3{font-size:15px;margin:0 0 9px}
+.detail-section p{margin:5px 0;overflow-wrap:anywhere}
+.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.detail-item{background:#f6f8fc;border-radius:9px;padding:11px;min-width:0}
+.detail-label{font-size:11px;color:var(--muted)}
+.detail-value{font-size:13px;font-weight:700;overflow-wrap:anywhere;white-space:pre-line}
+.detail-list{padding-left:21px;margin:0}
+.detail-list li{margin-bottom:6px}
+.modal-footer{display:flex;justify-content:flex-end;gap:9px;padding:13px 20px;border-top:1px solid var(--border);flex-shrink:0}
+.demo-note{font-size:12px;background:#fff7e6;color:#865900;padding:10px;border-radius:8px;margin-top:14px}
+@media(max-width:900px){
+  .layout{grid-template-columns:220px minmax(0,1fr);gap:15px}
+  .chart-grid{grid-template-columns:1fr}
+  .kpi-grid{gap:8px}
+  .kpi{padding:12px}
+  .kpi-number{font-size:23px}
+  .bar-row{grid-template-columns:85px minmax(0,1fr) 20px}
+}
+@media(max-width:680px){
+  header{padding:14px 17px}
+  .header-inner{align-items:flex-start;flex-direction:column;gap:0}
+  .brand{font-size:24px}
+  .layout{display:flex;flex-direction:column;padding:0 13px;margin:16px auto;gap:18px}
+  .sidebar{position:static;width:100%;padding:15px}
+  .sidebar h2{margin-bottom:12px}
+  .main{width:100%}
+  .page-heading h1{font-size:22px}
+  .page-heading{flex-wrap:wrap}
+  .kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .kpi{padding:10px 8px}
+  .kpi-label{font-size:10px}
+  .kpi-number{font-size:21px}
+  .kpi-note{font-size:10px}
+  .chart-grid{grid-template-columns:1fr}
+  .jobs{grid-template-columns:minmax(0,1fr)}
+  .job-card{padding:15px}
+  .modal-backdrop{padding:9px}
+  .modal{max-height:94vh;max-height:94dvh}
+  .modal-header{padding:14px}
+  .modal-body{padding:15px}
+  .modal-footer{padding:12px 14px}
+}
+@media(max-width:370px){
+  .kpi-number{font-size:18px}
+  .month-label{font-size:10px}
+  .detail-grid{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:76px minmax(0,1fr) 18px;gap:5px}
+}
+</style>
 </head>
-
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <p class="brand">Jobboard</p>
-      <p class="tagline">ค้นหาตำแหน่งงานที่เหมาะกับคุณ</p>
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="brand">Jobboard</div>
+      <div class="header-sub">ภาพรวมตำแหน่งงานและค้นหางาน</div>
     </div>
-  </header>
+    <div class="header-sub">ระบบตัวอย่าง · ข้อมูลจำลอง</div>
+  </div>
+</header>
 
-  <main class="container">
-    <h1 class="page-title">ค้นหางาน</h1>
-    <p class="page-description">
-      ค้นหาตำแหน่งงานประจำ ดูรายละเอียด และตรวจสอบข้อมูลการสมัคร
-    </p>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>ค้นหาและกรองงาน</h2>
 
-    <section class="filter-panel" aria-label="ตัวกรองตำแหน่งงาน">
-      <div class="filter-grid">
-        <div class="field">
-          <label for="keyword">ค้นหาชื่อบริษัทหรือชื่อตำแหน่ง</label>
-          <input
-            id="keyword"
-            type="search"
-            placeholder="เช่น บริษัท ABC, เจ้าหน้าที่..."
-            autocomplete="off"
-          >
-        </div>
+    <div class="field">
+      <label for="keyword">ชื่อบริษัท / ตำแหน่งงาน</label>
+      <input id="keyword" type="search" placeholder="พิมพ์คำค้นหา...">
+    </div>
 
-        <div class="field">
-          <label for="jobFamily">สายงาน</label>
-          <select id="jobFamily">
-            <option value="">ทุกสายงาน</option>
-          </select>
-        </div>
+    <div class="field">
+      <label for="jobFamily">สายงาน</label>
+      <select id="jobFamily"><option value="">ทุกสายงาน</option></select>
+    </div>
 
-        <div class="field">
-          <label for="location">พื้นที่ทำงาน</label>
-          <select id="location">
-            <option value="">ทุกพื้นที่</option>
-          </select>
-        </div>
+    <div class="field">
+      <label for="location">พื้นที่ทำงาน</label>
+      <select id="location"><option value="">ทุกพื้นที่</option></select>
+    </div>
 
-        <div class="field">
-          <label for="faculty">คณะที่บริษัทต้องการ</label>
-          <select id="faculty">
-            <option value="">ทุกคณะ</option>
-          </select>
-        </div>
-      </div>
+    <div class="field">
+      <label for="faculty">คณะที่บริษัทต้องการ</label>
+      <select id="faculty"><option value="">ทุกคณะ</option></select>
+    </div>
 
+    <div class="field">
+      <label>ประกาศย้อนหลัง</label>
       <div class="quick-filter">
-        <span class="quick-label">ประกาศย้อนหลัง:</span>
-        <button class="btn quick-btn" type="button" data-months="1">1 เดือน</button>
-        <button class="btn quick-btn" type="button" data-months="2">2 เดือน</button>
-        <button class="btn quick-btn" type="button" data-months="3">3 เดือน</button>
-        <button class="btn btn-reset" id="clearFilters" type="button">
-          ล้างตัวกรอง
-        </button>
+        <button class="btn quick-btn" data-months="1" type="button">1 เดือน</button>
+        <button class="btn quick-btn" data-months="2" type="button">2 เดือน</button>
+        <button class="btn quick-btn" data-months="3" type="button">3 เดือน</button>
+      </div>
+    </div>
+
+    <button class="btn reset" id="clearFilters" type="button">ล้างตัวกรองทั้งหมด</button>
+  </aside>
+
+  <main class="main">
+    <div class="page-heading">
+      <div>
+        <h1>Dashboard ภาพรวม</h1>
+        <p>สรุปข้อมูลประกาศงานจากชุดข้อมูลที่แสดงอยู่ในเว็บไซต์</p>
+      </div>
+      <span class="demo-badge">ข้อมูลตัวอย่าง</span>
+    </div>
+
+    <h2 class="dashboard-title">สรุปภาพรวม</h2>
+    <section class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">ตำแหน่งงานทั้งหมด</div>
+        <div class="kpi-number" id="totalJobs">0</div>
+        <div class="kpi-note">รายการในชุดข้อมูลตัวอย่าง</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">สายงาน</div>
+        <div class="kpi-number" id="totalFamilies">0</div>
+        <div class="kpi-note">ประเภทสายงานที่พบ</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">คณะที่ต้องการ</div>
+        <div class="kpi-number" id="totalFaculties">0</div>
+        <div class="kpi-note">คณะที่ไม่ซ้ำกัน</div>
       </div>
     </section>
 
-    <section aria-label="ผลการค้นหางาน">
-      <div class="results-header">
-        <h2>ตำแหน่งงานที่เปิดรับ</h2>
-        <span class="result-count" id="resultCount" aria-live="polite"></span>
+    <section class="chart-grid">
+      <div class="chart-card">
+        <h3>จำนวนประกาศรายเดือน</h3>
+        <p class="chart-subtitle">เปรียบเทียบประกาศตามเดือนที่เผยแพร่</p>
+        <div class="month-chart" id="monthChart"></div>
+        <div class="legend">นับตามวันที่ประกาศของแต่ละตำแหน่ง</div>
       </div>
 
+      <div class="chart-card">
+        <h3>จำนวนงานตามสายงาน</h3>
+        <p class="chart-subtitle">จำนวนตำแหน่งในแต่ละประเภทสายงาน</p>
+        <div class="chart" id="familyChart"></div>
+      </div>
+
+      <div class="chart-card">
+        <h3>คณะที่บริษัทต้องการ</h3>
+        <p class="chart-subtitle">นับจำนวนตำแหน่งที่ระบุแต่ละคณะ</p>
+        <div class="chart" id="facultyChart"></div>
+      </div>
+
+      <div class="chart-card">
+        <h3>จำนวนงานตามพื้นที่</h3>
+        <p class="chart-subtitle">ดูการกระจายตัวของตำแหน่งงาน</p>
+        <div class="chart" id="locationChart"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="results-header">
+        <h2>รายการตำแหน่งงาน</h2>
+        <span class="result-count" id="resultCount" aria-live="polite"></span>
+      </div>
       <div class="jobs" id="jobsList"></div>
     </section>
   </main>
+</div>
 
-  <footer>
-    Jobboard — เว็บไซต์ตัวอย่างสำหรับแสดงประกาศรับสมัครงาน
-  </footer>
+<footer>Jobboard · ข้อมูลตัวอย่างสำหรับทดลองระบบเท่านั้น</footer>
 
-  <!-- Popup รายละเอียดงาน -->
-  <div
-    class="modal-backdrop"
-    id="jobModal"
-    hidden
-    role="presentation"
-  >
-    <section
-      class="modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modalTitle"
-      aria-describedby="modalCompany"
-    >
-      <div class="modal-header">
-        <div class="company-logo" id="modalLogo" aria-hidden="true">JB</div>
-        <div class="modal-heading">
-          <h2 id="modalTitle">รายละเอียดตำแหน่งงาน</h2>
-          <p id="modalCompany"></p>
-        </div>
-        <button
-          class="modal-close"
-          id="closeModal"
-          type="button"
-          aria-label="ปิดรายละเอียด"
-          title="ปิด"
-        >×</button>
+<div class="modal-backdrop" id="jobModal" hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <div class="company-logo" id="modalLogo">JB</div>
+      <div class="modal-heading">
+        <h2 id="modalTitle">รายละเอียดตำแหน่งงาน</h2>
+        <p id="modalCompany"></p>
       </div>
+      <button class="modal-close" id="closeModal" type="button" aria-label="ปิด">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn" id="closeModalBottom" type="button">ปิด</button>
+      <button class="btn btn-primary" id="modalApply" type="button">สมัครงาน</button>
+    </div>
+  </section>
+</div>
 
-      <div class="modal-body" id="modalBody"></div>
+<script>
+const jobs = [
+  {
+    id:"JOB001",company:"บริษัท เอ็กซ์แซมเพิล เทคโนโลยี จำกัด",logoText:"EX",logoUrl:"",
+    title:"เจ้าหน้าที่ IT Support",family:"เทคโนโลยีสารสนเทศ",location:"กรุงเทพมหานคร",
+    faculty:["คณะเทคโนโลยีสารสนเทศ","คณะวิศวกรรมศาสตร์"],
+    salary:"18,000–25,000 บาท",quantity:"2 อัตรา",
+    published:"2026-10-05",startDate:"2026-10-05",endDate:"2026-11-30",
+    description:"ดูแลระบบคอมพิวเตอร์และช่วยแก้ไขปัญหาด้าน IT เบื้องต้นให้กับพนักงาน",
+    duties:["ตรวจสอบและแก้ไขปัญหา Hardware และ Software","ติดตั้งและดูแลคอมพิวเตอร์และอุปกรณ์สำนักงาน","ประสานงานกับทีมที่เกี่ยวข้อง"],
+    qualifications:["จบปริญญาตรีในสาขาที่เกี่ยวข้อง","มีความรู้พื้นฐานด้านคอมพิวเตอร์และระบบเครือข่าย","พร้อมเรียนรู้และทำงานเป็นทีม"],
+    workDays:"จันทร์–ศุกร์",workTime:"09:00–18:00 น.",
+    benefits:"ประกันสังคม วันหยุดประจำปี และสวัสดิการตามบริษัทกำหนด",
+    applyUrl:"https://example.com/apply/JOB001"
+  },
+  {
+    id:"JOB002",company:"บริษัท เดโม โลจิสติกส์ จำกัด",logoText:"DL",logoUrl:"",
+    title:"เจ้าหน้าที่ประสานงานขนส่ง",family:"โลจิสติกส์",location:"นนทบุรี",
+    faculty:["คณะการจัดการโลจิสติกส์","คณะบริหารธุรกิจ"],
+    salary:"16,000–22,000 บาท",quantity:"3 อัตรา",
+    published:"2026-09-28",startDate:"2026-10-01",endDate:"2026-11-15",
+    description:"ประสานงานการจัดส่งสินค้าและติดตามสถานะการขนส่ง",
+    duties:["ประสานงานกับพนักงานขนส่งและลูกค้า","ติดตามสถานะการจัดส่ง","ตรวจสอบเอกสารการขนส่ง"],
+    qualifications:["จบปริญญาตรี","ใช้โปรแกรมสำนักงานพื้นฐานได้","สื่อสารและประสานงานได้ดี"],
+    workDays:"จันทร์–เสาร์",workTime:"08:30–17:30 น.",
+    benefits:"ประกันสังคม โบนัสตามผลประกอบการ และวันหยุดตามบริษัทกำหนด",
+    applyUrl:"https://example.com/apply/JOB002"
+  },
+  {
+    id:"JOB003",company:"บริษัท ครีเอทีฟ สตูดิโอ จำกัด",logoText:"CS",logoUrl:"",
+    title:"เจ้าหน้าที่กราฟิกดีไซน์",family:"ออกแบบและสร้างสรรค์",location:"กรุงเทพมหานคร",
+    faculty:["คณะนิเทศศาสตร์","คณะศิลปกรรมศาสตร์"],
+    salary:"18,000–28,000 บาท",quantity:"1 อัตรา",
+    published:"2026-09-12",startDate:"2026-09-15",endDate:"2026-10-31",
+    description:"ออกแบบสื่อประชาสัมพันธ์และสื่อดิจิทัลตามแนวทางของแบรนด์",
+    duties:["ออกแบบภาพประกอบและสื่อประชาสัมพันธ์","ปรับแก้งานตามข้อเสนอแนะ","จัดเตรียมไฟล์สำหรับเผยแพร่"],
+    qualifications:["มีพื้นฐานด้านการออกแบบ","ใช้โปรแกรมออกแบบที่เกี่ยวข้องได้","มีผลงานนำเสนอจะได้รับการพิจารณาเป็นพิเศษ"],
+    workDays:"จันทร์–ศุกร์",workTime:"10:00–19:00 น.",
+    benefits:"ประกันสังคม วันหยุดประจำปี และอุปกรณ์สำหรับการทำงาน",
+    applyUrl:"https://example.com/apply/JOB003"
+  },
+  {
+    id:"JOB004",company:"บริษัท โกลบอล เซอร์วิส จำกัด",logoText:"GS",logoUrl:"",
+    title:"เจ้าหน้าที่ประสานงานภาษาญี่ปุ่น",family:"ภาษาและการประสานงาน",location:"ปทุมธานี",
+    faculty:["คณะศิลปศาสตร์","คณะบริหารธุรกิจ"],
+    salary:"20,000–30,000 บาท",quantity:"2 อัตรา",
+    published:"2026-08-20",startDate:"2026-08-25",endDate:"2026-11-20",
+    description:"ประสานงานระหว่างทีมงานชาวไทยและชาวญี่ปุ่น รวมถึงสนับสนุนงานเอกสาร",
+    duties:["ประสานงานและนัดหมาย","ช่วยแปลเอกสารเบื้องต้น","ติดตามความคืบหน้าของงาน"],
+    qualifications:["จบปริญญาตรีในสาขาที่เกี่ยวข้อง","มีทักษะภาษาญี่ปุ่นตามระดับที่กำหนด","ใช้โปรแกรมสำนักงานได้"],
+    workDays:"จันทร์–ศุกร์",workTime:"08:00–17:00 น.",
+    benefits:"ประกันสังคม เบี้ยขยัน และสวัสดิการตามบริษัทกำหนด",
+    applyUrl:"https://example.com/apply/JOB004"
+  },
+  {
+    id:"JOB005",company:"บริษัท ฟู้ด เดโม จำกัด",logoText:"FD",logoUrl:"",
+    title:"เจ้าหน้าที่การตลาด",family:"การตลาด",location:"สมุทรปราการ",
+    faculty:["คณะบริหารธุรกิจ","คณะนิเทศศาสตร์"],
+    salary:"17,000–24,000 บาท",quantity:"2 อัตรา",
+    published:"2026-08-12",startDate:"2026-08-15",endDate:"2026-10-25",
+    description:"สนับสนุนการวางแผนและดำเนินกิจกรรมทางการตลาดของบริษัท",
+    duties:["จัดทำเนื้อหาและสื่อประชาสัมพันธ์","ประสานงานกิจกรรมทางการตลาด","รวบรวมข้อมูลและสรุปผล"],
+    qualifications:["จบปริญญาตรีในสาขาที่เกี่ยวข้อง","มีความคิดสร้างสรรค์และทำงานเป็นทีมได้","ใช้โปรแกรมสำนักงานพื้นฐานได้"],
+    workDays:"จันทร์–ศุกร์",workTime:"09:00–18:00 น.",
+    benefits:"ประกันสังคม โบนัสตามผลประกอบการ และวันหยุดประจำปี",
+    applyUrl:"https://example.com/apply/JOB005"
+  },
+  {
+    id:"JOB006",company:"บริษัท ออฟฟิศ โซลูชัน จำกัด",logoText:"OS",logoUrl:"",
+    title:"เจ้าหน้าที่ทรัพยากรบุคคล",family:"ทรัพยากรบุคคล",location:"นนทบุรี",
+    faculty:["คณะบริหารธุรกิจ","คณะศิลปศาสตร์"],
+    salary:"16,000–23,000 บาท",quantity:"1 อัตรา",
+    published:"2026-08-03",startDate:"2026-08-10",endDate:"2026-10-20",
+    description:"สนับสนุนงานสรรหา จัดเก็บข้อมูลพนักงาน และงานเอกสารของฝ่ายทรัพยากรบุคคล",
+    duties:["นัดหมายผู้สมัครและประสานงานสัมภาษณ์","จัดเก็บเอกสารพนักงาน","สนับสนุนงานธุรการ"],
+    qualifications:["จบปริญญาตรี","มีทักษะการสื่อสารและจัดการเอกสาร","รักษาความลับข้อมูลได้"],
+    workDays:"จันทร์–ศุกร์",workTime:"08:30–17:30 น.",
+    benefits:"ประกันสังคม วันหยุดประจำปี และสวัสดิการตามบริษัทกำหนด",
+    applyUrl:"https://example.com/apply/JOB006"
+  }
+];
 
-      <div class="modal-footer">
-        <button class="btn" id="closeModalBottom" type="button">ปิด</button>
-        <button class="btn btn-primary" id="modalApply" type="button">
-          สมัครงาน
-        </button>
+const $ = id => document.getElementById(id);
+const keywordInput=$("keyword"),familySelect=$("jobFamily"),locationSelect=$("location"),facultySelect=$("faculty");
+const jobsList=$("jobsList"),modal=$("jobModal");
+let selectedMonths=null,activeJob=null,lastFocus=null;
+
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function dateText(value){
+  if(!value)return "ไม่ระบุ";
+  const [y,m,d]=value.split("-").map(Number);
+  return new Intl.DateTimeFormat("th-TH",{day:"numeric",month:"short",year:"numeric"}).format(new Date(y,m-1,d));
+}
+function fillSelect(select,values,label){
+  const unique=[...new Set(values)].sort((a,b)=>a.localeCompare(b,"th"));
+  select.innerHTML=`<option value="">${esc(label)}</option>`+unique.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
+}
+function setupFilters(){
+  fillSelect(familySelect,jobs.map(j=>j.family),"ทุกสายงาน");
+  fillSelect(locationSelect,jobs.map(j=>j.location),"ทุกพื้นที่");
+  fillSelect(facultySelect,jobs.flatMap(j=>j.faculty),"ทุกคณะ");
+}
+function logoMarkup(job){
+  if(job.logoUrl)return `<div class="company-logo"><img src="${esc(job.logoUrl)}" alt="โลโก้บริษัท" onerror="this.parentElement.textContent='${esc(job.logoText)}'"></div>`;
+  return `<div class="company-logo">${esc(job.logoText)}</div>`;
+}
+function getFilteredJobs(){
+  const term=keywordInput.value.trim().toLocaleLowerCase("th");
+  const family=familySelect.value,location=locationSelect.value,faculty=facultySelect.value;
+  const today=new Date();today.setHours(23,59,59,999);
+  let cutoff=null;
+  if(selectedMonths!==null){
+    cutoff=new Date();cutoff.setHours(0,0,0,0);cutoff.setMonth(cutoff.getMonth()-selectedMonths);
+  }
+  return jobs.filter(j=>{
+    if(term&&!`${j.company} ${j.title}`.toLocaleLowerCase("th").includes(term))return false;
+    if(family&&j.family!==family)return false;
+    if(location&&j.location!==location)return false;
+    if(faculty&&!j.faculty.includes(faculty))return false;
+    if(cutoff){
+      const date=new Date(j.published+"T00:00:00");
+      if(date<cutoff||date>today)return false;
+    }
+    return true;
+  });
+}
+function renderJobs(){
+  const filtered=getFilteredJobs();
+  $("resultCount").textContent=`พบ ${filtered.length} ตำแหน่ง`;
+  if(!filtered.length){
+    jobsList.innerHTML='<div class="empty-state">ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข<br>ลองเปลี่ยนคำค้นหาหรือล้างตัวกรอง</div>';
+    return;
+  }
+  jobsList.innerHTML=filtered.map(j=>`
+    <article class="job-card">
+      <div class="company-row">${logoMarkup(j)}<div style="min-width:0">
+        <p class="company-name">${esc(j.company)}</p><span class="job-type">งานประจำ (Full-time)</span>
+      </div></div>
+      <h3 class="job-title">${esc(j.title)}</h3>
+      <div class="job-summary">
+        <div>สายงาน: ${esc(j.family)}</div>
+        <div>พื้นที่: ${esc(j.location)}</div>
+        <div>เงินเดือน: ${esc(j.salary)}</div>
+        <div>วันที่ประกาศ: ${dateText(j.published)}</div>
       </div>
-    </section>
-  </div>
-
-  <script>
-    /*
-      ข้อมูลด้านล่างเป็นข้อมูลสมมติสำหรับทดสอบเท่านั้น
-      สามารถเปลี่ยนเป็นข้อมูลที่ได้รับอนุมัติให้เผยแพร่ได้ในภายหลัง
-    */
-
-    const jobs = [
-      {
-        id: "JOB001",
-        company: "บริษัท เอ็กซ์แซมเพิล เทคโนโลยี จำกัด",
-        logoText: "EX",
-        logoUrl: "",
-        title: "เจ้าหน้าที่ IT Support",
-        family: "เทคโนโลยีสารสนเทศ",
-        location: "กรุงเทพมหานคร",
-        faculty: ["คณะเทคโนโลยีสารสนเทศ", "คณะวิศวกรรมศาสตร์"],
-        salary: "18,000–25,000 บาท",
-        quantity: "2 อัตรา",
-        published: "2026-10-05",
-        startDate: "2026-10-05",
-        endDate: "2026-11-30",
-        description: "ดูแลระบบคอมพิวเตอร์และช่วยแก้ไขปัญหาด้าน IT เบื้องต้นให้กับพนักงาน",
-        duties: [
-          "ตรวจสอบและแก้ไขปัญหา Hardware และ Software",
-          "ติดตั้งและดูแลคอมพิวเตอร์และอุปกรณ์สำนักงาน",
-          "ประสานงานกับทีมที่เกี่ยวข้องเพื่อแก้ไขปัญหา"
-        ],
-        qualifications: [
-          "จบการศึกษาระดับปริญญาตรีในสาขาที่เกี่ยวข้อง",
-          "มีความรู้พื้นฐานด้านคอมพิวเตอร์และระบบเครือข่าย",
-          "มีมนุษยสัมพันธ์ดีและพร้อมเรียนรู้"
-        ],
-        workDays: "จันทร์–ศุกร์",
-        workTime: "09:00–18:00 น.",
-        benefits: "ประกันสังคม วันหยุดประจำปี และสวัสดิการตามบริษัทกำหนด",
-        applyUrl: "https://example.com/apply/JOB001"
-      },
-      {
-        id: "JOB002",
-        company: "บริษัท เดโม โลจิสติกส์ จำกัด",
-        logoText: "DL",
-        logoUrl: "",
-        title: "เจ้าหน้าที่ประสานงานขนส่ง",
-        family: "โลจิสติกส์",
-        location: "นนทบุรี",
-        faculty: ["คณะการจัดการโลจิสติกส์", "คณะบริหารธุรกิจ"],
-        salary: "16,000–22,000 บาท",
-        quantity: "3 อัตรา",
-        published: "2026-09-28",
-        startDate: "2026-10-01",
-        endDate: "2026-11-15",
-        description: "ประสานงานการจัดส่งสินค้าและติดตามสถานะการขนส่งให้เป็นไปตามแผน",
-        duties: [
-          "ประสานงานกับพนักงานขนส่งและลูกค้า",
-          "ติดตามสถานะการจัดส่งและจัดทำรายงาน",
-          "ตรวจสอบเอกสารที่เกี่ยวข้องกับการขนส่ง"
-        ],
-        qualifications: [
-          "จบการศึกษาระดับปริญญาตรี",
-          "สามารถใช้โปรแกรมสำนักงานพื้นฐานได้",
-          "สื่อสารและประสานงานได้ดี"
-        ],
-        workDays: "จันทร์–เสาร์",
-        workTime: "08:30–17:30 น.",
-        benefits: "ประกันสังคม โบนัสตามผลประกอบการ และวันหยุดตามบริษัทกำหนด",
-        applyUrl: "https://example.com/apply/JOB002"
-      },
-      {
-        id: "JOB003",
-        company: "บริษัท ครีเอทีฟ สตูดิโอ จำกัด",
-        logoText: "CS",
-        logoUrl: "",
-        title: "เจ้าหน้าที่กราฟิกดีไซน์",
-        family: "ออกแบบและสร้างสรรค์",
-        location: "กรุงเทพมหานคร",
-        faculty: ["คณะนิเทศศาสตร์", "คณะศิลปกรรมศาสตร์"],
-        salary: "18,000–28,000 บาท",
-        quantity: "1 อัตรา",
-        published: "2026-09-12",
-        startDate: "2026-09-15",
-        endDate: "2026-10-31",
-        description: "ออกแบบสื่อประชาสัมพันธ์และสื่อดิจิทัลตามแนวทางของแบรนด์",
-        duties: [
-          "ออกแบบภาพประกอบและสื่อประชาสัมพันธ์",
-          "ปรับแก้งานตามข้อเสนอแนะของทีม",
-          "จัดเตรียมไฟล์สำหรับการเผยแพร่"
-        ],
-        qualifications: [
-          "มีพื้นฐานด้านการออกแบบ",
-          "สามารถใช้โปรแกรมออกแบบที่เกี่ยวข้องได้",
-          "มีผลงานสำหรับนำเสนอจะได้รับการพิจารณาเป็นพิเศษ"
-        ],
-        workDays: "จันทร์–ศุกร์",
-        workTime: "10:00–19:00 น.",
-        benefits: "ประกันสังคม วันหยุดประจำปี และอุปกรณ์สำหรับการทำงาน",
-        applyUrl: "https://example.com/apply/JOB003"
-      },
-      {
-        id: "JOB004",
-        company: "บริษัท โกลบอล เซอร์วิส จำกัด",
-        logoText: "GS",
-        logoUrl: "",
-        title: "เจ้าหน้าที่ประสานงานภาษาญี่ปุ่น",
-        family: "ภาษาและการประสานงาน",
-        location: "ปทุมธานี",
-        faculty: ["คณะศิลปศาสตร์", "คณะบริหารธุรกิจ"],
-        salary: "20,000–30,000 บาท",
-        quantity: "2 อัตรา",
-        published: "2026-08-20",
-        startDate: "2026-08-25",
-        endDate: "2026-11-20",
-        description: "ประสานงานระหว่างทีมงานชาวไทยและชาวญี่ปุ่น รวมถึงสนับสนุนงานเอกสาร",
-        duties: [
-          "ประสานงานและนัดหมายกับผู้เกี่ยวข้อง",
-          "ช่วยแปลเอกสารเบื้องต้นตามที่ได้รับมอบหมาย",
-          "ติดตามความคืบหน้าของงาน"
-        ],
-        qualifications: [
-          "จบการศึกษาระดับปริญญาตรีในสาขาที่เกี่ยวข้อง",
-          "มีทักษะภาษาญี่ปุ่นตามระดับที่บริษัทกำหนด",
-          "ใช้โปรแกรมสำนักงานพื้นฐานได้"
-        ],
-        workDays: "จันทร์–ศุกร์",
-        workTime: "08:00–17:00 น.",
-        benefits: "ประกันสังคม เบี้ยขยัน และสวัสดิการตามบริษัทกำหนด",
-        applyUrl: "https://example.com/apply/JOB004"
-      },
-      {
-        id: "JOB005",
-        company: "บริษัท ฟู้ด เดโม จำกัด",
-        logoText: "FD",
-        logoUrl: "",
-        title: "เจ้าหน้าที่การตลาด",
-        family: "การตลาด",
-        location: "สมุทรปราการ",
-        faculty: ["คณะบริหารธุรกิจ", "คณะนิเทศศาสตร์"],
-        salary: "17,000–24,000 บาท",
-        quantity: "2 อัตรา",
-        published: "2026-07-18",
-        startDate: "2026-07-20",
-        endDate: "2026-10-25",
-        description: "สนับสนุนการวางแผนและดำเนินกิจกรรมทางการตลาดของบริษัท",
-        duties: [
-          "ช่วยจัดทำเนื้อหาและสื่อประชาสัมพันธ์",
-          "ประสานงานกิจกรรมทางการตลาด",
-          "รวบรวมข้อมูลและสรุปผลกิจกรรม"
-        ],
-        qualifications: [
-          "จบการศึกษาระดับปริญญาตรีในสาขาที่เกี่ยวข้อง",
-          "มีความคิดสร้างสรรค์และทำงานเป็นทีมได้",
-          "สามารถใช้โปรแกรมสำนักงานพื้นฐานได้"
-        ],
-        workDays: "จันทร์–ศุกร์",
-        workTime: "09:00–18:00 น.",
-        benefits: "ประกันสังคม โบนัสตามผลประกอบการ และวันหยุดประจำปี",
-        applyUrl: "https://example.com/apply/JOB005"
-      },
-      {
-        id: "JOB006",
-        company: "บริษัท ออฟฟิศ โซลูชัน จำกัด",
-        logoText: "OS",
-        logoUrl: "",
-        title: "เจ้าหน้าที่ทรัพยากรบุคคล",
-        family: "ทรัพยากรบุคคล",
-        location: "นนทบุรี",
-        faculty: ["คณะบริหารธุรกิจ", "คณะศิลปศาสตร์"],
-        salary: "16,000–23,000 บาท",
-        quantity: "1 อัตรา",
-        published: "2026-06-15",
-        startDate: "2026-06-20",
-        endDate: "2026-10-20",
-        description: "สนับสนุนงานสรรหา จัดเก็บข้อมูลพนักงาน และงานเอกสารของฝ่ายทรัพยากรบุคคล",
-        duties: [
-          "นัดหมายผู้สมัครและประสานงานสัมภาษณ์",
-          "จัดเก็บและตรวจสอบเอกสารพนักงาน",
-          "สนับสนุนงานธุรการของฝ่ายทรัพยากรบุคคล"
-        ],
-        qualifications: [
-          "จบการศึกษาระดับปริญญาตรี",
-          "มีทักษะการสื่อสารและการจัดการเอกสาร",
-          "รักษาความลับของข้อมูลได้"
-        ],
-        workDays: "จันทร์–ศุกร์",
-        workTime: "08:30–17:30 น.",
-        benefits: "ประกันสังคม วันหยุดประจำปี และสวัสดิการตามบริษัทกำหนด",
-        applyUrl: "https://example.com/apply/JOB006"
-      }
-    ];
-
-    const jobsList = document.getElementById("jobsList");
-    const keywordInput = document.getElementById("keyword");
-    const familySelect = document.getElementById("jobFamily");
-    const locationSelect = document.getElementById("location");
-    const facultySelect = document.getElementById("faculty");
-    const resultCount = document.getElementById("resultCount");
-    const clearFiltersButton = document.getElementById("clearFilters");
-    const quickButtons = [...document.querySelectorAll(".quick-btn")];
-
-    const modal = document.getElementById("jobModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalCompany = document.getElementById("modalCompany");
-    const modalLogo = document.getElementById("modalLogo");
-    const modalBody = document.getElementById("modalBody");
-    const closeModalButton = document.getElementById("closeModal");
-    const closeModalBottom = document.getElementById("closeModalBottom");
-    const modalApply = document.getElementById("modalApply");
-
-    let selectedMonths = null;
-    let activeJob = null;
-    let lastFocusedElement = null;
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[character]);
-    }
-
-    function formatDate(value) {
-      if (!value) return "ไม่ระบุ";
-
-      const parts = value.split("-").map(Number);
-      const date = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      return new Intl.DateTimeFormat("th-TH", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }).format(date);
-    }
-
-    function populateSelect(select, values, defaultLabel) {
-      const uniqueValues = [...new Set(values)].sort((a, b) =>
-        a.localeCompare(b, "th")
-      );
-
-      select.innerHTML =
-        `<option value="">${escapeHTML(defaultLabel)}</option>` +
-        uniqueValues.map(value =>
-          `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`
-        ).join("");
-    }
-
-    function setupFilters() {
-      populateSelect(
-        familySelect,
-        jobs.map(job => job.family),
-        "ทุกสายงาน"
-      );
-
-      populateSelect(
-        locationSelect,
-        jobs.map(job => job.location),
-        "ทุกพื้นที่"
-      );
-
-      populateSelect(
-        facultySelect,
-        jobs.flatMap(job => job.faculty),
-        "ทุกคณะ"
-      );
-    }
-
-    function logoHTML(job) {
-      if (job.logoUrl) {
-        return `
-          <div class="company-logo">
-            <img
-              src="${escapeHTML(job.logoUrl)}"
-              alt="โลโก้ ${escapeHTML(job.company)}"
-              onerror="this.parentElement.textContent='${escapeHTML(job.logoText)}'"
-            >
-          </div>
-        `;
-      }
-
-      return `
-        <div class="company-logo" aria-label="โลโก้ตัวอย่าง">
-          ${escapeHTML(job.logoText || "JOB")}
-        </div>
-      `;
-    }
-
-    function getFilteredJobs() {
-      const keyword = keywordInput.value.trim().toLocaleLowerCase("th");
-      const family = familySelect.value;
-      const location = locationSelect.value;
-      const faculty = facultySelect.value;
-
-      const today = new Date();
-      today.setHours(23, 59, 59, 999);
-
-      let cutoff = null;
-
-      if (selectedMonths !== null) {
-        cutoff = new Date();
-        cutoff.setHours(0, 0, 0, 0);
-        cutoff.setMonth(cutoff.getMonth() - selectedMonths);
-      }
-
-      return jobs.filter(job => {
-        const searchable = `${job.company} ${job.title}`.toLocaleLowerCase("th");
-
-        if (keyword && !searchable.includes(keyword)) return false;
-        if (family && job.family !== family) return false;
-        if (location && job.location !== location) return false;
-        if (faculty && !job.faculty.includes(faculty)) return false;
-
-        if (cutoff) {
-          const publishedDate = new Date(job.published + "T00:00:00");
-          if (publishedDate < cutoff || publishedDate > today) return false;
-        }
-
-        return true;
-      });
-    }
-
-    function renderJobs() {
-      const filteredJobs = getFilteredJobs();
-
-      resultCount.textContent = `พบ ${filteredJobs.length} ตำแหน่ง`;
-
-      if (filteredJobs.length === 0) {
-        jobsList.innerHTML = `
-          <div class="empty-state">
-            <strong>ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข</strong>
-            <div>ลองเปลี่ยนคำค้นหาหรือกด “ล้างตัวกรอง”</div>
-          </div>
-        `;
-        return;
-      }
-
-      jobsList.innerHTML = filteredJobs.map(job => `
-        <article class="job-card">
-          <div class="company-row">
-            ${logoHTML(job)}
-            <div class="company-info">
-              <p class="company-name">${escapeHTML(job.company)}</p>
-              <span class="job-type">งานประจำ (Full-time)</span>
-            </div>
-          </div>
-
-          <h3 class="job-title">${escapeHTML(job.title)}</h3>
-
-          <div class="job-summary">
-            <div>สายงาน: ${escapeHTML(job.family)}</div>
-            <div>พื้นที่: ${escapeHTML(job.location)}</div>
-            <div>เงินเดือน: ${escapeHTML(job.salary)}</div>
-            <div>วันที่ประกาศ: ${formatDate(job.published)}</div>
-          </div>
-
-          <div class="job-actions">
-            <button
-              class="btn btn-primary"
-              type="button"
-              data-detail="${escapeHTML(job.id)}"
-            >ดูรายละเอียด</button>
-            <button
-              class="btn"
-              type="button"
-              data-apply="${escapeHTML(job.id)}"
-            >สมัครงาน</button>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function detailItem(label, value) {
-      return `
-        <div class="detail-item">
-          <div class="detail-label">${escapeHTML(label)}</div>
-          <div class="detail-value">${escapeHTML(value || "ไม่ระบุ")}</div>
-        </div>
-      `;
-    }
-
-    function detailSection(title, content) {
-      return `
-        <section class="detail-section">
-          <h3>${escapeHTML(title)}</h3>
-          ${content}
-        </section>
-      `;
-    }
-
-    function listHTML(items) {
-      if (!items || items.length === 0) {
-        return "<p>ไม่ระบุ</p>";
-      }
-
-      return `
-        <ul class="detail-list">
-          ${items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}
-        </ul>
-      `;
-    }
-
-    function openJobModal(job) {
-      activeJob = job;
-      lastFocusedElement = document.activeElement;
-
-      modalTitle.textContent = job.title;
-      modalCompany.textContent = job.company;
-
-      modalLogo.innerHTML = "";
-      if (job.logoUrl) {
-        const image = document.createElement("img");
-        image.src = job.logoUrl;
-        image.alt = "โลโก้ " + job.company;
-        image.onerror = () => {
-          modalLogo.textContent = job.logoText || "JOB";
-        };
-        modalLogo.appendChild(image);
-      } else {
-        modalLogo.textContent = job.logoText || "JOB";
-      }
-
-      modalBody.innerHTML = `
-        ${detailSection("ข้อมูลตำแหน่งงาน", `
-          <div class="detail-grid">
-            ${detailItem("ชื่อตำแหน่ง", job.title)}
-            ${detailItem("ประเภทงาน", "งานประจำ (Full-time)")}
-            ${detailItem("สายงาน", job.family)}
-            ${detailItem("จำนวนที่รับ", job.quantity)}
-            ${detailItem("พื้นที่ทำงาน", job.location)}
-            ${detailItem("เงินเดือน", job.salary)}
-          </div>
-        `)}
-
-        ${detailSection("รายละเอียดวันที่", `
-          <div class="detail-grid">
-            ${detailItem("วันที่ประกาศ", formatDate(job.published))}
-            ${detailItem("วันที่เปิดรับสมัคร", formatDate(job.startDate))}
-            ${detailItem("วันที่สิ้นสุดรับสมัคร", formatDate(job.endDate))}
-          </div>
-        `)}
-
-        ${detailSection("รายละเอียดงาน", `
-          <p>${escapeHTML(job.description)}</p>
-        `)}
-
-        ${detailSection("หน้าที่ความรับผิดชอบ", listHTML(job.duties))}
-
-        ${detailSection("คุณสมบัติผู้สมัคร", listHTML(job.qualifications))}
-
-        ${detailSection("คณะที่บริษัทต้องการ", listHTML(job.faculty))}
-
-        ${detailSection("วันและเวลาทำงาน", `
-          <div class="detail-grid">
-            ${detailItem("วันทำงาน", job.workDays)}
-            ${detailItem("เวลาทำงาน", job.workTime)}
-          </div>
-        `)}
-
-        ${detailSection("สวัสดิการ", `
-          <p>${escapeHTML(job.benefits)}</p>
-        `)}
-
-        <div class="demo-note">
-          ข้อมูลทั้งหมดเป็นข้อมูลสมมติสำหรับทดสอบเว็บไซต์เท่านั้น
-          ลิงก์สมัครงานยังไม่ส่งใบสมัครจริง
-        </div>
-      `;
-
-      modal.hidden = false;
-      document.body.classList.add("modal-open");
-      closeModalButton.focus();
-    }
-
-    function closeJobModal() {
-      if (modal.hidden) return;
-
-      modal.hidden = true;
-      document.body.classList.remove("modal-open");
-      activeJob = null;
-
-      if (lastFocusedElement && document.contains(lastFocusedElement)) {
-        lastFocusedElement.focus();
-      }
-    }
-
-    function demoApply(job) {
-      alert(
-        "นี่คือปุ่มสมัครงานตัวอย่าง\n\n" +
-        "ตำแหน่ง: " + job.title + "\n" +
-        "บริษัท: " + job.company + "\n\n" +
-        "ระบบยังไม่ส่งใบสมัครจริง"
-      );
-    }
-
-    function clearFilters() {
-      keywordInput.value = "";
-      familySelect.value = "";
-      locationSelect.value = "";
-      facultySelect.value = "";
-      selectedMonths = null;
-
-      quickButtons.forEach(button => button.classList.remove("active"));
-      renderJobs();
-    }
-
-    keywordInput.addEventListener("input", renderJobs);
-    familySelect.addEventListener("change", renderJobs);
-    locationSelect.addEventListener("change", renderJobs);
-    facultySelect.addEventListener("change", renderJobs);
-
-    quickButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        const months = Number(button.dataset.months);
-        selectedMonths = selectedMonths === months ? null : months;
-
-        quickButtons.forEach(item => {
-          item.classList.toggle(
-            "active",
-            Number(item.dataset.months) === selectedMonths
-          );
-        });
-
-        renderJobs();
-      });
-    });
-
-    clearFiltersButton.addEventListener("click", clearFilters);
-    closeModalButton.addEventListener("click", closeJobModal);
-    closeModalBottom.addEventListener("click", closeJobModal);
-
-    /* คลิกพื้นหลังนอกกล่องเพื่อปิด Popup */
-    modal.addEventListener("click", event => {
-      if (event.target === modal) {
-        closeJobModal();
-      }
-    });
-
-    /* กด Escape เพื่อปิด Popup */
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && !modal.hidden) {
-        closeJobModal();
-      }
-    });
-
-    /* ปุ่มทำงานบนการ์ด */
-    jobsList.addEventListener("click", event => {
-      const detailButton = event.target.closest("[data-detail]");
-      const applyButton = event.target.closest("[data-apply]");
-
-      if (detailButton) {
-        const job = jobs.find(item => item.id === detailButton.dataset.detail);
-        if (job) openJobModal(job);
-      }
-
-      if (applyButton) {
-        const job = jobs.find(item => item.id === applyButton.dataset.apply);
-        if (job) demoApply(job);
-      }
-    });
-
-    /* ปุ่มสมัครงานภายใน Popup เป็นปุ่มตัวอย่างเช่นกัน */
-    modalApply.addEventListener("click", () => {
-      if (activeJob) demoApply(activeJob);
-    });
-
-    setupFilters();
-    renderJobs();
-  </script>
+      <div class="job-actions">
+        <button class="btn btn-primary" type="button" data-detail="${esc(j.id)}">ดูรายละเอียด</button>
+        <button class="btn" type="button" data-apply="${esc(j.id)}">สมัครงาน</button>
+      </div>
+    </article>`).join("");
+}
+
+/* Dashboard ใช้ข้อมูลชุดเดียวกับรายการงาน และจะปรับตามตัวกรอง */
+function renderDashboard(data){
+  $("totalJobs").textContent=data.length;
+  $("totalFamilies").textContent=new Set(data.map(j=>j.family)).size;
+  $("totalFaculties").textContent=new Set(data.flatMap(j=>j.faculty)).size;
+
+  const months=[
+    {label:"สิงหาคม",month:7},
+    {label:"กันยายน",month:8},
+    {label:"ตุลาคม",month:9}
+  ];
+  const counts=months.map(m=>({
+    ...m,count:data.filter(j=>Number(j.published.slice(5,7))===m.month+1).length
+  }));
+  const maxMonth=Math.max(1,...counts.map(m=>m.count));
+  $("monthChart").innerHTML=counts.map(m=>`
+    <div class="month-column">
+      <div class="month-count">${m.count}</div>
+      <div class="month-bar-area">
+        <div class="month-bar" style="height:${Math.max(3,m.count/maxMonth*100)}%" title="${m.count} ประกาศ"></div>
+      </div>
+      <div class="month-label">${m.label}</div>
+    </div>`).join("");
+
+  renderBarChart("familyChart",countBy(data,j=>j.family));
+  renderBarChart("locationChart",countBy(data,j=>j.location));
+
+  const facultyCounts={};
+  data.forEach(j=>j.faculty.forEach(f=>facultyCounts[f]=(facultyCounts[f]||0)+1));
+  renderBarChart("facultyChart",Object.entries(facultyCounts).sort((a,b)=>b[1]-a[1]).slice(0,6));
+}
+function countBy(data,getKey){
+  const map={};
+  data.forEach(j=>{const key=getKey(j);map[key]=(map[key]||0)+1;});
+  return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,6);
+}
+function renderBarChart(elementId,entries){
+  const el=$(elementId);
+  if(!entries.length){el.innerHTML='<p class="chart-subtitle">ไม่มีข้อมูล</p>';return;}
+  const max=Math.max(1,...entries.map(e=>e[1]));
+  el.innerHTML=entries.map(([label,value])=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${esc(label)}">${esc(label)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${value/max*100}%"></div></div>
+      <div class="bar-count">${value}</div>
+    </div>`).join("");
+}
+function refresh(){
+  const filtered=getFilteredJobs();
+  renderDashboard(filtered);
+  renderJobs();
+}
+function detailItem(label,value){
+  return `<div class="detail-item"><div class="detail-label">${esc(label)}</div><div class="detail-value">${esc(value||"ไม่ระบุ")}</div></div>`;
+}
+function section(title,content){
+  return `<section class="detail-section"><h3>${esc(title)}</h3>${content}</section>`;
+}
+function listHTML(items){
+  return items?.length?`<ul class="detail-list">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"<p>ไม่ระบุ</p>";
+}
+function openModal(job){
+  activeJob=job;lastFocus=document.activeElement;
+  $("modalTitle").textContent=job.title;
+  $("modalCompany").textContent=job.company;
+  const logo=$("modalLogo");logo.innerHTML="";
+  if(job.logoUrl){
+    const img=document.createElement("img");img.src=job.logoUrl;img.alt="โลโก้บริษัท";
+    img.onerror=()=>logo.textContent=job.logoText;logo.appendChild(img);
+  }else logo.textContent=job.logoText;
+
+  $("modalBody").innerHTML=
+    section("ข้อมูลตำแหน่งงาน",`<div class="detail-grid">
+      ${detailItem("ชื่อตำแหน่ง",job.title)}
+      ${detailItem("ประเภทงาน","งานประจำ (Full-time)")}
+      ${detailItem("สายงาน",job.family)}
+      ${detailItem("จำนวนที่รับ",job.quantity)}
+      ${detailItem("พื้นที่ทำงาน",job.location)}
+      ${detailItem("เงินเดือน",job.salary)}</div>`)
+    +section("วันที่สำคัญ",`<div class="detail-grid">
+      ${detailItem("วันที่ประกาศ",dateText(job.published))}
+      ${detailItem("วันที่เปิดรับสมัคร",dateText(job.startDate))}
+      ${detailItem("วันที่สิ้นสุดรับสมัคร",dateText(job.endDate))}</div>`)
+    +section("รายละเอียดงาน",`<p>${esc(job.description)}</p>`)
+    +section("หน้าที่ความรับผิดชอบ",listHTML(job.duties))
+    +section("คุณสมบัติผู้สมัคร",listHTML(job.qualifications))
+    +section("คณะที่บริษัทต้องการ",listHTML(job.faculty))
+    +section("วันและเวลาทำงาน",`<div class="detail-grid">
+      ${detailItem("วันทำงาน",job.workDays)}${detailItem("เวลาทำงาน",job.workTime)}</div>`)
+    +section("สวัสดิการ",`<p>${esc(job.benefits)}</p>`)
+    +'<div class="demo-note">ข้อมูลนี้เป็นข้อมูลสมมติสำหรับทดสอบ ลิงก์สมัครงานยังไม่ส่งใบสมัครจริง</div>';
+
+  modal.hidden=false;
+  document.body.classList.add("modal-open");
+  $("closeModal").focus();
+}
+function closeModal(){
+  if(modal.hidden)return;
+  modal.hidden=true;document.body.classList.remove("modal-open");activeJob=null;
+  if(lastFocus&&document.contains(lastFocus))lastFocus.focus();
+}
+function demoApply(job){
+  alert("ปุ่มสมัครงานตัวอย่าง\n\nตำแหน่ง: "+job.title+"\nบริษัท: "+job.company+"\n\nระบบยังไม่ส่งใบสมัครจริง");
+}
+function clearFilters(){
+  keywordInput.value="";familySelect.value="";locationSelect.value="";facultySelect.value="";
+  selectedMonths=null;
+  document.querySelectorAll(".quick-btn").forEach(b=>b.classList.remove("active"));
+  refresh();
+}
+
+[keywordInput,familySelect,locationSelect,facultySelect].forEach(el=>{
+  el.addEventListener(el===keywordInput?"input":"change",refresh);
+});
+document.querySelectorAll(".quick-btn").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const months=Number(button.dataset.months);
+    selectedMonths=selectedMonths===months?null:months;
+    document.querySelectorAll(".quick-btn").forEach(b=>b.classList.toggle("active",Number(b.dataset.months)===selectedMonths));
+    refresh();
+  });
+});
+$("clearFilters").addEventListener("click",clearFilters);
+jobsList.addEventListener("click",event=>{
+  const detail=event.target.closest("[data-detail]");
+  const apply=event.target.closest("[data-apply]");
+  if(detail){const job=jobs.find(j=>j.id===detail.dataset.detail);if(job)openModal(job);}
+  if(apply){const job=jobs.find(j=>j.id===apply.dataset.apply);if(job)demoApply(job);}
+});
+$("closeModal").addEventListener("click",closeModal);
+$("closeModalBottom").addEventListener("click",closeModal);
+modal.addEventListener("click",event=>{if(event.target===modal)closeModal();});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!modal.hidden)closeModal();});
+$("modalApply").addEventListener("click",()=>{if(activeJob)demoApply(activeJob);});
+
+setupFilters();
+refresh();
+</script>
 </body>
 </html>
