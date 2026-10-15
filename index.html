@@ -1730,24 +1730,25 @@
     }
 
     function clearFilters() {
-      $("searchInput").value = "";
-      $("familyFilter").value = "";
-      $("locationFilter").value = "";
-      $("facultyFilter").value = "";
+  // ล้างคำค้นหา
+  $("searchInput").value = "";
 
-      selectedMonths = 0;
+  // รีเซ็ตตัวกรองทั้งหมด
+  $("familyFilter").value = "";
+  $("locationFilter").value = "";
+  $("facultyFilter").value = "";
 
-      document.querySelectorAll(".period-button").forEach(button => {
-        button.classList.toggle(button.classList.contains("active") ? "active" : "", false);
-        button.classList.remove("active");
+  // แสดงประกาศงานทั้งหมด ไม่จำกัดช่วงเวลา
+  selectedMonths = 0;
 
-        if (button.dataset.months === "0") {
-          button.classList.add("active");
-        }
-      });
+  // รีเซ็ตปุ่มช่วงเวลาให้เลือก "ทั้งหมด"
+  document.querySelectorAll(".period-button").forEach(button => {
+    button.classList.toggle("active", button.dataset.months === "0");
+  });
 
-      renderAll();
-    }
+  // อัปเดตผลการค้นหา ตัวเลขสรุป และกราฟทั้งหมด
+  renderAll();
+}
 
     function initialize() {
       populateSelect("familyFilter", getUniqueValues("family"), "ทุกสายงาน");
