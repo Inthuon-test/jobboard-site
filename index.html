@@ -317,4 +317,1665 @@
       flex-shrink: 0;
       border-radius: 50%;
       background: #e8eaf2;
-      position:
+      position: relative;
+    }
+
+    .pie-chart::after {
+      content: "";
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .pie-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      max-width: 230px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      border-radius: 3px;
+      margin-top: 3px;
+    }
+
+    .legend-count {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 17px;
+    }
+
+    .bar-item {
+      min-width: 0;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+
+    .bar-label span:first-child {
+      overflow-wrap: anywhere;
+    }
+
+    .bar-label span:last-child {
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 9px;
+      border-radius: 20px;
+      background: #f0f1f7;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #818cf8, #4f46e5);
+      min-width: 2px;
+    }
+
+    .jobs-section {
+      scroll-margin-top: 90px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      font-size: 21px;
+      margin: 0 0 6px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .job-count {
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .job-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .period-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .period-button {
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--muted);
+      border-radius: 8px;
+    }
+
+    .period-button.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .sort-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    [hidden] { display: none !important; }
+
+    .jobs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .job-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 19px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .job-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 9px 28px rgba(31, 41, 75, 0.09);
+    }
+
+    .job-card-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .company-logo {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 800;
+      overflow: hidden;
+    }
+
+    .company-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+    }
+
+    .job-title-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .job-title {
+      margin: 0 0 5px;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .company-name {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .new-tag {
+      flex-shrink: 0;
+      background: #dcfce7;
+      color: #15803d;
+      border-radius: 6px;
+      padding: 5px 7px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .job-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .job-tag {
+      background: #f5f6fa;
+      border: 1px solid #eceef5;
+      color: #555b72;
+      padding: 5px 8px;
+      border-radius: 7px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .job-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .salary {
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .job-card-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .published-date {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .details-button {
+      padding: 9px 13px;
+      border: 0;
+      border-radius: 8px;
+      color: white;
+      background: var(--primary);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .details-button:hover {
+      background: #4338ca;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 48px 20px;
+      text-align: center;
+      border: 1px dashed #d7d9e6;
+      background: white;
+      border-radius: 15px;
+    }
+
+    .empty-icon {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 8px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .footer {
+      margin-top: 32px;
+      border-top: 1px solid var(--border);
+      padding: 22px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      background: rgba(20, 24, 46, 0.55);
+      padding: 20px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 17px;
+      padding: 25px;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .modal-header h2 {
+      margin: 0 0 7px;
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .modal-company {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .close-button {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 9px;
+      font-size: 20px;
+    }
+
+    .modal-section {
+      margin-bottom: 21px;
+    }
+
+    .modal-section h3 {
+      font-size: 14px;
+      margin: 0 0 10px;
+    }
+
+    .modal-section p {
+      color: #535970;
+      line-height: 1.9;
+      white-space: pre-line;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-bottom: 22px;
+    }
+
+    .modal-info {
+      background: #f8f9fc;
+      border-radius: 10px;
+      padding: 13px;
+      min-width: 0;
+    }
+
+    .modal-info .info-value {
+      font-size: 13px;
+    }
+
+    .apply-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      padding: 12px 19px;
+      border-radius: 9px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+    }
+
+    .apply-button:hover {
+      background: #4338ca;
+    }
+
+    .apply-button.disabled {
+      background: #d8daea;
+      color: #737991;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1100px) {
+      .layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+      }
+
+      main {
+        padding: 22px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pie-layout {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        height: auto;
+        min-height: 66px;
+        padding: 13px 17px;
+      }
+
+      .brand-name {
+        font-size: 19px;
+      }
+
+      .topbar-right { display: none; }
+      .topbar { flex-wrap: wrap; }
+      .topnav { width: 100%; justify-content: flex-start; }
+      .topnav a { padding: 7px 9px; }
+      .hero-actions { margin-top: 14px; }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 18px;
+      }
+
+      .sidebar-heading {
+        margin-bottom: 13px;
+      }
+
+      .filter-group {
+        margin-bottom: 13px;
+      }
+
+      .sidebar-note {
+        margin-top: 15px;
+      }
+
+      main {
+        padding: 19px 15px;
+      }
+
+      .welcome {
+        display: block;
+      }
+
+      .welcome h1 {
+        font-size: 23px;
+      }
+
+      .date-chip {
+        display: inline-block;
+        margin-top: 13px;
+      }
+
+      .stats {
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-number {
+        font-size: 25px;
+      }
+
+      .jobs {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+      }
+
+      .job-count {
+        white-space: normal;
+        text-align: right;
+      }
+
+      .pie-layout {
+        justify-content: center;
+      }
+
+      .pie-legend {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-top {
+        align-items: flex-start;
+      }
+
+      .stat-icon {
+        width: 31px;
+        height: 31px;
+        font-size: 15px;
+      }
+
+      .stat-number {
+        font-size: 22px;
+      }
+
+      .job-info,
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .new-tag {
+        display: none;
+      }
+
+      .pie-chart {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-logo">C</div>
+        <div>
+          <div class="brand-name">CareerSpace</div>
+          <div class="brand-subtitle">Find your next opportunity</div>
+        </div>
+      </div>
+      <nav class="topnav" aria-label="เมนูหลัก">
+        <a href="#home" class="active" data-nav="home">หน้าแรก</a>
+        <a href="#jobsSection" data-nav="jobs">ค้นหางาน</a>
+        <a href="#jobsSection" data-nav="history">ประวัติประกาศ</a>
+      </nav>
+      <div class="topbar-right">พื้นที่ค้นหาโอกาสในการทำงานของคุณ</div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-heading">ค้นหาและกรองประกาศงาน</h2>
+
+        <div class="filter-group">
+          <label for="searchInput">ค้นหางานหรือบริษัท</label>
+          <input id="searchInput" type="search"
+            placeholder="เช่น IT Support, ชื่อบริษัท">
+        </div>
+
+        <div class="filter-group">
+          <label for="familyFilter">สายงาน</label>
+          <select id="familyFilter">
+            <option value="">ทุกสายงาน</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="locationFilter">สถานที่ทำงาน</label>
+          <select id="locationFilter">
+            <option value="">ทุกพื้นที่</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="facultyFilter">คณะที่บริษัทต้องการ</label>
+          <select id="facultyFilter">
+            <option value="">ทุกคณะ</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="educationFilter">ระดับการศึกษา</label>
+          <select id="educationFilter"><option value="">ทุกระดับการศึกษา</option></select>
+        </div>
+
+        <div class="filter-group">
+          <label for="experienceFilter">ประสบการณ์ทำงาน</label>
+          <select id="experienceFilter">
+            <option value="">ทุกระดับประสบการณ์</option>
+            <option value="no-experience">ยินดีรับผู้ไม่มีประสบการณ์</option>
+            <option value="experienced">ต้องมีประสบการณ์</option>
+            <option value="unknown">ไม่ระบุประสบการณ์</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="salaryMinFilter">เงินเดือนขั้นต่ำ</label>
+          <select id="salaryMinFilter">
+            <option value="0">ทุกช่วงเงินเดือน</option>
+            <option value="12000">12,000 บาทขึ้นไป</option>
+            <option value="13000">13,000 บาทขึ้นไป</option>
+            <option value="14000">14,000 บาทขึ้นไป</option>
+            <option value="15000">15,000 บาทขึ้นไป</option>
+            <option value="16000">16,000 บาทขึ้นไป</option>
+            <option value="17000">17,000 บาทขึ้นไป</option>
+            <option value="18000">18,000 บาทขึ้นไป</option>
+            <option value="19000">19,000 บาทขึ้นไป</option>
+            <option value="20000">20,000 บาทขึ้นไป</option>
+            <option value="21000">21,000 บาทขึ้นไป</option>
+            <option value="22000">22,000 บาทขึ้นไป</option>
+            <option value="23000">23,000 บาทขึ้นไป</option>
+            <option value="24000">24,000 บาทขึ้นไป</option>
+            <option value="25000">25,000 บาทขึ้นไป</option>
+            <option value="26000">26,000 บาทขึ้นไป</option>
+            <option value="27000">27,000 บาทขึ้นไป</option>
+            <option value="28000">28,000 บาทขึ้นไป</option>
+            <option value="29000">29,000 บาทขึ้นไป</option>
+            <option value="30000">30,000 บาทขึ้นไป</option>
+            <option value="31000">31,000 บาทขึ้นไป</option>
+            <option value="32000">32,000 บาทขึ้นไป</option>
+            <option value="33000">33,000 บาทขึ้นไป</option>
+            <option value="34000">34,000 บาทขึ้นไป</option>
+            <option value="35000">35,000 บาทขึ้นไป</option>
+            <option value="36000">36,000 บาทขึ้นไป</option>
+            <option value="37000">37,000 บาทขึ้นไป</option>
+            <option value="38000">38,000 บาทขึ้นไป</option>
+            <option value="39000">39,000 บาทขึ้นไป</option>
+            <option value="40000">40,000 บาทขึ้นไป</option>
+            <option value="41000">41,000 บาทขึ้นไป</option>
+            <option value="42000">42,000 บาทขึ้นไป</option>
+            <option value="43000">43,000 บาทขึ้นไป</option>
+            <option value="44000">44,000 บาทขึ้นไป</option>
+            <option value="45000">45,000 บาทขึ้นไป</option>
+            <option value="46000">46,000 บาทขึ้นไป</option>
+            <option value="47000">47,000 บาทขึ้นไป</option>
+            <option value="48000">48,000 บาทขึ้นไป</option>
+            <option value="49000">49,000 บาทขึ้นไป</option>
+            <option value="50000">50,000 บาทขึ้นไป</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="salarySortFilter">เรียงลำดับเงินเดือน</label>
+          <select id="salarySortFilter">
+            <option value="newest">ประกาศใหม่ไปเก่า</option>
+            <option value="high">เงินเดือนมากไปน้อย</option>
+            <option value="low">เงินเดือนน้อยไปมาก</option>
+          </select>
+        </div>
+
+        <button class="clear-button" id="clearFilters">
+          ล้างตัวกรองทั้งหมด
+        </button>
+
+        <div class="sidebar-note">
+          <strong>เคล็ดลับ</strong><br>
+          เลือกสายงานหรือพื้นที่ที่สนใจ เพื่อค้นหาตำแหน่งที่เหมาะกับคุณได้ง่ายขึ้น
+        </div>
+      </aside>
+
+      <main>
+        <section class="welcome">
+          <div id="home">
+            <h1>ค้นพบงานที่ใช่สำหรับคุณ 👋</h1>
+            <p>ค้นหาตำแหน่งงานประจำที่เปิดรับ พร้อมดูข้อมูลบริษัทและประวัติประกาศงานได้ในที่เดียว</p>
+            <div class="hero-actions">
+              <a class="hero-link primary" href="#jobsSection" id="heroSearch">ค้นหาตำแหน่งงาน</a>
+              <a class="hero-link" href="#jobsSection" id="heroHistory">ดูประวัติประกาศงาน</a>
+            </div>
+          </div>
+          <div class="date-chip" id="todayLabel">ข้อมูลประกาศงาน</div>
+        </section>
+
+        <div class="status-summary" aria-label="สรุปสถานะประกาศงาน">
+          <span class="status-pill open">● เปิดรับสมัคร <strong id="openJobsCount">0</strong></span>
+          <span class="status-pill closed">● ปิดรับสมัครแล้ว <strong id="closedJobsCount">0</strong></span>
+          <span class="status-pill unknown">● ไม่ระบุวันปิดรับ <strong id="unknownEndCount">0</strong></span>
+        </div>
+
+        <section class="stats">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">จำนวนอัตราที่เปิดรับ</div>
+              <div class="stat-icon">💼</div>
+            </div>
+            <div class="stat-number" id="totalOpenings">0</div>
+            <div class="stat-foot">รวมจำนวนอัตราของงานที่แสดง</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">บริษัทที่เปิดรับสมัคร</div>
+              <div class="stat-icon">🏢</div>
+            </div>
+            <div class="stat-number" id="totalCompanies">0</div>
+            <div class="stat-foot">นับบริษัทไม่ซ้ำกัน</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">สายงานที่เปิดรับ</div>
+              <div class="stat-icon">🧭</div>
+            </div>
+            <div class="stat-number" id="totalFamilies">0</div>
+            <div class="stat-foot">นับสายงานไม่ซ้ำกัน</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-label">ประกาศใน 30 วัน</div>
+              <div class="stat-icon">✨</div>
+            </div>
+            <div class="stat-number" id="recentJobs">0</div>
+            <div class="stat-foot">อ้างอิงจากวันที่ประกาศ</div>
+          </div>
+        </section>
+
+        <section class="charts-grid">
+          <div class="chart-card">
+            <h2>สัดส่วนประเภทธุรกิจของบริษัท</h2>
+            <div class="chart-description">
+              แสดงสัดส่วนตามประเภทธุรกิจของบริษัทที่มีประกาศงานในรายการที่เลือก
+            </div>
+            <div class="pie-layout">
+              <div class="pie-chart" id="sectorPie"></div>
+              <div class="pie-legend" id="sectorLegend"></div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h2>จำนวนอัตราตามสายงาน</h2>
+            <div class="chart-description">
+              เปรียบเทียบจำนวนอัตราที่เปิดรับในแต่ละสายงาน
+            </div>
+            <div class="bar-chart" id="familyBars"></div>
+          </div>
+
+          <div class="chart-card">
+            <h2>จำนวนอัตราตามคณะ</h2>
+            <div class="chart-description">
+              แสดงจำนวนอัตราตามคณะที่บริษัทระบุว่าต้องการ
+            </div>
+            <div class="bar-chart" id="facultyBars"></div>
+          </div>
+
+          <div class="chart-card">
+            <h2>จำนวนอัตราตามพื้นที่</h2>
+            <div class="chart-description">
+              ดูว่าพื้นที่ใดมีจำนวนอัตราเปิดรับมากที่สุด
+            </div>
+            <div class="bar-chart" id="locationBars"></div>
+          </div>
+        </section>
+
+        <section class="jobs-section" id="jobsSection">
+          <div class="view-tabs" role="tablist" aria-label="ประเภทประกาศ">
+            <button class="view-tab active" id="activeJobsTab" type="button">งานที่เปิดรับ</button>
+            <button class="view-tab" id="historyJobsTab" type="button">ประวัติประกาศงาน</button>
+          </div>
+          <p class="history-note" id="historyNote">แสดงประกาศงานที่ยังไม่พ้นวันปิดรับสมัคร หากไม่ระบุวันปิดรับจะแสดงไว้พร้อมป้ายแจ้งให้ตรวจสอบ</p>
+          <div class="section-heading">
+            <div>
+              <h2>ประกาศงานทั้งหมด</h2>
+              <p>งานใหม่แสดงก่อน และเรียงเงินเดือนสูงไปต่ำเมื่อวันที่ประกาศตรงกัน</p>
+            </div>
+            <div class="job-count" id="jobCount">0 ตำแหน่ง</div>
+          </div>
+
+          <div class="job-toolbar">
+            <div class="period-buttons">
+              <button class="period-button active" data-months="0">ทั้งหมด</button>
+              <button class="period-button" data-months="1">ย้อนหลัง 1 เดือน</button>
+              <button class="period-button" data-months="2">ย้อนหลัง 2 เดือน</button>
+              <button class="period-button" data-months="3">ย้อนหลัง 3 เดือน</button>
+            </div>
+            <div class="sort-note">
+              เลือกเรียงตามวันที่ประกาศ หรือเงินเดือนจากมากไปน้อย/น้อยไปมากได้จากตัวกรอง
+            </div>
+          </div>
+
+          <div class="jobs" id="jobsContainer"></div>
+          <div class="jobs" id="salaryUnknownContainer" hidden></div>
+        </section>
+
+        <footer class="footer">
+          CareerSpace — พื้นที่ค้นหาโอกาสในการทำงาน<br>
+          ข้อมูลตัวอย่างสำหรับ Phase 1 · ไม่มีการเชื่อมต่อ Google Sheets หรือ Apps Script · ปุ่มสมัครงานเป็นตัวอย่างเท่านั้น
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="jobModal" role="dialog"
+    aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle"></h2>
+          <div class="modal-company" id="modalCompany"></div>
+        </div>
+        <button class="close-button" id="closeModal" aria-label="ปิด">×</button>
+      </div>
+
+      <div class="modal-grid" id="modalInfo"></div>
+
+      <div class="modal-section">
+        <h3>รายละเอียดงาน</h3>
+        <p id="modalDescription"></p>
+      </div>
+
+      <div class="modal-section">
+        <h3>คุณสมบัติผู้สมัคร</h3>
+        <p id="modalQualifications"></p>
+      </div>
+
+      <div class="modal-section">
+        <h3>สวัสดิการ</h3>
+        <p id="modalBenefits"></p>
+      </div>
+
+      <a class="apply-button" id="modalApply" href="#" target="_blank"
+        rel="noopener noreferrer">สมัครงาน</a>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // ข้อมูลตัวอย่าง
+    // เปลี่ยนข้อมูลในส่วนนี้เพื่อเพิ่มหรือแก้ไขประกาศงาน
+    // ==========================================
+
+    const jobs = [
+      {
+        id: "JOB001",
+        companyId: "COMP001",
+        publicationStatus: "published",
+        title: "IT Support",
+        company: "Example Technology",
+        businessSector: "เทคโนโลยีและ IT",
+        family: "เทคโนโลยีสารสนเทศ",
+        location: "กรุงเทพมหานคร",
+        quantity: 2,
+        salary: "18,000–22,000 บาท",
+        publishedDate: "2026-10-10",
+        startDate: "2026-10-10",
+        endDate: "2026-11-10",
+        faculties: ["คณะเทคโนโลยีสารสนเทศ"],
+        educationLevel: "ปริญญาตรี",
+        experience: "0 ปี",
+        acceptsNoExperience: true,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "ให้ความช่วยเหลือและแก้ไขปัญหาด้าน IT เบื้องต้นแก่พนักงาน\nติดตั้งและดูแลอุปกรณ์คอมพิวเตอร์ รวมถึงโปรแกรมที่ใช้ในองค์กร",
+        qualifications:
+          "จบการศึกษาด้าน IT หรือสาขาที่เกี่ยวข้อง\nมีความรู้พื้นฐานด้าน Hardware, Software และ Network\nมีใจรักงานบริการและการแก้ไขปัญหา",
+        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด\nสวัสดิการอื่น ๆ ตามเงื่อนไขบริษัท"
+      },
+      {
+        id: "JOB002",
+        companyId: "COMP002",
+        publicationStatus: "published",
+        title: "Transport Coordinator",
+        company: "Demo Logistics",
+        businessSector: "โลจิสติกส์และขนส่ง",
+        family: "โลจิสติกส์และซัพพลายเชน",
+        location: "นนทบุรี",
+        quantity: 3,
+        salary: "17,000–20,000 บาท",
+        publishedDate: "2026-10-10",
+        startDate: "2026-10-10",
+        endDate: "2026-11-10",
+        faculties: ["คณะการจัดการโลจิสติกส์และการคมนาคมขนส่ง"],
+        educationLevel: "ปริญญาตรี",
+        experience: "1–2 ปี",
+        acceptsNoExperience: false,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "ประสานงานการขนส่งและติดตามสถานะการจัดส่งสินค้า\nจัดทำเอกสารและติดต่อประสานงานกับหน่วยงานที่เกี่ยวข้อง",
+        qualifications:
+          "มีทักษะการประสานงานและการสื่อสาร\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
+        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB003",
+        companyId: "COMP003",
+        publicationStatus: "published",
+        title: "Graphic Designer",
+        company: "Creative Studio",
+        businessSector: "สื่อและความบันเทิง",
+        family: "ออกแบบและสร้างสรรค์",
+        location: "กรุงเทพมหานคร",
+        quantity: 1,
+        salary: "18,000–25,000 บาท",
+        publishedDate: "2026-10-10",
+        startDate: "2026-10-10",
+        endDate: "2026-11-10",
+        faculties: ["คณะนิเทศศาสตร์", "คณะศิลปศาสตร์"],
+        educationLevel: "ปริญญาตรี",
+        experience: "0 ปี",
+        acceptsNoExperience: true,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "ออกแบบสื่อประชาสัมพันธ์สำหรับช่องทางออนไลน์\nร่วมคิดและพัฒนาแนวทางการสื่อสารภาพลักษณ์ของแบรนด์",
+        qualifications:
+          "มีพื้นฐานการออกแบบและการจัดองค์ประกอบ\nสามารถใช้โปรแกรมออกแบบที่เกี่ยวข้องได้\nมีผลงานสำหรับนำเสนอ",
+        benefits: "ประกันสังคม\nสภาพแวดล้อมการทำงานสร้างสรรค์"
+      },
+      {
+        id: "JOB007",
+        companyId: "COMP004",
+        publicationStatus: "published",
+        title: "Marketing Officer",
+        company: "Food Demo",
+        businessSector: "อาหารและเครื่องดื่ม",
+        family: "การตลาด",
+        location: "สมุทรปราการ",
+        quantity: 2,
+        salary: "17,000–23,000 บาท",
+        publishedDate: "2026-10-10",
+        startDate: "2026-10-10",
+        endDate: "",
+        faculties: ["คณะบริหารธุรกิจ"],
+        educationLevel: "ปริญญาตรี",
+        experience: "1–2 ปี",
+        acceptsNoExperience: false,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "สนับสนุนการดำเนินงานด้านการตลาดและกิจกรรมส่งเสริมการขาย\nประสานงานกับทีมภายในและจัดทำรายงานผลการดำเนินงาน",
+        qualifications:
+          "มีทักษะการสื่อสารและประสานงาน\nสนใจงานด้านการตลาดและการสร้างแบรนด์",
+        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB004",
+        companyId: "COMP005",
+        publicationStatus: "published",
+        title: "Japanese Coordinator",
+        company: "Global Service",
+        businessSector: "บริการและท่องเที่ยว",
+        family: "ภาษาและงานประสานงาน",
+        location: "ปทุมธานี",
+        quantity: 2,
+        salary: "18,000–25,000 บาท",
+        publishedDate: "2026-09-28",
+        startDate: "2026-09-28",
+        endDate: "2026-10-28",
+        faculties: ["คณะศิลปศาสตร์", "คณะบริหารธุรกิจ"],
+        educationLevel: "ปริญญาตรี",
+        experience: "0 ปี",
+        acceptsNoExperience: true,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "ประสานงานระหว่างพนักงานชาวไทยและชาวญี่ปุ่น\nจัดเตรียมเอกสารและสนับสนุนงานที่เกี่ยวข้องกับภาษาญี่ปุ่น",
+        qualifications:
+          "สามารถสื่อสารภาษาญี่ปุ่นได้\nมีทักษะการประสานงานและการทำงานเป็นทีม",
+        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB005",
+        companyId: "COMP004",
+        publicationStatus: "published",
+        title: "Marketing Officer",
+        company: "Food Demo",
+        businessSector: "อาหารและเครื่องดื่ม",
+        family: "การตลาด",
+        location: "สมุทรปราการ",
+        quantity: 2,
+        salary: "17,000–23,000 บาท",
+        publishedDate: "2026-09-12",
+        startDate: "2026-09-12",
+        endDate: "2026-10-12",
+        faculties: ["คณะบริหารธุรกิจ"],
+        educationLevel: "ปริญญาตรี",
+        experience: "0 ปี",
+        acceptsNoExperience: true,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "สนับสนุนงานการตลาดและกิจกรรมประชาสัมพันธ์สินค้า\nจัดทำข้อมูลและประสานงานกับทีมที่เกี่ยวข้อง",
+        qualifications:
+          "มีทักษะการสื่อสารและการทำงานเป็นทีม\nสนใจงานด้านการตลาด",
+        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB006",
+        companyId: "COMP006",
+        publicationStatus: "published",
+        title: "HR Officer",
+        company: "Office Solution",
+        businessSector: "บริการและธุรกิจสำนักงาน",
+        family: "ทรัพยากรบุคคล",
+        location: "กรุงเทพมหานคร",
+        quantity: 1,
+        salary: "18,000–22,000 บาท",
+        publishedDate: "2026-08-20",
+        startDate: "2026-08-20",
+        endDate: "2026-09-20",
+        faculties: ["คณะบริหารธุรกิจ", "คณะศิลปศาสตร์"],
+        educationLevel: "ปริญญาตรี",
+        experience: "1–2 ปี",
+        acceptsNoExperience: false,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "สนับสนุนงานเอกสารและงานประสานงานด้านทรัพยากรบุคคล\nดูแลข้อมูลพนักงานและช่วยดำเนินงานตามที่ได้รับมอบหมาย",
+        qualifications:
+          "มีความละเอียดรอบคอบ\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
+        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB008",
+        companyId: "COMP006",
+        publicationStatus: "published",
+        title: "Customer Service Officer",
+        company: "Office Solution",
+        businessSector: "บริการและธุรกิจสำนักงาน",
+        family: "บริการลูกค้า",
+        location: "กรุงเทพมหานคร",
+        quantity: 4,
+        salary: "16,000–19,000 บาท",
+        publishedDate: "2026-08-03",
+        startDate: "2026-08-03",
+        endDate: "2026-09-03",
+        faculties: ["คณะบริหารธุรกิจ", "คณะศิลปศาสตร์"],
+        educationLevel: "ไม่ระบุ",
+        experience: "ไม่ระบุ",
+        acceptsNoExperience: false,
+        logoUrl: "",
+        applyUrl: "",
+        description:
+          "ให้ข้อมูลและประสานงานกับลูกค้า\nติดตามเรื่องที่ได้รับแจ้งและประสานงานกับหน่วยงานที่เกี่ยวข้อง",
+        qualifications:
+          "มีทักษะการสื่อสารและการแก้ไขปัญหา\nมีใจรักงานบริการ",
+        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
+      },
+      {
+        id: "JOB009",
+        companyId: "COMP007",
+        publicationStatus: "published",
+        title: "เจ้าหน้าที่ประสานงานทั่วไป",
+        company: "Sample Service Co.",
+        businessSector: "บริการและธุรกิจสำนักงาน",
+        family: "ภาษาและงานประสานงาน",
+        location: "นนทบุรี",
+        quantity: 1,
+        salary: "ไม่ระบุ",
+        publishedDate: "2026-10-15",
+        startDate: "2026-10-15",
+        endDate: "",
+        faculties: [],
+        educationLevel: "ไม่ระบุ",
+        experience: "ไม่ระบุ",
+        acceptsNoExperience: false,
+        logoUrl: "",
+        applyUrl: "",
+        description: "สนับสนุนงานเอกสารและประสานงานทั่วไปภายในบริษัท",
+        qualifications: "คุณสมบัติและระดับการศึกษารอการยืนยันจากบริษัท",
+        benefits: "ไม่ระบุ"
+      }
+    ];
+    // ==========================================
+    // ค่าตั้งต้นและตัวช่วย
+    // ==========================================
+
+    const chartColors = [
+      "#4f46e5",
+      "#0d9488",
+      "#f59e0b",
+      "#ec4899",
+      "#3b82f6",
+      "#8b5cf6",
+      "#64748b",
+      "#16a34a"
+    ];
+
+    let selectedMonths = 0;
+    let currentView = "active";
+
+    const $ = id => document.getElementById(id);
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function parseLocalDate(dateString) {
+      if (!dateString) return null;
+
+      const parts = String(dateString).split("-").map(Number);
+      if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
+
+      const date = new Date(parts[0], parts[1] - 1, parts[2]);
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function formatDate(dateString) {
+      const date = parseLocalDate(dateString);
+      if (!date) return "ไม่ระบุ";
+
+      return date.toLocaleDateString("th-TH", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function formatNumber(number) {
+      return Number(number || 0).toLocaleString("th-TH");
+    }
+
+    function getSalaryStart(job) {
+      // ใช้ตัวเลขแรกของเงินเดือน เช่น 18,000–22,000 บาท = 18000
+      // หากไม่ระบุเงินเดือน ให้ถือเป็น 0 เพื่อให้แสดงหลังรายการที่มีเงินเดือน
+      const matches = String(job.salary || "")
+        .replace(/,/g, "")
+        .match(/\d+(?:\.\d+)?/g);
+
+      return matches ? Number(matches[0]) : 0;
+    }
+
+    function getUniqueValues(key) {
+      return [...new Set(
+        jobs.flatMap(job => {
+          const value = job[key];
+          return Array.isArray(value) ? value : [value];
+        }).filter(Boolean)
+      )].sort((a, b) => String(a).localeCompare(String(b), "th"));
+    }
+
+    function populateSelect(selectId, values, placeholder) {
+      const select = $(selectId);
+      select.innerHTML =
+        `<option value="">${escapeHTML(placeholder)}</option>` +
+        values.map(value =>
+          `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`
+        ).join("");
+    }
+
+    function getJobStatus(job) {
+      const endDate = parseLocalDate(job.endDate);
+      if (!endDate) return "unknown";
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      return endDate < today ? "closed" : "open";
+    }
+
+    function getDaysUntilClosing(job) {
+      const endDate = parseLocalDate(job.endDate);
+      if (!endDate) return null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      return Math.round((endDate - today) / 86400000);
+    }
+
+    function getFilteredJobs() {
+      const query = $("searchInput").value.trim().toLowerCase();
+      const family = $("familyFilter").value;
+      const location = $("locationFilter").value;
+      const faculty = $("facultyFilter").value;
+      const education = $("educationFilter").value;
+      const experience = $("experienceFilter").value;
+      const minSalary = Number($("salaryMinFilter").value || 0);
+      const salarySort = $("salarySortFilter").value || "newest";
+
+      const now = new Date();
+      now.setHours(23, 59, 59, 999);
+      let cutoff = null;
+      if (currentView === "history" && selectedMonths > 0) {
+        cutoff = new Date();
+        cutoff.setHours(0, 0, 0, 0);
+        cutoff.setMonth(cutoff.getMonth() - selectedMonths);
+      }
+
+      const filteredJobs = jobs.filter(job => {
+        // Phase 1 แสดงเฉพาะประกาศที่ผ่านการเผยแพร่แล้ว
+        if ((job.publicationStatus || "published") !== "published") return false;
+
+        const searchable = [job.title, job.company, job.companyId, job.businessSector,
+          job.family, job.location, job.description].join(" ").toLowerCase();
+        if (query && !searchable.includes(query)) return false;
+        if (family && job.family !== family) return false;
+        if (location && job.location !== location) return false;
+        if (faculty && !(job.faculties || []).includes(faculty)) return false;
+        if (education && (job.educationLevel || "ไม่ระบุ") !== education) return false;
+        if (experience === "no-experience" && !job.acceptsNoExperience) return false;
+        if (experience === "experienced" && (!job.experience || job.experience === "ไม่ระบุ" || job.experience === "0 ปี")) return false;
+        if (experience === "unknown" && job.experience !== "ไม่ระบุ") return false;
+
+        const status = getJobStatus(job);
+        if (currentView === "active" && status === "closed") return false;
+        if (currentView === "history" && cutoff) {
+          const published = parseLocalDate(job.publishedDate);
+          if (!published || published < cutoff || published > now) return false;
+        }
+
+        // เมื่อเลือกเงินเดือนขั้นต่ำ ให้แยกงานที่ไม่ระบุเงินเดือนออกมาแสดงต่างหาก
+        if (minSalary > 0 && getSalaryStart(job) > 0 && getSalaryStart(job) < minSalary) return false;
+        return true;
+      });
+
+      return filteredJobs.sort((a, b) => {
+        const salaryA = getSalaryStart(a);
+        const salaryB = getSalaryStart(b);
+        const dateCompare = String(b.publishedDate || "").localeCompare(String(a.publishedDate || ""));
+        if (salarySort === "high") {
+          if (salaryA === 0 && salaryB !== 0) return 1;
+          if (salaryB === 0 && salaryA !== 0) return -1;
+          if (salaryB !== salaryA) return salaryB - salaryA;
+          if (dateCompare !== 0) return dateCompare;
+        } else if (salarySort === "low") {
+          if (salaryA === 0 && salaryB !== 0) return 1;
+          if (salaryB === 0 && salaryA !== 0) return -1;
+          if (salaryA !== salaryB) return salaryA - salaryB;
+          if (dateCompare !== 0) return dateCompare;
+        } else {
+          if (dateCompare !== 0) return dateCompare;
+          if (salaryB !== salaryA) return salaryB - salaryA;
+        }
+        return jobs.indexOf(a) - jobs.indexOf(b);
+      });
+    }
+
+    // ==========================================
+    // แสดงตัวเลขสรุป
+    // ==========================================
+
+    function renderStats(filteredJobs) {
+      const publishedJobs = filteredJobs.filter(job => (job.publicationStatus || "published") === "published");
+      const openings = publishedJobs.reduce((sum, job) => sum + (Number(job.quantity) || 0), 0);
+      const companies = new Set(publishedJobs.map(job => job.companyId || job.company)).size;
+      const families = new Set(publishedJobs.map(job => job.family).filter(Boolean)).size;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const thirtyDaysAgo = new Date(today);
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const recentCount = publishedJobs.filter(job => {
+        const date = parseLocalDate(job.publishedDate);
+        return date && date >= thirtyDaysAgo && date <= today;
+      }).length;
+      const openCount = publishedJobs.filter(job => getJobStatus(job) === "open").length;
+      const closedCount = publishedJobs.filter(job => getJobStatus(job) === "closed").length;
+      const unknownEndCount = publishedJobs.filter(job => getJobStatus(job) === "unknown").length;
+      $("totalOpenings").textContent = formatNumber(openings);
+      $("totalCompanies").textContent = formatNumber(companies);
+      $("totalFamilies").textContent = formatNumber(families);
+      $("recentJobs").textContent = formatNumber(recentCount);
+      $("openJobsCount").textContent = formatNumber(openCount);
+      $("closedJobsCount").textContent = formatNumber(closedCount);
+      $("unknownEndCount").textContent = formatNumber(unknownEndCount);
+    }
+
+    // ==========================================
+    // วาดกราฟ
+    // ==========================================
+
+    function renderPieChart(filteredJobs) {
+      const counts = new Map();
+
+      // นับบริษัทไม่ซ้ำกันในแต่ละประเภทธุรกิจ
+      filteredJobs.forEach(job => {
+        const sector = job.businessSector || "ไม่ระบุ";
+        if (!counts.has(sector)) counts.set(sector, new Set());
+        counts.get(sector).add(job.company);
+      });
+
+      const entries = [...counts.entries()]
+        .map(([name, companies]) => ({
+          name,
+          count: companies.size
+        }))
+        .sort((a, b) => b.count - a.count);
+
+      const total = entries.reduce((sum, entry) => sum + entry.count, 0);
+
+      if (!total) {
+        $("sectorPie").style.background = "#e8eaf2";
+        $("sectorLegend").innerHTML =
+          '<div class="legend-item">ไม่มีข้อมูลสำหรับแสดงกราฟ</div>';
+        return;
+      }
+
+      let currentPercent = 0;
+
+      const slices = entries.map((entry, index) => {
+        const start = currentPercent;
+        currentPercent += (entry.count / total) * 100;
+        return `${chartColors[index % chartColors.length]} ${start}% ${currentPercent}%`;
+      });
+
+      $("sectorPie").style.background =
+        `conic-gradient(${slices.join(", ")})`;
+
+      $("sectorLegend").innerHTML = entries.map((entry, index) => `
+        <div class="legend-item">
+          <span class="legend-dot"
+            style="background:${chartColors[index % chartColors.length]}"></span>
+          <span>
+            ${escapeHTML(entry.name)}
+            <span class="legend-count">
+              ${formatNumber(entry.count)} บริษัท
+            </span>
+          </span>
+        </div>
+      `).join("");
+    }
+
+    function renderBarChart(elementId, entries) {
+      const container = $(elementId);
+
+      if (!entries.length) {
+        container.innerHTML =
+          '<div class="legend-item">ไม่มีข้อมูลสำหรับแสดงกราฟ</div>';
+        return;
+      }
+
+      const max = Math.max(...entries.map(entry => entry.value), 1);
+
+      container.innerHTML = entries.map(entry => `
+        <div class="bar-item">
+          <div class="bar-label">
+            <span>${escapeHTML(entry.label)}</span>
+            <span>${formatNumber(entry.value)} อัตรา</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill"
+              style="width:${Math.max(0, entry.value / max * 100)}%"></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderCharts(filteredJobs) {
+      renderPieChart(filteredJobs);
+
+      const familyCounts = new Map();
+      const facultyCounts = new Map();
+      const locationCounts = new Map();
+
+      filteredJobs.forEach(job => {
+        const quantity = Number(job.quantity) || 0;
+
+        familyCounts.set(
+          job.family || "ไม่ระบุ",
+          (familyCounts.get(job.family || "ไม่ระบุ") || 0) + quantity
+        );
+
+        locationCounts.set(
+          job.location || "ไม่ระบุ",
+          (locationCounts.get(job.location || "ไม่ระบุ") || 0) + quantity
+        );
+
+        const faculties = job.faculties?.length
+          ? job.faculties
+          : ["ไม่ระบุ"];
+
+        faculties.forEach(faculty => {
+          facultyCounts.set(
+            faculty,
+            (facultyCounts.get(faculty) || 0) + quantity
+          );
+        });
+      });
+
+      function makeEntries(map) {
+        return [...map.entries()]
+          .map(([label, value]) => ({ label, value }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 7);
+      }
+
+      renderBarChart("familyBars", makeEntries(familyCounts));
+      renderBarChart("facultyBars", makeEntries(facultyCounts));
+      renderBarChart("locationBars", makeEntries(locationCounts));
+    }
+    // ==========================================
+    // แสดงการ์ดประกาศงาน
+    // ==========================================
+
+    function renderJobCards(list) {
+      if (!list.length) return `<div class="empty-state"><div class="empty-icon">🔎</div><h3>ไม่พบประกาศงาน</h3><p>ลองเปลี่ยนคำค้นหา หรือล้างตัวกรองเพื่อดูประกาศงาน</p></div>`;
+      return list.map(job => {
+        const logo = job.logoUrl
+          ? `<img src="${escapeHTML(job.logoUrl)}" alt="โลโก้บริษัท" onerror="this.style.display='none'">`
+          : escapeHTML((job.company || "C").trim().charAt(0).toUpperCase());
+        const published = parseLocalDate(job.publishedDate);
+        const today = new Date(); today.setHours(0,0,0,0);
+        const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate()-7);
+        const isNew = published && published >= weekAgo && published <= today;
+        const status = getJobStatus(job);
+        const daysLeft = getDaysUntilClosing(job);
+        let statusMarkup = "";
+        if (status === "unknown") statusMarkup = `<span class="status-tag unknown">ไม่ระบุวันปิดรับ · ควรตรวจสอบ</span>`;
+        else if (status === "closed") statusMarkup = `<span class="status-tag closed">ปิดรับสมัครแล้ว</span>`;
+        else if (daysLeft !== null && daysLeft >= 0 && daysLeft <= 7) statusMarkup = `<span class="status-tag closing">ใกล้ปิดรับ · เหลือ ${daysLeft} วัน</span>`;
+        else statusMarkup = `<span class="status-tag open">เปิดรับสมัคร</span>`;
+        const edu = job.educationLevel || "ไม่ระบุ";
+        const exp = job.experience || "ไม่ระบุ";
+        return `<article class="job-card">
+          <div class="job-card-top"><div class="company-logo">${logo}</div><div class="job-title-wrap"><h3 class="job-title">${escapeHTML(job.title)}</h3><div class="company-name">${escapeHTML(job.company)}</div></div>${isNew ? '<span class="new-tag">NEW</span>' : ''}</div>
+          <div class="job-tags"><span class="job-tag">${escapeHTML(job.family || "ไม่ระบุสายงาน")}</span><span class="job-tag">${escapeHTML(job.location || "ไม่ระบุพื้นที่")}</span><span class="job-tag">เต็มเวลา</span></div>
+          <div>${statusMarkup}</div>
+          <div class="job-info">
+            <div><div class="info-label">ค่าจ้าง</div><div class="salary">${escapeHTML(job.salary || "ไม่ระบุ")}</div></div>
+            <div><div class="info-label">จำนวนที่รับ</div><div class="info-value">${formatNumber(job.quantity)} อัตรา</div></div>
+            <div><div class="info-label">วันที่ประกาศ</div><div class="info-value">${formatDate(job.publishedDate)}</div></div>
+            <div><div class="info-label">สิ้นสุดรับสมัคร</div><div class="info-value">${job.endDate ? formatDate(job.endDate) : "ไม่ระบุวันปิดรับ"}</div></div>
+            <div><div class="info-label">ระดับการศึกษา</div><div class="info-value">${escapeHTML(edu)}</div></div>
+            <div><div class="info-label">ประสบการณ์</div><div class="info-value">${escapeHTML(job.acceptsNoExperience ? "ยินดีรับผู้ไม่มีประสบการณ์" : exp)}</div></div>
+          </div>
+          <div class="job-card-footer"><div class="published-date">CompanyID: ${escapeHTML(job.companyId || "ไม่ระบุ")}</div><button class="details-button" data-job-id="${escapeHTML(job.id)}">ดูรายละเอียด</button></div>
+        </article>`;
+      }).join("");
+    }
+
+    function renderJobs(filteredJobs) {
+      const minSalary = Number($("salaryMinFilter").value || 0);
+      const knownSalaryJobs = minSalary > 0 ? filteredJobs.filter(job => getSalaryStart(job) > 0) : filteredJobs;
+      const unknownSalaryJobs = minSalary > 0 ? filteredJobs.filter(job => getSalaryStart(job) === 0) : [];
+      $("jobCount").textContent = `${formatNumber(filteredJobs.length)} ประกาศ`;
+      const container = $("jobsContainer");
+      container.innerHTML = knownSalaryJobs.length
+        ? renderJobCards(knownSalaryJobs)
+        : (unknownSalaryJobs.length ? "" : renderJobCards([]));
+      const unknownContainer = $("salaryUnknownContainer");
+      if (unknownSalaryJobs.length) {
+        unknownContainer.hidden = false;
+        unknownContainer.innerHTML = `<div class="subsection-label"><strong>ประกาศที่ไม่ระบุเงินเดือน (${unknownSalaryJobs.length})</strong><br>แสดงแยกไว้เพื่อให้ตรวจสอบข้อมูลได้ โดยยังไม่สามารถยืนยันได้ว่าเงินเดือนถึงเกณฑ์ขั้นต่ำที่เลือก</div>${renderJobCards(unknownSalaryJobs)}`;
+      } else {
+        unknownContainer.hidden = true;
+        unknownContainer.innerHTML = "";
+      }
+      document.querySelectorAll("[data-job-id]").forEach(button => {
+        button.addEventListener("click", () => openJobDetails(button.dataset.jobId));
+      });
+      if (!knownSalaryJobs.length && !unknownSalaryJobs.length) {
+        container.innerHTML = renderJobCards([]);
+      }
+      const isHistory = currentView === "history";
+      $("activeJobsTab").classList.toggle("active", !isHistory);
+      $("historyJobsTab").classList.toggle("active", isHistory);
+      $("historyNote").textContent = isHistory
+        ? (selectedMonths > 0 ? `แสดงประกาศที่เผยแพร่ย้อนหลัง ${selectedMonths} เดือน นับจากวันนี้ รวมรายการที่ปิดรับสมัครแล้ว` : "แสดงประวัติประกาศงานทั้งหมดที่มีในข้อมูลตัวอย่าง รวมรายการที่ปิดรับสมัครแล้ว")
+        : "แสดงเฉพาะประกาศที่ยังไม่พ้นวันปิดรับสมัคร หากไม่ระบุวันปิดรับจะแสดงไว้พร้อมป้ายแจ้งให้ตรวจสอบ";
+      $("jobsSection").querySelector(".section-heading h2").textContent = isHistory ? "ประวัติประกาศงาน" : "ตำแหน่งงานที่เปิดรับสมัคร";
+      $("jobsSection").querySelector(".section-heading p").textContent = isHistory ? "เรียงตามวันที่ประกาศใหม่ไปเก่า และดูประกาศย้อนหลังตามช่วงเวลาที่เลือก" : "ประกาศใหม่แสดงก่อน และเรียงเงินเดือนเริ่มต้นสูงไปต่ำเมื่อวันที่ประกาศตรงกัน";
+      document.querySelectorAll("[data-nav]").forEach(link => link.classList.toggle("active", (link.dataset.nav === "history" && isHistory) || (link.dataset.nav === "jobs" && !isHistory) || (link.dataset.nav === "home" && !isHistory && window.location.hash === "#home")));
+    }
+
+    // ==========================================
+    // หน้าต่างรายละเอียดงาน
+    // ==========================================
+
+    function openJobDetails(jobId) {
+      const job = jobs.find(item => item.id === jobId);
+      if (!job) return;
+
+      $("modalTitle").textContent = job.title;
+      $("modalCompany").textContent = job.company;
+
+      const info = [
+        ["ค่าจ้าง", job.salary || "ไม่ระบุ"],
+        ["จำนวนที่รับ", `${formatNumber(job.quantity)} อัตรา`],
+        ["สายงาน", job.family || "ไม่ระบุ"],
+        ["ประเภทธุรกิจ", job.businessSector || "ไม่ระบุ"],
+        ["สถานที่ทำงาน", job.location || "ไม่ระบุ"],
+        ["คณะที่ต้องการ", (job.faculties || []).join(", ") || "ไม่ระบุ"],
+        ["ระดับการศึกษา", job.educationLevel || "ไม่ระบุ"],
+        ["ประสบการณ์", job.acceptsNoExperience ? "ยินดีรับผู้ไม่มีประสบการณ์" : (job.experience || "ไม่ระบุ")],
+        ["CompanyID", job.companyId || "ไม่ระบุ"],
+        ["วันที่เริ่มรับสมัคร", formatDate(job.startDate)],
+        ["วันสิ้นสุดรับสมัคร", job.endDate ? formatDate(job.endDate) : "ไม่ระบุวันปิดรับ"],
+        ["สถานะประกาศ", getJobStatus(job) === "closed" ? "ปิดรับสมัครแล้ว" : (getJobStatus(job) === "unknown" ? "ไม่ระบุวันปิดรับ — ควรตรวจสอบ" : "เปิดรับสมัคร")]
+      ];
+
+      $("modalInfo").innerHTML = info.map(([label, value]) => `
+        <div class="modal-info">
+          <div class="info-label">${escapeHTML(label)}</div>
+          <div class="info-value">${escapeHTML(value)}</div>
+        </div>
+      `).join("");
+
+      $("modalDescription").textContent = job.description || "ไม่ระบุ";
+      $("modalQualifications").textContent =
+        job.qualifications || "ไม่ระบุ";
+      $("modalBenefits").textContent = job.benefits || "ไม่ระบุ";
+
+      const applyButton = $("modalApply");
+
+      if (job.applyUrl) {
+        applyButton.href = job.applyUrl;
+        applyButton.classList.remove("disabled");
+        applyButton.setAttribute("aria-disabled", "false");
+        applyButton.textContent = "สมัครงาน";
+      } else {
+        applyButton.href = "#";
+        applyButton.classList.add("disabled");
+        applyButton.setAttribute("aria-disabled", "true");
+        applyButton.textContent = "ข้อมูลตัวอย่าง: ยังไม่มีลิงก์สมัครงาน";
+      }
+
+      $("jobModal").classList.add("show");
+      document.body.style.overflow = "hidden";
+      $("closeModal").focus();
+    }
+
+    function closeJobDetails() {
+      $("jobModal").classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    // ==========================================
+    // อัปเดตหน้าเมื่อเปลี่ยนตัวกรอง
+    // ==========================================
+
+    function renderAll() {
+      const filteredJobs = getFilteredJobs();
+      renderStats(filteredJobs);
+      renderCharts(filteredJobs);
+      renderJobs(filteredJobs);
+    }
+
+    function setView(view, months = 0) {
+      currentView = view;
+      selectedMonths = months;
+      document.querySelectorAll(".period-button").forEach(button => {
+        button.classList.toggle("active", view === "active" ? button.dataset.months === "0" : Number(button.dataset.months) === months);
+      });
+      renderAll();
+    }
+
+    function clearFilters() {
+      $("searchInput").value = "";
+      $("familyFilter").value = "";
+      $("locationFilter").value = "";
+      $("facultyFilter").value = "";
+      $("educationFilter").value = "";
+      $("experienceFilter").value = "";
+      $("salaryMinFilter").value = "0";
+      $("salarySortFilter").value = "newest";
+      setView("active", 0);
+    }
+
+    function initialize() {
+      populateSelect("familyFilter", getUniqueValues("family"), "ทุกสายงาน");
+      populateSelect("locationFilter", getUniqueValues("location"), "ทุกพื้นที่");
+      const faculties = [...new Set(jobs.flatMap(job => job.faculties || []))].sort((a,b) => a.localeCompare(b,"th"));
+      populateSelect("facultyFilter", faculties, "ทุกคณะ");
+      const educationLevels = [...new Set(jobs.map(job => job.educationLevel || "ไม่ระบุ"))].sort((a,b) => a.localeCompare(b,"th"));
+      populateSelect("educationFilter", educationLevels, "ทุกระดับการศึกษา");
+      $("todayLabel").textContent = "อัปเดตหน้าเว็บ: " + new Date().toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" });
+      ["searchInput", "familyFilter", "locationFilter", "facultyFilter", "educationFilter", "experienceFilter", "salaryMinFilter", "salarySortFilter"].forEach(id => {
+        $(id).addEventListener(id === "searchInput" ? "input" : "change", renderAll);
+      });
+      $("clearFilters").addEventListener("click", clearFilters);
+      document.querySelectorAll(".period-button").forEach(button => {
+        button.addEventListener("click", () => {
+          const months = Number(button.dataset.months);
+          if (months === 0) setView("active", 0);
+          else setView("history", months);
+        });
+      });
+      $("activeJobsTab").addEventListener("click", () => setView("active", 0));
+      $("historyJobsTab").addEventListener("click", () => setView("history", selectedMonths || 0));
+      $("heroSearch").addEventListener("click", () => setView("active", 0));
+      $("heroHistory").addEventListener("click", () => setView("history", 0));
+      document.querySelectorAll('[data-nav="history"]').forEach(link => link.addEventListener("click", () => setView("history", 0)));
+      document.querySelectorAll('[data-nav="jobs"]').forEach(link => link.addEventListener("click", () => setView("active", 0)));
+      document.querySelectorAll('[data-nav="home"]').forEach(link => link.addEventListener("click", () => setView("active", 0)));
+      $("closeModal").addEventListener("click", closeJobDetails);
+      $("jobModal").addEventListener("click", event => { if (event.target === $("jobModal")) closeJobDetails(); });
+      document.addEventListener("keydown", event => { if (event.key === "Escape") closeJobDetails(); });
+      renderAll();
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
