@@ -937,6 +937,61 @@
           </select>
         </div>
 
+        <div class="filter-group">
+          <label for="salaryMinFilter">เงินเดือนขั้นต่ำ</label>
+          <select id="salaryMinFilter">
+            <option value="0">ทุกช่วงเงินเดือน</option>
+            <option value="12000">12,000 บาทขึ้นไป</option>
+            <option value="13000">13,000 บาทขึ้นไป</option>
+            <option value="14000">14,000 บาทขึ้นไป</option>
+            <option value="15000">15,000 บาทขึ้นไป</option>
+            <option value="16000">16,000 บาทขึ้นไป</option>
+            <option value="17000">17,000 บาทขึ้นไป</option>
+            <option value="18000">18,000 บาทขึ้นไป</option>
+            <option value="19000">19,000 บาทขึ้นไป</option>
+            <option value="20000">20,000 บาทขึ้นไป</option>
+            <option value="21000">21,000 บาทขึ้นไป</option>
+            <option value="22000">22,000 บาทขึ้นไป</option>
+            <option value="23000">23,000 บาทขึ้นไป</option>
+            <option value="24000">24,000 บาทขึ้นไป</option>
+            <option value="25000">25,000 บาทขึ้นไป</option>
+            <option value="26000">26,000 บาทขึ้นไป</option>
+            <option value="27000">27,000 บาทขึ้นไป</option>
+            <option value="28000">28,000 บาทขึ้นไป</option>
+            <option value="29000">29,000 บาทขึ้นไป</option>
+            <option value="30000">30,000 บาทขึ้นไป</option>
+            <option value="31000">31,000 บาทขึ้นไป</option>
+            <option value="32000">32,000 บาทขึ้นไป</option>
+            <option value="33000">33,000 บาทขึ้นไป</option>
+            <option value="34000">34,000 บาทขึ้นไป</option>
+            <option value="35000">35,000 บาทขึ้นไป</option>
+            <option value="36000">36,000 บาทขึ้นไป</option>
+            <option value="37000">37,000 บาทขึ้นไป</option>
+            <option value="38000">38,000 บาทขึ้นไป</option>
+            <option value="39000">39,000 บาทขึ้นไป</option>
+            <option value="40000">40,000 บาทขึ้นไป</option>
+            <option value="41000">41,000 บาทขึ้นไป</option>
+            <option value="42000">42,000 บาทขึ้นไป</option>
+            <option value="43000">43,000 บาทขึ้นไป</option>
+            <option value="44000">44,000 บาทขึ้นไป</option>
+            <option value="45000">45,000 บาทขึ้นไป</option>
+            <option value="46000">46,000 บาทขึ้นไป</option>
+            <option value="47000">47,000 บาทขึ้นไป</option>
+            <option value="48000">48,000 บาทขึ้นไป</option>
+            <option value="49000">49,000 บาทขึ้นไป</option>
+            <option value="50000">50,000 บาทขึ้นไป</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="salarySortFilter">เรียงลำดับเงินเดือน</label>
+          <select id="salarySortFilter">
+            <option value="newest">ประกาศใหม่ไปเก่า</option>
+            <option value="high">เงินเดือนมากไปน้อย</option>
+            <option value="low">เงินเดือนน้อยไปมาก</option>
+          </select>
+        </div>
+
         <button class="clear-button" id="clearFilters">
           ล้างตัวกรองทั้งหมด
         </button>
@@ -1048,7 +1103,7 @@
               <button class="period-button" data-months="3">ย้อนหลัง 3 เดือน</button>
             </div>
             <div class="sort-note">
-              เรียงตามวันที่ประกาศ ↓ และเงินเดือนเริ่มต้น ↓
+              เลือกเรียงตามวันที่ประกาศ หรือเงินเดือนจากมากไปน้อย/น้อยไปมากได้จากตัวกรอง
             </div>
           </div>
 
@@ -1360,6 +1415,8 @@
       const family = $("familyFilter").value;
       const location = $("locationFilter").value;
       const faculty = $("facultyFilter").value;
+      const minSalary = Number($("salaryMinFilter").value || 0);
+      const salarySort = $("salarySortFilter").value || "newest";
 
       const now = new Date();
       let cutoff = null;
@@ -1373,7 +1430,7 @@
         cutoff.setHours(0, 0, 0, 0);
       }
 
-      return jobs.filter(job => {
+      const filteredJobs = jobs.filter(job => {
         const searchable = [
           job.title,
           job.company,
@@ -1388,25 +1445,44 @@
         if (location && job.location !== location) return false;
         if (faculty && !(job.faculties || []).includes(faculty)) return false;
 
+        // กรองจากเงินเดือนเริ่มต้นของช่วงเงินเดือน
+        // ถ้าไม่ระบุเงินเดือน จะไม่ผ่านเมื่อกำหนดเงินเดือนขั้นต่ำ
+        if (minSalary > 0 && getSalaryStart(job) < minSalary) return false;
+
         if (cutoff) {
           const published = parseLocalDate(job.publishedDate);
           if (!published || published < cutoff || published > now) return false;
         }
 
         return true;
-      }).sort((a, b) => {
-        // 1. วันที่ประกาศล่าสุดขึ้นก่อน
+      });
+
+      return filteredJobs.sort((a, b) => {
+        const salaryA = getSalaryStart(a);
+        const salaryB = getSalaryStart(b);
         const dateCompare = String(b.publishedDate || "")
           .localeCompare(String(a.publishedDate || ""));
 
-        if (dateCompare !== 0) return dateCompare;
+        if (salarySort === "high") {
+          // เงินเดือนมากไปน้อย โดยให้รายการไม่ระบุเงินเดือนอยู่ท้าย
+          if (salaryA === 0 && salaryB !== 0) return 1;
+          if (salaryB === 0 && salaryA !== 0) return -1;
+          if (salaryB !== salaryA) return salaryB - salaryA;
+          if (dateCompare !== 0) return dateCompare;
+        } else if (salarySort === "low") {
+          // เงินเดือนน้อยไปมาก โดยให้รายการไม่ระบุเงินเดือนอยู่ท้าย
+          if (salaryA === 0 && salaryB !== 0) return 1;
+          if (salaryB === 0 && salaryA !== 0) return -1;
+          if (salaryA !== salaryB) return salaryA - salaryB;
+          if (dateCompare !== 0) return dateCompare;
+        } else {
+          // ค่าเริ่มต้น: วันที่ประกาศใหม่ก่อน
+          if (dateCompare !== 0) return dateCompare;
+          // ถ้าวันประกาศตรงกัน ให้เงินเดือนเริ่มต้นสูงกว่าขึ้นก่อน
+          if (salaryB !== salaryA) return salaryB - salaryA;
+        }
 
-        // 2. วันที่เดียวกัน เรียงเงินเดือนเริ่มต้นจากมากไปน้อย
-        const salaryCompare = getSalaryStart(b) - getSalaryStart(a);
-
-        if (salaryCompare !== 0) return salaryCompare;
-
-        // 3. ถ้าวันที่และเงินเดือนเท่ากัน ให้รักษาลำดับเดิม
+        // ถ้าข้อมูลวันที่และเงินเดือนเท่ากัน ให้รักษาลำดับเดิม
         return jobs.indexOf(a) - jobs.indexOf(b);
       });
     }
@@ -1730,25 +1806,21 @@
     }
 
     function clearFilters() {
-  // ล้างคำค้นหา
-  $("searchInput").value = "";
+      $("searchInput").value = "";
+      $("familyFilter").value = "";
+      $("locationFilter").value = "";
+      $("facultyFilter").value = "";
+      $("salaryMinFilter").value = "0";
+      $("salarySortFilter").value = "newest";
 
-  // รีเซ็ตตัวกรองทั้งหมด
-  $("familyFilter").value = "";
-  $("locationFilter").value = "";
-  $("facultyFilter").value = "";
+      selectedMonths = 0;
 
-  // แสดงประกาศงานทั้งหมด ไม่จำกัดช่วงเวลา
-  selectedMonths = 0;
+      document.querySelectorAll(".period-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.months === "0");
+      });
 
-  // รีเซ็ตปุ่มช่วงเวลาให้เลือก "ทั้งหมด"
-  document.querySelectorAll(".period-button").forEach(button => {
-    button.classList.toggle("active", button.dataset.months === "0");
-  });
-
-  // อัปเดตผลการค้นหา ตัวเลขสรุป และกราฟทั้งหมด
-  renderAll();
-}
+      renderAll();
+    }
 
     function initialize() {
       populateSelect("familyFilter", getUniqueValues("family"), "ทุกสายงาน");
@@ -1766,13 +1838,19 @@
           year: "numeric"
         });
 
-      ["searchInput", "familyFilter", "locationFilter", "facultyFilter"]
-        .forEach(id => {
-          $(id).addEventListener(
-            id === "searchInput" ? "input" : "change",
-            renderAll
-          );
-        });
+      [
+        "searchInput",
+        "familyFilter",
+        "locationFilter",
+        "facultyFilter",
+        "salaryMinFilter",
+        "salarySortFilter"
+      ].forEach(id => {
+        $(id).addEventListener(
+          id === "searchInput" ? "input" : "change",
+          renderAll
+        );
+      });
 
       $("clearFilters").addEventListener("click", clearFilters);
 
