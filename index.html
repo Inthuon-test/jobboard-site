@@ -1566,13 +1566,18 @@
       const salarySort = $("salarySortFilter").value || "newest";
 
       const now = new Date();
-      now.setHours(23, 59, 59, 999);
-      let cutoff = null;
-      if (currentView === "history" && selectedMonths > 0) {
-        cutoff = new Date();
-        cutoff.setHours(0, 0, 0, 0);
-        cutoff.setMonth(cutoff.getMonth() - selectedMonths);
-      }
+now.setHours(23, 59, 59, 999);
+
+let historyMonth = null;
+
+if (currentView === "history" && selectedMonths > 0) {
+  const today = new Date();
+  historyMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() - selectedMonths,
+    1
+  );
+}
 
       const filteredJobs = jobs.filter(job => {
         // Phase 1 แสดงเฉพาะประกาศที่ผ่านการเผยแพร่แล้ว
@@ -1591,10 +1596,18 @@
 
         const status = getJobStatus(job);
         if (currentView === "active" && status === "closed") return false;
-        if (currentView === "history" && cutoff) {
-          const published = parseLocalDate(job.publishedDate);
-          if (!published || published < cutoff || published > now) return false;
-        }
+        if (currentView === "history" && historyMonth) {
+  const published = parseLocalDate(job.publishedDate);
+
+  if (!published) return false;
+
+  if (
+    published.getFullYear() !== historyMonth.getFullYear() ||
+    published.getMonth() !== historyMonth.getMonth()
+  ) {
+    return false;
+  }
+}
 
         // เมื่อเลือกเงินเดือนขั้นต่ำ ให้แยกงานที่ไม่ระบุเงินเดือนออกมาแสดงต่างหาก
         if (minSalary > 0 && getSalaryStart(job) > 0 && getSalaryStart(job) < minSalary) return false;
