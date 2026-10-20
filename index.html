@@ -1816,7 +1816,7 @@ if (currentView === "history" && selectedMonths > 0) {
           <div class="job-tags"><span class="job-tag">${escapeHTML(job.family || "ไม่ระบุสายงาน")}</span><span class="job-tag">${escapeHTML(job.location || "ไม่ระบุพื้นที่")}</span><span class="job-tag">เต็มเวลา</span></div>
           <div>${statusMarkup}</div>
           <div class="job-info">
-            <div><div class="info-label">ค่าจ้าง</div><div class="salary">${escapeHTML(job.salary || "ไม่ระบุ")}</div></div>
+            <div><div class="info-label">ค่าจ้าง</div><div class="salary">${escapeHTML(job.salary || "ตามโครงสร้างบริษัท")}</div></div>
             <div><div class="info-label">จำนวนที่รับ</div><div class="info-value">${formatNumber(job.quantity)} อัตรา</div></div>
             <div><div class="info-label">วันที่ประกาศ</div><div class="info-value">${formatDate(job.publishedDate)}</div></div>
             <div><div class="info-label">สิ้นสุดรับสมัคร</div><div class="info-value">${job.endDate ? formatDate(job.endDate) : "ไม่ระบุวันปิดรับ"}</div></div>
@@ -1874,7 +1874,7 @@ if (currentView === "history" && selectedMonths > 0) {
       $("modalCompany").textContent = job.company;
 
       const info = [
-        ["ค่าจ้าง", job.salary || "ไม่ระบุ"],
+        ["ค่าจ้าง", job.salary || "ตามโครงสร้างบริษัท"],
         ["จำนวนที่รับ", `${formatNumber(job.quantity)} อัตรา`],
         ["สายงาน", job.family || "ไม่ระบุ"],
         ["ประเภทธุรกิจ", job.businessSector || "ไม่ระบุ"],
