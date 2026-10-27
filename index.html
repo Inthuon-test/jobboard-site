@@ -1892,7 +1892,8 @@ if (currentView === "history" && selectedMonths > 0) {
       setView("active", 0);
     }
 
-    async function initialize() {
+    
+async function initialize() {
   $("todayLabel").textContent =
     "อัปเดตหน้าเว็บ: " +
     new Date().toLocaleDateString("th-TH", {
@@ -1927,6 +1928,7 @@ if (currentView === "history" && selectedMonths > 0) {
     );
   });
 
+  // ปุ่มล้างตัวกรอง
   $("clearFilters").addEventListener("click", clearFilters);
 
   // ปุ่มดูประกาศทั้งหมดและประวัติย้อนหลัง
@@ -1989,27 +1991,31 @@ if (currentView === "history" && selectedMonths > 0) {
     }
   });
 
-  // โหลดข้อมูลจาก API ก่อนสร้างตัวกรอง
+  // โหลดข้อมูลจาก Google Sheets ผ่าน API
   try {
     await loadJobsFromApi();
+    jobsLoadError = false;
   } catch (error) {
     console.error("CareerSpace API error:", error);
     jobsLoadError = true;
+    jobs = [];
   }
 
-  // สร้างรายการตัวกรองจากข้อมูลจริงที่โหลดได้
+  // สร้างตัวเลือกสายงานจากข้อมูลที่โหลดได้
   populateSelect(
     "familyFilter",
     getUniqueValues("family"),
     "ทุกสายงาน"
   );
 
+  // สร้างตัวเลือกพื้นที่
   populateSelect(
     "locationFilter",
     getUniqueValues("location"),
     "ทุกพื้นที่"
   );
 
+  // สร้างตัวเลือกคณะ
   const faculties = [
     ...new Set(jobs.flatMap(job => job.faculties || []))
   ].sort((a, b) => a.localeCompare(b, "th"));
@@ -2020,28 +2026,35 @@ if (currentView === "history" && selectedMonths > 0) {
     "ทุกคณะ"
   );
 
-  
-const defaultEducationLevels = [
-  "ปริญญาตรี",
-  "ปริญญาโท",
-  "ปริญญาเอก",
-  "ไม่ระบุ"
-];
+  // กำหนดระดับการศึกษามาตรฐานให้แสดงครบ
+  const defaultEducationLevels = [
+    "ปริญญาตรี",
+    "ปริญญาโท",
+    "ปริญญาเอก",
+    "ไม่ระบุ"
+  ];
 
-const educationLevels = [
-  ...new Set([
-    ...defaultEducationLevels,
-    ...jobs.map(job => job.educationLevel || "ไม่ระบุ")
-  ])
-];
+  const educationLevels = [
+    ...new Set([
+      ...defaultEducationLevels,
+      ...jobs.map(job => job.educationLevel || "ไม่ระบุ")
+    ])
+  ];
 
-populateSelect(
-  "educationFilter",
-  educationLevels,
-  "ทุกระดับการศึกษา"
-);
+  populateSelect(
+    "educationFilter",
+    educationLevels,
+    "ทุกระดับการศึกษา"
+  );
 
-    initialize();
+  // เริ่มแสดงข้อมูลและผลการค้นหา
+  renderAll();
+}
+
+// สำคัญ: เรียก initialize() เพียงครั้งเดียว
+// และต้องอยู่นอกฟังก์ชัน initialize()
+initialize();
+
   </script>
 </body>
 </html>
