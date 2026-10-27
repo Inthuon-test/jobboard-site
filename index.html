@@ -1892,37 +1892,147 @@ if (currentView === "history" && selectedMonths > 0) {
       setView("active", 0);
     }
 
-    function initialize() {
-      populateSelect("familyFilter", getUniqueValues("family"), "ทุกสายงาน");
-      populateSelect("locationFilter", getUniqueValues("location"), "ทุกพื้นที่");
-      const faculties = [...new Set(jobs.flatMap(job => job.faculties || []))].sort((a,b) => a.localeCompare(b,"th"));
-      populateSelect("facultyFilter", faculties, "ทุกคณะ");
-      const educationLevels = [...new Set(jobs.map(job => job.educationLevel || "ไม่ระบุ"))].sort((a,b) => a.localeCompare(b,"th"));
-      populateSelect("educationFilter", educationLevels, "ทุกระดับการศึกษา");
-      $("todayLabel").textContent = "อัปเดตหน้าเว็บ: " + new Date().toLocaleDateString("th-TH", { day:"numeric", month:"long", year:"numeric" });
-      ["searchInput", "familyFilter", "locationFilter", "facultyFilter", "educationFilter", "experienceFilter", "salaryMinFilter", "salarySortFilter"].forEach(id => {
-        $(id).addEventListener(id === "searchInput" ? "input" : "change", renderAll);
-      });
-      $("clearFilters").addEventListener("click", clearFilters);
-      document.querySelectorAll(".period-button").forEach(button => {
-        button.addEventListener("click", () => {
-          const months = Number(button.dataset.months);
-          if (months === 0) setView("active", 0);
-          else setView("history", months);
-        });
-      });
-      $("activeJobsTab").addEventListener("click", () => setView("active", 0));
-      $("historyJobsTab").addEventListener("click", () => setView("history", selectedMonths || 0));
-      $("heroSearch").addEventListener("click", () => setView("active", 0));
-      $("heroHistory").addEventListener("click", () => setView("history", 0));
-      document.querySelectorAll('[data-nav="history"]').forEach(link => link.addEventListener("click", () => setView("history", 0)));
-      document.querySelectorAll('[data-nav="jobs"]').forEach(link => link.addEventListener("click", () => setView("active", 0)));
-      document.querySelectorAll('[data-nav="home"]').forEach(link => link.addEventListener("click", () => setView("active", 0)));
-      $("closeModal").addEventListener("click", closeJobDetails);
-      $("jobModal").addEventListener("click", event => { if (event.target === $("jobModal")) closeJobDetails(); });
-      document.addEventListener("keydown", event => { if (event.key === "Escape") closeJobDetails(); });
-      renderAll();
+    async function initialize() {
+  $("todayLabel").textContent =
+    "อัปเดตหน้าเว็บ: " +
+    new Date().toLocaleDateString("th-TH", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  // แสดงสถานะระหว่างรอโหลดข้อมูล
+  $("jobsContainer").innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">⏳</div>
+      <h3>กำลังโหลดประกาศงาน</h3>
+      <p>กำลังดึงข้อมูลล่าสุดจาก CareerSpace</p>
+    </div>
+  `;
+
+  // ตั้งค่าการค้นหาและตัวกรอง
+  [
+    "searchInput",
+    "familyFilter",
+    "locationFilter",
+    "facultyFilter",
+    "educationFilter",
+    "experienceFilter",
+    "salaryMinFilter",
+    "salarySortFilter"
+  ].forEach(id => {
+    $(id).addEventListener(
+      id === "searchInput" ? "input" : "change",
+      renderAll
+    );
+  });
+
+  $("clearFilters").addEventListener("click", clearFilters);
+
+  // ปุ่มดูประกาศทั้งหมดและประวัติย้อนหลัง
+  document.querySelectorAll(".period-button").forEach(button => {
+    button.addEventListener("click", () => {
+      const months = Number(button.dataset.months);
+
+      if (months === 0) {
+        setView("active", 0);
+      } else {
+        setView("history", months);
+      }
+    });
+  });
+
+  $("activeJobsTab").addEventListener(
+    "click",
+    () => setView("active", 0)
+  );
+
+  $("historyJobsTab").addEventListener(
+    "click",
+    () => setView("history", selectedMonths || 0)
+  );
+
+  $("heroSearch").addEventListener(
+    "click",
+    () => setView("active", 0)
+  );
+
+  $("heroHistory").addEventListener(
+    "click",
+    () => setView("history", 0)
+  );
+
+  document.querySelectorAll('[data-nav="history"]').forEach(link => {
+    link.addEventListener("click", () => setView("history", 0));
+  });
+
+  document.querySelectorAll('[data-nav="jobs"]').forEach(link => {
+    link.addEventListener("click", () => setView("active", 0));
+  });
+
+  document.querySelectorAll('[data-nav="home"]').forEach(link => {
+    link.addEventListener("click", () => setView("active", 0));
+  });
+
+  // ปิดหน้าต่างรายละเอียดงาน
+  $("closeModal").addEventListener("click", closeJobDetails);
+
+  $("jobModal").addEventListener("click", event => {
+    if (event.target === $("jobModal")) {
+      closeJobDetails();
     }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeJobDetails();
+    }
+  });
+
+  // โหลดข้อมูลจาก API ก่อนสร้างตัวกรอง
+  try {
+    await loadJobsFromApi();
+  } catch (error) {
+    console.error("CareerSpace API error:", error);
+    jobsLoadError = true;
+  }
+
+  // สร้างรายการตัวกรองจากข้อมูลจริงที่โหลดได้
+  populateSelect(
+    "familyFilter",
+    getUniqueValues("family"),
+    "ทุกสายงาน"
+  );
+
+  populateSelect(
+    "locationFilter",
+    getUniqueValues("location"),
+    "ทุกพื้นที่"
+  );
+
+  const faculties = [
+    ...new Set(jobs.flatMap(job => job.faculties || []))
+  ].sort((a, b) => a.localeCompare(b, "th"));
+
+  populateSelect(
+    "facultyFilter",
+    faculties,
+    "ทุกคณะ"
+  );
+
+  const educationLevels = [
+    ...new Set(jobs.map(job => job.educationLevel || "ไม่ระบุ"))
+  ].sort((a, b) => a.localeCompare(b, "th"));
+
+  populateSelect(
+    "educationFilter",
+    educationLevels,
+    "ทุกระดับการศึกษา"
+  );
+
+  // แสดงประกาศงาน
+  renderAll();
+}
 
     initialize();
   </script>
