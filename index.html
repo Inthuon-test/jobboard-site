@@ -1797,7 +1797,7 @@ if (currentView === "history" && selectedMonths > 0) {
         ["สถานที่ทำงาน", job.location || "ไม่ระบุ"],
         ["คณะที่ต้องการ", (job.faculties || []).join(", ") || "ไม่ระบุ"],
         ["ระดับการศึกษา", job.educationLevel || "ไม่ระบุ"],
-        ["ประสบการณ์", job.acceptsNoExperience ? "ยินดีรับผู้ไม่มีประสบการณ์" : (job.experience || "ไม่ระบุ")],
+        ["ประสบการณ์", job.experience || "ไม่ระบุ"],
         ["CompanyID", job.companyId || "ไม่ระบุ"],
         ["วันที่เริ่มรับสมัคร", formatDate(job.startDate)],
         ["วันสิ้นสุดรับสมัคร", job.endDate ? formatDate(job.endDate) : "ไม่ระบุวันปิดรับ"],
