@@ -2020,19 +2020,26 @@ if (currentView === "history" && selectedMonths > 0) {
     "ทุกคณะ"
   );
 
-  const educationLevels = [
-    ...new Set(jobs.map(job => job.educationLevel || "ไม่ระบุ"))
-  ].sort((a, b) => a.localeCompare(b, "th"));
+  
+const defaultEducationLevels = [
+  "ปริญญาตรี",
+  "ปริญญาโท",
+  "ปริญญาเอก",
+  "ไม่ระบุ"
+];
 
-  populateSelect(
-    "educationFilter",
-    educationLevels,
-    "ทุกระดับการศึกษา"
-  );
+const educationLevels = [
+  ...new Set([
+    ...defaultEducationLevels,
+    ...jobs.map(job => job.educationLevel || "ไม่ระบุ")
+  ])
+];
 
-  // แสดงประกาศงาน
-  renderAll();
-}
+populateSelect(
+  "educationFilter",
+  educationLevels,
+  "ทุกระดับการศึกษา"
+);
 
     initialize();
   </script>
