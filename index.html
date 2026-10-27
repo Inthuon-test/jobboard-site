@@ -1732,7 +1732,7 @@ if (currentView === "history" && selectedMonths > 0) {
             <div><div class="info-label">วันที่ประกาศ</div><div class="info-value">${formatDate(job.publishedDate)}</div></div>
             <div><div class="info-label">สิ้นสุดรับสมัคร</div><div class="info-value">${job.endDate ? formatDate(job.endDate) : "ไม่ระบุวันปิดรับ"}</div></div>
             <div><div class="info-label">ระดับการศึกษา</div><div class="info-value">${escapeHTML(edu)}</div></div>
-            <div><div class="info-label">ประสบการณ์</div><div class="info-value">${escapeHTML(job.acceptsNoExperience ? "ยินดีรับผู้ไม่มีประสบการณ์" : exp)}</div></div>
+            <div><div class="info-label">ประสบการณ์</div><div class="info-value">${escapeHTML(exp)}</div></div>
           </div>
           <div class="job-card-footer"><div class="published-date">CompanyID: ${escapeHTML(job.companyId || "ไม่ระบุ")}</div><button class="details-button" data-job-id="${escapeHTML(job.id)}">ดูรายละเอียด</button></div>
         </article>`;
