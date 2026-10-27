@@ -1216,244 +1216,151 @@
 
   <script>
     // ==========================================
-    // ข้อมูลตัวอย่าง
-    // เปลี่ยนข้อมูลในส่วนนี้เพื่อเพิ่มหรือแก้ไขประกาศงาน
     // ==========================================
+// เชื่อมข้อมูลประกาศงานจาก Google Apps Script API
+// ==========================================
 
-    const jobs = [
-      {
-        id: "JOB001",
-        companyId: "COMP001",
-        publicationStatus: "published",
-        title: "IT Support",
-        company: "Example Technology",
-        businessSector: "เทคโนโลยีและ IT",
-        family: "เทคโนโลยีสารสนเทศ",
-        location: "กรุงเทพมหานคร",
-        quantity: 2,
-        salary: "18,000–22,000 บาท",
-        publishedDate: "2026-10-10",
-        startDate: "2026-10-10",
-        endDate: "2026-11-10",
-        faculties: ["คณะเทคโนโลยีสารสนเทศ"],
-        educationLevel: "ปริญญาตรี",
-        experience: "0 ปี",
-        acceptsNoExperience: true,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "ให้ความช่วยเหลือและแก้ไขปัญหาด้าน IT เบื้องต้นแก่พนักงาน\nติดตั้งและดูแลอุปกรณ์คอมพิวเตอร์ รวมถึงโปรแกรมที่ใช้ในองค์กร",
-        qualifications:
-          "จบการศึกษาด้าน IT หรือสาขาที่เกี่ยวข้อง\nมีความรู้พื้นฐานด้าน Hardware, Software และ Network\nมีใจรักงานบริการและการแก้ไขปัญหา",
-        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด\nสวัสดิการอื่น ๆ ตามเงื่อนไขบริษัท"
-      },
-      {
-        id: "JOB002",
-        companyId: "COMP002",
-        publicationStatus: "published",
-        title: "Transport Coordinator",
-        company: "Demo Logistics",
-        businessSector: "โลจิสติกส์และขนส่ง",
-        family: "โลจิสติกส์และซัพพลายเชน",
-        location: "นนทบุรี",
-        quantity: 3,
-        salary: "17,000–20,000 บาท",
-        publishedDate: "2026-10-10",
-        startDate: "2026-10-10",
-        endDate: "2026-11-10",
-        faculties: ["คณะการจัดการโลจิสติกส์และการคมนาคมขนส่ง"],
-        educationLevel: "ปริญญาตรี",
-        experience: "1–2 ปี",
-        acceptsNoExperience: false,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "ประสานงานการขนส่งและติดตามสถานะการจัดส่งสินค้า\nจัดทำเอกสารและติดต่อประสานงานกับหน่วยงานที่เกี่ยวข้อง",
-        qualifications:
-          "มีทักษะการประสานงานและการสื่อสาร\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
-        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB003",
-        companyId: "COMP003",
-        publicationStatus: "published",
-        title: "Graphic Designer",
-        company: "Creative Studio",
-        businessSector: "สื่อและความบันเทิง",
-        family: "ออกแบบและสร้างสรรค์",
-        location: "กรุงเทพมหานคร",
-        quantity: 1,
-        salary: "18,000–25,000 บาท",
-        publishedDate: "2026-10-10",
-        startDate: "2026-10-10",
-        endDate: "2026-11-10",
-        faculties: ["คณะนิเทศศาสตร์", "คณะศิลปศาสตร์"],
-        educationLevel: "ปริญญาตรี",
-        experience: "0 ปี",
-        acceptsNoExperience: true,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "ออกแบบสื่อประชาสัมพันธ์สำหรับช่องทางออนไลน์\nร่วมคิดและพัฒนาแนวทางการสื่อสารภาพลักษณ์ของแบรนด์",
-        qualifications:
-          "มีพื้นฐานการออกแบบและการจัดองค์ประกอบ\nสามารถใช้โปรแกรมออกแบบที่เกี่ยวข้องได้\nมีผลงานสำหรับนำเสนอ",
-        benefits: "ประกันสังคม\nสภาพแวดล้อมการทำงานสร้างสรรค์"
-      },
-      {
-        id: "JOB007",
-        companyId: "COMP004",
-        publicationStatus: "published",
-        title: "Marketing Officer",
-        company: "Food Demo",
-        businessSector: "อาหารและเครื่องดื่ม",
-        family: "การตลาด",
-        location: "สมุทรปราการ",
-        quantity: 2,
-        salary: "17,000–23,000 บาท",
-        publishedDate: "2026-10-10",
-        startDate: "2026-10-10",
-        endDate: "",
-        faculties: ["คณะบริหารธุรกิจ"],
-        educationLevel: "ปริญญาตรี",
-        experience: "1–2 ปี",
-        acceptsNoExperience: false,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "สนับสนุนการดำเนินงานด้านการตลาดและกิจกรรมส่งเสริมการขาย\nประสานงานกับทีมภายในและจัดทำรายงานผลการดำเนินงาน",
-        qualifications:
-          "มีทักษะการสื่อสารและประสานงาน\nสนใจงานด้านการตลาดและการสร้างแบรนด์",
-        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB004",
-        companyId: "COMP005",
-        publicationStatus: "published",
-        title: "Japanese Coordinator",
-        company: "Global Service",
-        businessSector: "บริการและท่องเที่ยว",
-        family: "ภาษาและงานประสานงาน",
-        location: "ปทุมธานี",
-        quantity: 2,
-        salary: "18,000–25,000 บาท",
-        publishedDate: "2026-09-28",
-        startDate: "2026-09-28",
-        endDate: "2026-10-28",
-        faculties: ["คณะศิลปศาสตร์", "คณะบริหารธุรกิจ"],
-        educationLevel: "ปริญญาตรี",
-        experience: "0 ปี",
-        acceptsNoExperience: true,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "ประสานงานระหว่างพนักงานชาวไทยและชาวญี่ปุ่น\nจัดเตรียมเอกสารและสนับสนุนงานที่เกี่ยวข้องกับภาษาญี่ปุ่น",
-        qualifications:
-          "สามารถสื่อสารภาษาญี่ปุ่นได้\nมีทักษะการประสานงานและการทำงานเป็นทีม",
-        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB005",
-        companyId: "COMP004",
-        publicationStatus: "published",
-        title: "Marketing Officer",
-        company: "Food Demo",
-        businessSector: "อาหารและเครื่องดื่ม",
-        family: "การตลาด",
-        location: "สมุทรปราการ",
-        quantity: 2,
-        salary: "17,000–23,000 บาท",
-        publishedDate: "2026-09-12",
-        startDate: "2026-09-12",
-        endDate: "2026-10-12",
-        faculties: ["คณะบริหารธุรกิจ"],
-        educationLevel: "ปริญญาตรี",
-        experience: "0 ปี",
-        acceptsNoExperience: true,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "สนับสนุนงานการตลาดและกิจกรรมประชาสัมพันธ์สินค้า\nจัดทำข้อมูลและประสานงานกับทีมที่เกี่ยวข้อง",
-        qualifications:
-          "มีทักษะการสื่อสารและการทำงานเป็นทีม\nสนใจงานด้านการตลาด",
-        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB006",
-        companyId: "COMP006",
-        publicationStatus: "published",
-        title: "HR Officer",
-        company: "Office Solution",
-        businessSector: "บริการและธุรกิจสำนักงาน",
-        family: "ทรัพยากรบุคคล",
-        location: "กรุงเทพมหานคร",
-        quantity: 1,
-        salary: "18,000–22,000 บาท",
-        publishedDate: "2026-08-20",
-        startDate: "2026-08-20",
-        endDate: "2026-09-20",
-        faculties: ["คณะบริหารธุรกิจ", "คณะศิลปศาสตร์"],
-        educationLevel: "ปริญญาตรี",
-        experience: "1–2 ปี",
-        acceptsNoExperience: false,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "สนับสนุนงานเอกสารและงานประสานงานด้านทรัพยากรบุคคล\nดูแลข้อมูลพนักงานและช่วยดำเนินงานตามที่ได้รับมอบหมาย",
-        qualifications:
-          "มีความละเอียดรอบคอบ\nสามารถใช้โปรแกรมสำนักงานเบื้องต้นได้",
-        benefits: "ประกันสังคม\nวันหยุดตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB008",
-        companyId: "COMP006",
-        publicationStatus: "published",
-        title: "Customer Service Officer",
-        company: "Office Solution",
-        businessSector: "บริการและธุรกิจสำนักงาน",
-        family: "บริการลูกค้า",
-        location: "กรุงเทพมหานคร",
-        quantity: 4,
-        salary: "16,000–19,000 บาท",
-        publishedDate: "2026-08-03",
-        startDate: "2026-08-03",
-        endDate: "2026-09-03",
-        faculties: ["คณะบริหารธุรกิจ", "คณะศิลปศาสตร์"],
-        educationLevel: "ไม่ระบุ",
-        experience: "ไม่ระบุ",
-        acceptsNoExperience: false,
-        logoUrl: "",
-        applyUrl: "",
-        description:
-          "ให้ข้อมูลและประสานงานกับลูกค้า\nติดตามเรื่องที่ได้รับแจ้งและประสานงานกับหน่วยงานที่เกี่ยวข้อง",
-        qualifications:
-          "มีทักษะการสื่อสารและการแก้ไขปัญหา\nมีใจรักงานบริการ",
-        benefits: "ประกันสังคม\nสวัสดิการตามบริษัทกำหนด"
-      },
-      {
-        id: "JOB009",
-        companyId: "COMP007",
-        publicationStatus: "published",
-        title: "เจ้าหน้าที่ประสานงานทั่วไป",
-        company: "Sample Service Co.",
-        businessSector: "บริการและธุรกิจสำนักงาน",
-        family: "ภาษาและงานประสานงาน",
-        location: "นนทบุรี",
-        quantity: 1,
-        salary: "ตามโครงสร้างบริษัท",
-        publishedDate: "2026-10-15",
-        startDate: "2026-10-15",
-        endDate: "",
-        faculties: [],
-        educationLevel: "ไม่ระบุ",
-        experience: "ไม่ระบุ",
-        acceptsNoExperience: false,
-        logoUrl: "",
-        applyUrl: "",
-        description: "สนับสนุนงานเอกสารและประสานงานทั่วไปภายในบริษัท",
-        qualifications: "คุณสมบัติและระดับการศึกษารอการยืนยันจากบริษัท",
-        benefits: "ไม่ระบุ"
-      }
-    ];
+const API_URL = "https://script.google.com/macros/s/AKfycbyPRlpVXYYEgkppejrKu9GGrdQLouPOe0lwmHpjwvU9cwy2A5hvuQUPjFzDrB-kkT_n/exec";
+
+let jobs = [];
+let jobsLoadError = false;
+
+// แปลงข้อมูลจาก API ให้ตรงกับรูปแบบที่เว็บไซต์ใช้อยู่
+function normalizeApiJob(item, index) {
+  const rawSalary = item.salary;
+
+  let salary = "ตามโครงสร้างบริษัท";
+
+  if (
+    rawSalary !== "" &&
+    rawSalary !== null &&
+    rawSalary !== undefined &&
+    String(rawSalary).trim() !== "" &&
+    String(rawSalary).trim() !== "ไม่ระบุ"
+  ) {
+    salary = typeof rawSalary === "number"
+      ? `${rawSalary.toLocaleString("th-TH")} บาท`
+      : String(rawSalary).trim();
+  }
+
+  let faculties = Array.isArray(item.faculties)
+    ? item.faculties
+    : [];
+
+  if (!faculties.length && item.faculty) {
+    faculties = String(item.faculty)
+      .split(/[,，、]/)
+      .map(value => value.trim())
+      .filter(Boolean);
+  }
+
+  const companyId = String(
+    item.companyId ?? item.CompanyID ?? ""
+  ).trim();
+
+  const title = String(
+    item.title ?? item.jobTitle ?? item.JobTitle ?? ""
+  ).trim();
+
+  return {
+    id: String(item.id || `${companyId || "JOB"}-${index + 1}`),
+
+    companyId,
+
+    // API ปัจจุบันส่งเฉพาะประกาศที่เผยแพร่แล้ว
+    publicationStatus: String(
+      item.publicationStatus || item.status || "published"
+    ).toLowerCase(),
+
+    title,
+
+    company: String(
+      item.company ?? item.companyName ?? item.CompanyName ?? ""
+    ).trim(),
+
+    businessSector: String(
+      item.businessSector ?? item.sector ?? item.BusinessSector ?? ""
+    ).trim(),
+
+    family: String(
+      item.family ?? item.jobFamily ?? item.JobFamily ?? ""
+    ).trim(),
+
+    location: String(
+      item.location ?? item.Location ?? ""
+    ).trim(),
+
+    quantity: Number(item.quantity ?? item.Quantity) || 0,
+
+    salary,
+
+    publishedDate: String(
+      item.publishedDate ?? item.PublishedDate ?? ""
+    ).trim(),
+
+    startDate: String(
+      item.startDate ?? item.StartDate ?? ""
+    ).trim(),
+
+    endDate: String(
+      item.endDate ?? item.EndDate ?? ""
+    ).trim(),
+
+    faculties,
+
+    educationLevel: String(
+      item.educationLevel ?? item.EducationLevel ?? "ไม่ระบุ"
+    ).trim() || "ไม่ระบุ",
+
+    experience: String(
+      item.experience ?? item.Experience ?? "ไม่ระบุ"
+    ).trim() || "ไม่ระบุ",
+
+    acceptsNoExperience:
+      item.acceptsNoExperience === true ||
+      String(item.acceptsNoExperience).toLowerCase() === "true",
+
+    logoUrl: String(
+      item.logoUrl ?? item.LogoURL ?? ""
+    ).trim(),
+
+    applyUrl: String(
+      item.applyUrl ?? item.applyURL ?? item.ApplyURL ?? ""
+    ).trim(),
+
+    description: String(
+      item.description ?? item.Description ?? ""
+    ).trim(),
+
+    qualifications: String(
+      item.qualifications ?? item.Qualifications ?? ""
+    ).trim(),
+
+    benefits: String(
+      item.benefits ?? item.Benefits ?? ""
+    ).trim()
+  };
+}
+
+// โหลดประกาศงานจาก Google Apps Script
+async function loadJobsFromApi() {
+  const response = await fetch(API_URL, {
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!Array.isArray(data)) {
+    throw new Error("รูปแบบข้อมูลจาก API ไม่ถูกต้อง");
+  }
+
+  jobs = data.map(normalizeApiJob);
+  jobsLoadError = false;
+}
     // ==========================================
     // ค่าตั้งต้นและตัวช่วย
     // ==========================================
