@@ -1845,11 +1845,31 @@ if (currentView === "history" && selectedMonths > 0) {
     // ==========================================
 
     function renderAll() {
-      const filteredJobs = getFilteredJobs();
-      renderStats(filteredJobs);
-      renderCharts(filteredJobs);
-      renderJobs(filteredJobs);
-    }
+  if (jobsLoadError) {
+    $("jobsContainer").innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <h3>ไม่สามารถโหลดประกาศงานได้</h3>
+        <p>
+          กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต
+          และการตั้งค่า Google Apps Script API
+          แล้วลองเปิดเว็บไซต์อีกครั้ง
+        </p>
+      </div>
+    `;
+
+    $("salaryUnknownContainer").innerHTML = "";
+    $("jobCount").textContent = "โหลดข้อมูลไม่สำเร็จ";
+
+    return;
+  }
+
+  const filteredJobs = getFilteredJobs();
+
+  renderStats(filteredJobs);
+  renderCharts(filteredJobs);
+  renderJobs(filteredJobs);
+}
 
     function setView(view, months = 0) {
       currentView = view;
